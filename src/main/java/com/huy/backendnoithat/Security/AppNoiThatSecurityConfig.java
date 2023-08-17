@@ -25,10 +25,12 @@ public class AppNoiThatSecurityConfig {
         return jdbcUserDetailsManager;
     }
 
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity.authorizeHttpRequests(authorizeHttpRequests ->
-//                authorizeHttpRequests.requestMatchers(HttpMethod.POST, "")
-//        );
-//    }
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                .requestMatchers(HttpMethod.POST, "")
+
+        );
+        return httpSecurity.build();
+    }
 }
