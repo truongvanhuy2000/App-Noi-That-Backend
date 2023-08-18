@@ -30,14 +30,12 @@ public class AppNoiThatSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers(HttpMethod.POST, "/api/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/accounts/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
                         .anyRequest().authenticated())
-                .oauth2Login(oauth2Login -> oauth2Login
-                        .loginPage("/api/login")
-                        .permitAll())
-                .logout(logout -> logout
-                        .logoutUrl("/api/logout")
+                .formLogin(formLogin -> formLogin
+                        .successForwardUrl("/api/index")
                         .permitAll());
 
         httpSecurity.httpBasic(Customizer.withDefaults());

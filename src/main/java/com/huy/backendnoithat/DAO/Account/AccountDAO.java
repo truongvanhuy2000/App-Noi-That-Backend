@@ -11,4 +11,5 @@ public interface AccountDAO {
     void save(Account account);
     void deleteById(int id);
     void activateAccount(int id);
+    void updateAccount(Account account);
 }

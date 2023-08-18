@@ -2,6 +2,8 @@ package com.huy.backendnoithat.DAO.Account;
 
 import com.huy.backendnoithat.Entity.Account;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,31 +19,38 @@ public class AccountDAOMysql implements AccountDAO{
 
     @Override
     public List<Account> findAll() {
-
-        return null;
+        TypedQuery<Account> query = entityManager.createQuery("from Account", Account.class);
+        return query.getResultList();
     }
-
     @Override
     public Account findById(int id) {
-        return null;
+        return entityManager.find(Account.class, id);
     }
-
     @Override
     public Account findByUsername(String username) {
-        return null;
+        return entityManager.find(Account.class, username);
     }
-
     @Override
+    @Transactional
     public void save(Account account) {
+        entityManager.persist(account);
     }
-
     @Override
+    @Transactional
     public void deleteById(int id) {
-
+        Account account = entityManager.find(Account.class, id);
+        entityManager.remove(account);
     }
-
     @Override
+    @Transactional
     public void activateAccount(int id) {
-
+        Account account = entityManager.find(Account.class, id);
+        account.setActive(true);
+        updateAccount(account);
+    }
+    @Override
+    @Transactional
+    public void updateAccount(Account account) {
+        entityManager.merge(account);
     }
 }

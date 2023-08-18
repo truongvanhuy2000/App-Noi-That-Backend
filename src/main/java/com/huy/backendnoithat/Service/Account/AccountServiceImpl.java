@@ -1,37 +1,45 @@
 package com.huy.backendnoithat.Service.Account;
 
+import com.huy.backendnoithat.DAO.Account.AccountDAO;
 import com.huy.backendnoithat.Entity.Account;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service(value = "defaultAccountService")
 public class AccountServiceImpl implements AccountService {
+    AccountDAO accountDAO;
+    @Autowired
+    public AccountServiceImpl(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
     @Override
     public List<Account> findAll() {
-        return null;
+        return accountDAO.findAll();
     }
 
     @Override
     public Account findById(int id) {
-        return null;
+        return accountDAO.findById(id);
     }
 
     @Override
     public Account findByUsername(String username) {
-        return null;
+        return accountDAO.findByUsername(username);
     }
 
     @Override
     public void save(Account account) {
+        accountDAO.save(account);
     }
 
     @Override
     public void deleteById(int id) {
-
+        accountDAO.deleteById(id);
     }
 
     @Override
     public void activateAccount(int id) {
-
+        accountDAO.activateAccount(id);
     }
 }
