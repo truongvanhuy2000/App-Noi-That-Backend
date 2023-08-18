@@ -22,8 +22,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account save(Account account) {
-        return null;
+    public void save(Account account) {
     }
 
     @Override

@@ -32,8 +32,7 @@ public class AccountDAOMysql implements AccountDAO{
     }
 
     @Override
-    public Account save(Account account) {
-        return null;
+    public void save(Account account) {
     }
 
     @Override
