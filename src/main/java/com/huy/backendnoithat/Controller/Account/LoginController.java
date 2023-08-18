@@ -6,5 +6,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/login")
 @RestController
 public class LoginController {
-
 }
