@@ -8,7 +8,7 @@ public interface AccountDAO {
     List<Account> findAll();
     Account findById(int id);
     Account findByUsername(String username);
-    Account save(Account account);
+    void save(Account account);
     void deleteById(int id);
     void activateAccount(int id);
 }
