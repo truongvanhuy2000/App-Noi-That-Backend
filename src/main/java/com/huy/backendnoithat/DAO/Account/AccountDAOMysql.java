@@ -45,7 +45,14 @@ public class AccountDAOMysql implements AccountDAO{
     @Transactional
     public void activateAccount(int id) {
         Account account = entityManager.find(Account.class, id);
-        account.setActive(true);
+        account.setEnabled(true);
+        updateAccount(account);
+    }
+    @Override
+    @Transactional
+    public void deactivateAccount(int id) {
+        Account account = entityManager.find(Account.class, id);
+        account.setEnabled(false);
         updateAccount(account);
     }
     @Override

@@ -11,4 +11,5 @@ public interface AccountService {
     void save(Account account);
     void deleteById(int id);
     void activateAccount(int id);
+    void deactivateAccount(int id);
 }

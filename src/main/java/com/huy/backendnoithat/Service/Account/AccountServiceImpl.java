@@ -3,6 +3,7 @@ package com.huy.backendnoithat.Service.Account;
 import com.huy.backendnoithat.DAO.Account.AccountDAO;
 import com.huy.backendnoithat.Entity.Account;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
     AccountDAO accountDAO;
     @Autowired
-    public AccountServiceImpl(AccountDAO accountDAO) {
+    public AccountServiceImpl(@Qualifier("mysqlAccountDAO") AccountDAO accountDAO) {
         this.accountDAO = accountDAO;
     }
     @Override
@@ -41,5 +42,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void activateAccount(int id) {
         accountDAO.activateAccount(id);
+    }
+
+    @Override
+    public void deactivateAccount(int id) {
+        accountDAO.deactivateAccount(id);
     }
 }

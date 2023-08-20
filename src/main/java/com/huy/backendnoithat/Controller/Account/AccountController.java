@@ -16,7 +16,7 @@ public class AccountController {
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
     }
-    @GetMapping("/")
+    @GetMapping("")
     public List<Account> findAll() {
         return accountService.findAll();
     }
@@ -28,7 +28,7 @@ public class AccountController {
     public Account findByUsername(@RequestParam(value = "username") String username) {
         return accountService.findByUsername(username);
     }
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<String> save(@RequestBody Account account) {
         accountService.save(account);
         return ResponseEntity.ok("Saved successfully.");
@@ -43,5 +43,9 @@ public class AccountController {
         accountService.activateAccount(id);
         return ResponseEntity.ok("Activated successfully.");
     }
-
+    @GetMapping("/deactivate/{id}")
+    public ResponseEntity<String> deactivateAccount(@PathVariable(value = "id") int id) {
+        accountService.deactivateAccount(id);
+        return ResponseEntity.ok("Deactivated successfully.");
+    }
 }

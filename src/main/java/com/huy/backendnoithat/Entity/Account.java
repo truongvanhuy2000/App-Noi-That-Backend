@@ -3,7 +3,7 @@ package com.huy.backendnoithat.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 @Entity
-@Table(name = "Account")
+@Table(name = "account")
 @Getter
 @Setter
 @AllArgsConstructor
