@@ -25,7 +25,7 @@ public class AccountController {
         return accountService.findById(id);
     }
     @GetMapping("/search")
-    public Account findByUsername(@RequestParam(value = "username") String username) {
+    public Account findByUsername(@RequestParam(name="username") String username) {
         return accountService.findByUsername(username);
     }
     @PostMapping("")

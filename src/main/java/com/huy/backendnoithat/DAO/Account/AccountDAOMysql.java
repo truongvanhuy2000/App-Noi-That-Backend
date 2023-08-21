@@ -28,7 +28,9 @@ public class AccountDAOMysql implements AccountDAO{
     }
     @Override
     public Account findByUsername(String username) {
-        return entityManager.find(Account.class, username);
+        TypedQuery<Account> query = entityManager.createQuery("from Account where username = :username", Account.class);
+        query.setParameter("username", username);
+        return query.getSingleResult();
     }
     @Override
     @Transactional

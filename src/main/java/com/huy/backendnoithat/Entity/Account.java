@@ -2,6 +2,9 @@ package com.huy.backendnoithat.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
+
 @Entity
 @Table(name = "account")
 @Getter
