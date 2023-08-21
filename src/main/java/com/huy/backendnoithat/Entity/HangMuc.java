@@ -2,7 +2,10 @@ package com.huy.backendnoithat.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Table(name = "hangmuc")
+@Entity
 public class HangMuc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,5 +17,8 @@ public class HangMuc {
     @JoinColumn(name = "noi_that_id", referencedColumnName = "id")
     private NoiThat noiThat;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hangMuc", fetch = FetchType.LAZY)
-    private VatLieu vatLieu;
+    private List<VatLieu> vatLieu;
+    public void addVatLieu(VatLieu vatLieu) {
+        this.vatLieu.add(vatLieu);
+    }
 }

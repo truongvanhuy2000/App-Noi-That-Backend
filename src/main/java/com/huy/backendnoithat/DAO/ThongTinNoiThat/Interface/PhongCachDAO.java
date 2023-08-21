@@ -11,4 +11,6 @@ public interface PhongCachDAO {
     void save(PhongCachNoiThat phongCachNoiThat);
     void deleteById(int id);
     void update(PhongCachNoiThat phongCachNoiThat);
+    List<PhongCachNoiThat> findAllAndJoinFetch();
+    List<PhongCachNoiThat> findByIdAndJoinFetch(int id);
 }
