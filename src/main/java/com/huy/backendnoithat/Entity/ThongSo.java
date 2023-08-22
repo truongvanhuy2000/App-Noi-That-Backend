@@ -1,9 +1,14 @@
 package com.huy.backendnoithat.Entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Table(name = "thongso")
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ThongSo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +24,9 @@ public class ThongSo {
     private String donVi;
     @Column(name="don_gia")
     private double donGia;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongSo")
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongSo", fetch = FetchType.EAGER)
     private VatLieu vatLieu;
 }

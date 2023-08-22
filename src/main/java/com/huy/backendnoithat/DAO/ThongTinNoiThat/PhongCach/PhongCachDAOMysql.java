@@ -1,15 +1,15 @@
-package com.huy.backendnoithat.DAO.ThongTinNoiThat.Implementation;
+package com.huy.backendnoithat.DAO.ThongTinNoiThat.PhongCach;
 
-import com.huy.backendnoithat.DAO.ThongTinNoiThat.Interface.PhongCachDAO;
 import com.huy.backendnoithat.Entity.PhongCachNoiThat;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.lang.reflect.Type;
 import java.util.List;
-@Repository("mysql")
+@Repository("phongCachDAOMysql")
+@Transactional(readOnly = true)
 public class PhongCachDAOMysql implements PhongCachDAO {
     EntityManager entityManager;
     @Autowired
@@ -18,8 +18,9 @@ public class PhongCachDAOMysql implements PhongCachDAO {
     }
     @Override
     public List<PhongCachNoiThat> findAll() {
-        TypedQuery<PhongCachNoiThat> query = entityManager.createQuery("from PhongCachNoiThat", PhongCachNoiThat.class);
-        return query.getResultList();
+        TypedQuery<PhongCachNoiThat> query = entityManager.createQuery("from PhongCachNoiThat pc ORDER BY pc.id", PhongCachNoiThat.class);
+        List<PhongCachNoiThat> list = query.getResultList();
+        return list;
     }
     @Override
     public PhongCachNoiThat findById(int id) {
@@ -32,6 +33,7 @@ public class PhongCachDAOMysql implements PhongCachDAO {
         return query.getSingleResult();
     }
     @Override
+    @Transactional
     public void save(PhongCachNoiThat phongCachNoiThat) {
         entityManager.persist(phongCachNoiThat);
     }
@@ -41,6 +43,7 @@ public class PhongCachDAOMysql implements PhongCachDAO {
         entityManager.remove(phongCachNoiThat);
     }
     @Override
+    @Transactional
     public void update(PhongCachNoiThat phongCachNoiThat) {
         entityManager.merge(phongCachNoiThat);
     }
@@ -54,7 +57,14 @@ public class PhongCachDAOMysql implements PhongCachDAO {
         return query.getResultList();
     }
     @Override
-    public List<PhongCachNoiThat> findByIdAndJoinFetch(int id) {
-        return null;
+    public PhongCachNoiThat findByIdAndJoinFetch(int id) {
+        TypedQuery<PhongCachNoiThat> query = entityManager.createQuery(
+                "SELECT pc FROM PhongCachNoiThat pc "
+                        + "JOIN FETCH pc.noiThat "
+                        + "WHERE pc.id = :id "
+                        + "ORDER BY pc.id "
+                , PhongCachNoiThat.class);
+        entityManager.setProperty("id", id);
+        return query.getSingleResult();
     }
 }

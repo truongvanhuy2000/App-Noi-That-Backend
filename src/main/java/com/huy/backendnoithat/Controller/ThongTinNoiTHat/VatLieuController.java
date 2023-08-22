@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiTHat;
 
 import com.huy.backendnoithat.Entity.VatLieu;
-import com.huy.backendnoithat.Service.ThongTinNoiThat.Interface.VatLieuService;
+import com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu.VatLieuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

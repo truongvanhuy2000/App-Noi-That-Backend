@@ -1,4 +1,4 @@
-package com.huy.backendnoithat.Service.ThongTinNoiThat.Interface;
+package com.huy.backendnoithat.Service.ThongTinNoiThat.ThongSo;
 
 import com.huy.backendnoithat.Entity.ThongSo;
 

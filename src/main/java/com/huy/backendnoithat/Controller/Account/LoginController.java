@@ -24,7 +24,6 @@ public class LoginController {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
     }
-
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody) {
         String username = requestBody.get("username");

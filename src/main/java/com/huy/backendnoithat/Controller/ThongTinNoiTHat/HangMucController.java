@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiTHat;
 
 import com.huy.backendnoithat.Entity.HangMuc;
-import com.huy.backendnoithat.Service.ThongTinNoiThat.Interface.HangMucService;
+import com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc.HangMucService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

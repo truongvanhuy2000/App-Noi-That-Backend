@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiTHat;
 
 import com.huy.backendnoithat.Entity.NoiThat;
-import com.huy.backendnoithat.Service.ThongTinNoiThat.Interface.NoiThatService;
+import com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat.NoiThatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,12 +1,11 @@
-package com.huy.backendnoithat.Service.ThongTinNoiThat.Implementation;
+package com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc;
 
 import com.huy.backendnoithat.Entity.HangMuc;
-import com.huy.backendnoithat.Service.ThongTinNoiThat.Interface.HangMucService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class HangMucImpl implements HangMucService {
+public class HangMucServiceImpl implements HangMucService {
     @Override
     public List<HangMuc> findAll() {
         return null;

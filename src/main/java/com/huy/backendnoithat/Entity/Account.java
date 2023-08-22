@@ -7,8 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "account")
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
@@ -22,7 +21,7 @@ public class Account {
     private String password;
     @Column(name="active")
     private boolean active;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "info_id", referencedColumnName = "id")
     private AccountInformation accountInformation;
     @Column(name="enabled")

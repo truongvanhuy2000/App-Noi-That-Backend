@@ -1,17 +1,16 @@
-package com.huy.backendnoithat.Service.ThongTinNoiThat.Implementation;
+package com.huy.backendnoithat.Service.ThongTinNoiThat.ThongSo;
 
 import com.huy.backendnoithat.Entity.ThongSo;
-import com.huy.backendnoithat.Service.ThongTinNoiThat.Interface.ThongSoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class ThongSoImpl implements ThongSoService {
+public class ThongSoServiceImpl implements ThongSoService {
+
     @Override
     public List<ThongSo> findAll() {
         return null;
     }
-
     @Override
     public ThongSo findUsingId(int id) {
         return null;

@@ -1,4 +1,4 @@
-package com.huy.backendnoithat.DAO.ThongTinNoiThat.Interface;
+package com.huy.backendnoithat.DAO.ThongTinNoiThat.PhongCach;
 
 import com.huy.backendnoithat.Entity.PhongCachNoiThat;
 
@@ -12,5 +12,5 @@ public interface PhongCachDAO {
     void deleteById(int id);
     void update(PhongCachNoiThat phongCachNoiThat);
     List<PhongCachNoiThat> findAllAndJoinFetch();
-    List<PhongCachNoiThat> findByIdAndJoinFetch(int id);
+    PhongCachNoiThat findByIdAndJoinFetch(int id);
 }

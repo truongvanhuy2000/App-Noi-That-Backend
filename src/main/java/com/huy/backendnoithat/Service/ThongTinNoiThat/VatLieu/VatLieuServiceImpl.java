@@ -1,12 +1,11 @@
-package com.huy.backendnoithat.Service.ThongTinNoiThat.Implementation;
+package com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu;
 
 import com.huy.backendnoithat.Entity.VatLieu;
-import com.huy.backendnoithat.Service.ThongTinNoiThat.Interface.VatLieuService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class VatLieuImpl implements VatLieuService {
+public class VatLieuServiceImpl implements VatLieuService {
     @Override
     public List<VatLieu> findAll() {
         return null;

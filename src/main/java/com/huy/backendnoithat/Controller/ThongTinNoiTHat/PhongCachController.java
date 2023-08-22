@@ -1,9 +1,8 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiTHat;
 
 import com.huy.backendnoithat.Entity.PhongCachNoiThat;
-import com.huy.backendnoithat.Service.ThongTinNoiThat.Interface.PhongCachService;
+import com.huy.backendnoithat.Service.ThongTinNoiThat.PhongCach.PhongCachService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,21 +17,22 @@ public class PhongCachController {
     }
     @GetMapping("")
     public List<PhongCachNoiThat> findAll() {
-        return phongCachService.findAll();
+        List<PhongCachNoiThat> list = phongCachService.findAll();
+        return list;
     }
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public PhongCachNoiThat findById(@PathVariable int id) {
         return phongCachService.findById(id);
     }
     @GetMapping("/search")
-    public PhongCachNoiThat findUsingName(@RequestParam String name) {
+    public PhongCachNoiThat findUsingName(@RequestParam(value = "name") String name) {
         return phongCachService.findUsingName(name);
     }
     @PostMapping("/add")
     public void save(PhongCachNoiThat phongCachNoiThat) {
         phongCachService.save(phongCachNoiThat);
     }
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteById(@PathVariable int id) {
         phongCachService.deleteById(id);
     }

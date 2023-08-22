@@ -84,3 +84,42 @@ VALUES
   ('john_doe', 'ROLE_USER'),
   ('admin', 'ROLE_ADMIN');
 
+-- Sample data for 'phongcachnoithat' table
+INSERT INTO `phongcachnoithat` (`name`)
+VALUES
+    ('Modern'),
+    ('Minimalist'),
+    ('Vintage'),
+    ('Rustic');
+
+-- Sample data for 'noithat' table
+INSERT INTO `noithat` (`name`, `phong_cach_id`)
+VALUES
+    ('Living Room Furniture', 1),
+    ('Kitchen Furniture', 2),
+    ('Bedroom Furniture', 3),
+    ('Outdoor Furniture', 4);
+
+-- Sample data for 'hangmuc' table
+INSERT INTO `hangmuc` (`name`, `noi_that_id`)
+VALUES
+    ('Sofas', 1),
+    ('Dining Tables', 2),
+    ('Beds', 3),
+    ('Chairs', 4);
+
+-- Sample data for 'thongso' table
+INSERT INTO `thongso` (`dai`, `rong`, `cao`, `don_vi`, `don_gia`)
+VALUES
+    (200.0, 100.0, 80.0, 'cm', 500.0),
+    (150.0, 80.0, 75.0, 'cm', 350.0),
+    (180.0, 200.0, 160.0, 'cm', 700.0),
+    (50.0, 50.0, 90.0, 'cm', 150.0);
+
+-- Sample data for 'vatlieu' table
+INSERT INTO `vatlieu` (`name`, `hang_muc_id`, `thong_so_id`)
+VALUES
+    ('Leather Sofa', 1, 1),
+    ('Wooden Dining Table', 2, 2),
+    ('King Size Bed', 3, 3),
+    ('Metal Chair', 4, 4);
