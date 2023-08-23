@@ -33,7 +33,7 @@ public class PhongCachServiceImpl implements PhongCachService {
 //                            null))
 //                    .toList();
 //        }
-        return phongCachDAO.findAll();
+        return phongCachDAO.findAllAndJoinFetch();
     }
     @Override
     public PhongCachNoiThat findById(int id) {
