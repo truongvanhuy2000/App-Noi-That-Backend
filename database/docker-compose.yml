@@ -8,7 +8,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: dontfuckingtouchme
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: appnoithat
       MYSQL_USER: truongvanhuy
       MYSQL_PASSWORD: huy2000
