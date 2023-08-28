@@ -5,8 +5,7 @@ import lombok.*;
 
 @Table(name = "thongso")
 @Entity
-@Getter
-@Setter
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ThongSo {
@@ -24,9 +23,7 @@ public class ThongSo {
     private String donVi;
     @Column(name="don_gia")
     private double donGia;
-
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongSo", fetch = FetchType.EAGER)
     private VatLieu vatLieu;
 }

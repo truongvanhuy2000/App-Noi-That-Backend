@@ -5,8 +5,7 @@ import lombok.*;
 
 @Table(name = "vatlieu")
 @Entity
-@Getter
-@Setter
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class VatLieu {
@@ -19,9 +18,7 @@ public class VatLieu {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "thong_so_id", referencedColumnName = "id")
     private ThongSo thongSo;
-
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "hang_muc_id", referencedColumnName = "id")
     private HangMuc hangMuc;
