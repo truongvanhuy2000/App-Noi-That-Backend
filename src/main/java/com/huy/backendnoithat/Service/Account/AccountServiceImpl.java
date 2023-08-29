@@ -48,4 +48,24 @@ public class AccountServiceImpl implements AccountService {
     public void deactivateAccount(int id) {
         accountDAO.deactivateAccount(id);
     }
+
+    @Override
+    public List<Account> findAllNotEnabled() {
+        return accountDAO.findAllNotEnabled();
+    }
+
+    @Override
+    public void enableAccount(int id) {
+        accountDAO.enableAccount(id);
+    }
+
+    @Override
+    public void disableAccount(int id) {
+        accountDAO.disableAccount(id);
+    }
+
+    @Override
+    public List<Account> findAllEnabled() {
+        return accountDAO.findAllEnabled();
+    }
 }

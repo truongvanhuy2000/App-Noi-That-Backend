@@ -47,14 +47,14 @@ public class AccountDAOMysql implements AccountDAO{
     @Transactional
     public void activateAccount(int id) {
         Account account = entityManager.find(Account.class, id);
-        account.setEnabled(true);
+        account.setActive(true);
         updateAccount(account);
     }
     @Override
     @Transactional
     public void deactivateAccount(int id) {
         Account account = entityManager.find(Account.class, id);
-        account.setEnabled(false);
+        account.setActive(false);
         updateAccount(account);
     }
     @Override
@@ -62,4 +62,31 @@ public class AccountDAOMysql implements AccountDAO{
     public void updateAccount(Account account) {
         entityManager.merge(account);
     }
+
+    @Override
+    public List<Account> findAllNotEnabled() {
+        TypedQuery<Account> query = entityManager.createQuery("from Account where enabled = false", Account.class);
+        return query.getResultList();
+    }
+    @Override
+    public List<Account> findAllEnabled() {
+        TypedQuery<Account> query = entityManager.createQuery("from Account where enabled = true", Account.class);
+        return query.getResultList();
+    }
+    @Transactional
+    @Override
+    public void enableAccount(int id) {
+        Account account = entityManager.find(Account.class, id);
+        account.setEnabled(true);
+        updateAccount(account);
+    }
+    @Transactional
+    @Override
+    public void disableAccount(int id) {
+        Account account = entityManager.find(Account.class, id);
+        account.setEnabled(false);
+        updateAccount(account);
+    }
+
+
 }

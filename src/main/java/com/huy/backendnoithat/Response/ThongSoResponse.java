@@ -2,6 +2,7 @@ package com.huy.backendnoithat.Response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.huy.backendnoithat.Entity.ThongSo;
 import com.huy.backendnoithat.Entity.VatLieu;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,12 @@ public class ThongSoResponse {
     private String donVi;
     @JsonProperty("donGia")
     private double donGia;
-    @JsonIgnore
-    private VatLieu vatLieu;
+    public ThongSoResponse(ThongSo thongSo) {
+        this.id = thongSo.getId();
+        this.dai = thongSo.getDai();
+        this.rong = thongSo.getRong();
+        this.cao = thongSo.getCao();
+        this.donVi = thongSo.getDonVi();
+        this.donGia = thongSo.getDonGia();
+    }
 }

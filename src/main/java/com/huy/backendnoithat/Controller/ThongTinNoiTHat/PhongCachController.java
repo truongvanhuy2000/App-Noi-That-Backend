@@ -1,6 +1,7 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiTHat;
 
 import com.huy.backendnoithat.Entity.PhongCachNoiThat;
+import com.huy.backendnoithat.Response.PhongCachResponse;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.PhongCach.PhongCachService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,16 +17,15 @@ public class PhongCachController {
         this.phongCachService = phongCachService;
     }
     @GetMapping("")
-    public List<PhongCachNoiThat> findAll() {
-        List<PhongCachNoiThat> list = phongCachService.findAll();
-        return list;
+    public List<PhongCachResponse> findAll() {
+        return phongCachService.findAll();
     }
     @GetMapping("/{id}")
-    public PhongCachNoiThat findById(@PathVariable int id) {
+    public PhongCachResponse findById(@PathVariable int id) {
         return phongCachService.findById(id);
     }
     @GetMapping("/search")
-    public PhongCachNoiThat findUsingName(@RequestParam(value = "name") String name) {
+    public PhongCachResponse findUsingName(@RequestParam(value = "name") String name) {
         return phongCachService.findUsingName(name);
     }
     @PostMapping("/add")

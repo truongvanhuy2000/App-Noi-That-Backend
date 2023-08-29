@@ -1,6 +1,7 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiTHat;
 
 import com.huy.backendnoithat.Entity.ThongSo;
+import com.huy.backendnoithat.Response.ThongSoResponse;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.ThongSo.ThongSoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +17,15 @@ public class ThongSoController {
         this.thongSoService = thongSoService;
     }
     @GetMapping("")
-    public List<ThongSo> findAll() {
+    public List<ThongSoResponse> findAll() {
         return thongSoService.findAll();
     }
     @GetMapping("/search")
-    public ThongSo findUsingName(String name) {
+    public ThongSoResponse findUsingName(String name) {
         return thongSoService.findUsingName(name);
     }
     @GetMapping("{id}")
-    public ThongSo findById(int id) {
+    public ThongSoResponse findById(int id) {
         return thongSoService.findUsingId(id);
     }
     @DeleteMapping("{id}")

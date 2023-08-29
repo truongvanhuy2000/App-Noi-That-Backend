@@ -1,6 +1,7 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiTHat;
 
 import com.huy.backendnoithat.Entity.VatLieu;
+import com.huy.backendnoithat.Response.VatLieuResponse;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu.VatLieuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +17,15 @@ public class VatLieuController {
         this.vatLieuService = vatLieuService;
     }
     @GetMapping("")
-    public List<VatLieu> findAll() {
+    public List<VatLieuResponse> findAll() {
         return vatLieuService.findAll();
     }
     @GetMapping("/search")
-    public VatLieu findUsingName(String name) {
+    public VatLieuResponse findUsingName(String name) {
         return vatLieuService.findUsingName(name);
     }
     @GetMapping("{id}")
-    public VatLieu findById(int id) {
+    public VatLieuResponse findById(int id) {
         return vatLieuService.findUsingId(id);
     }
     @DeleteMapping("{id}")

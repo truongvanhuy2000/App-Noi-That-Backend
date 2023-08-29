@@ -4,6 +4,7 @@ import com.huy.backendnoithat.Entity.Account;
 import com.huy.backendnoithat.Service.Account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class AccountController {
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
     }
-    @GetMapping("")
+    @GetMapping("") // Chi list nhung acc da enable roi
     public List<Account> findAll() {
         return accountService.findAll();
     }
@@ -38,14 +39,32 @@ public class AccountController {
         accountService.deleteById(id);
         return ResponseEntity.ok("Deleted successfully.");
     }
-    @GetMapping("/activate/{id}")
+    @PutMapping("/activate/{id}")
     public ResponseEntity<String> activateAccount(@PathVariable(value = "id") int id) {
         accountService.activateAccount(id);
         return ResponseEntity.ok("Activated successfully.");
     }
-    @GetMapping("/deactivate/{id}")
+    @PutMapping("/deactivate/{id}")
     public ResponseEntity<String> deactivateAccount(@PathVariable(value = "id") int id) {
         accountService.deactivateAccount(id);
         return ResponseEntity.ok("Deactivated successfully.");
+    }
+    @GetMapping("/notEnabled") // Api de list nhung tai khoan chua duoc enable
+    public List<Account> findAllNotEnabledAccount() {
+        return accountService.findAllNotEnabled();
+    }
+    @GetMapping("/enabled") // Api de list nhung tai khoan chua duoc enable
+    public List<Account> findAllEnabledAccount() {
+        return accountService.findAllEnabled();
+    }
+    @PutMapping("/enable/{id}")
+    public ResponseEntity<String> enableAccount(@PathVariable(value = "id") int id) {
+        accountService.enableAccount(id);
+        return ResponseEntity.ok("Enabled successfully.");
+    }
+    @PutMapping("/disable/{id}")
+    public ResponseEntity<String> disableAccount(@PathVariable(value = "id") int id) {
+        accountService.disableAccount(id);
+        return ResponseEntity.ok("Disabled successfully.");
     }
 }

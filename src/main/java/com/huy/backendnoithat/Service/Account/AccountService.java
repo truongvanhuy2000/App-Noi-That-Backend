@@ -12,4 +12,8 @@ public interface AccountService {
     void deleteById(int id);
     void activateAccount(int id);
     void deactivateAccount(int id);
+    List<Account> findAllNotEnabled();
+    void enableAccount(int id);
+    void disableAccount(int id);
+    List<Account> findAllEnabled();
 }

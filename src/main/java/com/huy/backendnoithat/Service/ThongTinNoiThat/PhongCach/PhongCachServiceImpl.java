@@ -15,33 +15,21 @@ public class PhongCachServiceImpl implements PhongCachService {
         this.phongCachDAO = phongCachDAO;
     }
     @Override
-    public List<PhongCachNoiThat> findAll() {
-        List<PhongCachResponse> responses = null;
-//        if (fetchAll){
-//            List<PhongCachNoiThat> list = phongCachDAO.findAllAndJoinFetch();
-//            responses = list.stream().map(phongCachNoiThat -> new PhongCachResponse(
-//                    phongCachNoiThat.getId(),
-//                    phongCachNoiThat.getName(),
-//                    phongCachNoiThat.getNoiThat()
-//            )).toList();
-//        } else {
-//            List<PhongCachNoiThat> list = phongCachDAO.findAll();
-//            responses = list.stream().map(
-//                    phongCachNoiThat -> new PhongCachResponse(
-//                            phongCachNoiThat.getId(),
-//                            phongCachNoiThat.getName(),
-//                            null))
-//                    .toList();
-//        }
-        return phongCachDAO.findAllAndJoinFetch();
+    public List<PhongCachResponse> findAll() {
+        List<PhongCachNoiThat> phongCachNoiThats = phongCachDAO.findAll();
+        List<PhongCachResponse> phongCachResponses = phongCachNoiThats.stream()
+                .map(phongCachNoiThat -> new PhongCachResponse(phongCachNoiThat, false)).toList();
+        return phongCachResponses;
     }
     @Override
-    public PhongCachNoiThat findById(int id) {
-        return phongCachDAO.findById(id);
+    public PhongCachResponse findById(int id) {
+        PhongCachResponse phongCachResponse = new PhongCachResponse(phongCachDAO.findById(id), false);
+        return phongCachResponse;
     }
     @Override
-    public PhongCachNoiThat findUsingName(String name) {
-        return phongCachDAO.findUsingName(name);
+    public PhongCachResponse findUsingName(String name) {
+        PhongCachResponse phongCachResponse = new PhongCachResponse(phongCachDAO.findUsingName(name), false);
+        return phongCachResponse;
     }
 
     @Override

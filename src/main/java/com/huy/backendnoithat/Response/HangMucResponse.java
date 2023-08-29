@@ -2,6 +2,7 @@ package com.huy.backendnoithat.Response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.huy.backendnoithat.Entity.HangMuc;
 import com.huy.backendnoithat.Entity.NoiThat;
 import com.huy.backendnoithat.Entity.VatLieu;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,14 @@ public class HangMucResponse {
     private String name;
     @JsonProperty("vatLieu")
     private List<VatLieu> vatLieu;
-    @JsonIgnore
-    private NoiThat noiThat;
+    public HangMucResponse(HangMuc hangMuc, boolean fetchAll) {
+        if (fetchAll) {
+            this.vatLieu = hangMuc.getVatLieu();
+        }
+        else {
+            this.vatLieu = null;
+        }
+        this.id = hangMuc.getId();
+        this.name = hangMuc.getName();
+    }
 }
