@@ -19,38 +19,31 @@ public class ThongSoDAOMysql implements ThongSoDAO {
         TypedQuery<ThongSo> query = entityManager.createQuery("from ThongSo", ThongSo.class);
         return query.getResultList();
     }
-
     @Override
     public ThongSo findById(int id) {
         return entityManager.find(ThongSo.class, id);
     }
-
     @Override
     public ThongSo findUsingName(String name) {
         return null;
     }
-
     @Override
     public void save(ThongSo thongSo) {
         entityManager.persist(thongSo);
     }
-
     @Override
     public void deleteById(int id) {
         ThongSo thongSo = entityManager.find(ThongSo.class, id);
         entityManager.remove(thongSo);
     }
-
     @Override
     public void update(ThongSo thongSo) {
         entityManager.merge(thongSo);
     }
-
     @Override
     public List<ThongSo> findAllAndJoinFetch() {
         return findAll();
     }
-
     @Override
     public ThongSo findByIdAndJoinFetch(int id) {
         return findById(id);

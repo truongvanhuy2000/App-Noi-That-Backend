@@ -19,8 +19,7 @@ public class PhongCachDAOMysql implements PhongCachDAO {
     @Override
     public List<PhongCachNoiThat> findAll() {
         TypedQuery<PhongCachNoiThat> query = entityManager.createQuery("from PhongCachNoiThat pc ORDER BY pc.id", PhongCachNoiThat.class);
-        List<PhongCachNoiThat> list = query.getResultList();
-        return list;
+        return query.getResultList();
     }
     @Override
     public PhongCachNoiThat findById(int id) {

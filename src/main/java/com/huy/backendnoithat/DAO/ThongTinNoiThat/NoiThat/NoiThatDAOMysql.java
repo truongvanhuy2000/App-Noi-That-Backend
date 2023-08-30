@@ -1,7 +1,9 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat;
 
+import com.huy.backendnoithat.Entity.HangMuc;
 import com.huy.backendnoithat.Entity.NoiThat;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,32 +17,36 @@ public class NoiThatDAOMysql implements NoiThatDAO {
     }
     @Override
     public List<NoiThat> findAll() {
-        return null;
+        TypedQuery<NoiThat> query = entityManager.createQuery("from NoiThat pc order by pc.id", NoiThat.class);
+        return query.getResultList();
     }
 
     @Override
     public NoiThat findById(int id) {
-        return null;
+        return entityManager.find(NoiThat.class, id);
     }
 
     @Override
     public NoiThat findUsingName(String name) {
-        return null;
+        TypedQuery<NoiThat> query = entityManager.createQuery("from NoiThat where name = :name", NoiThat.class);
+        query.setParameter("name", name);
+        return query.getSingleResult();
     }
 
     @Override
     public void save(NoiThat noiThat) {
-
+        entityManager.persist(noiThat);
     }
 
     @Override
     public void deleteById(int id) {
-
+        NoiThat noiThat = entityManager.find(NoiThat.class, id);
+        entityManager.remove(noiThat);
     }
 
     @Override
     public void update(NoiThat noiThat) {
-
+        entityManager.merge(noiThat);
     }
 
     @Override
