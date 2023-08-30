@@ -1,8 +1,8 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.PhongCach;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.PhongCach.PhongCachDAO;
-import com.huy.backendnoithat.Entity.PhongCachNoiThat;
-import com.huy.backendnoithat.Response.PhongCachResponse;
+import com.huy.backendnoithat.Entity.PhongCachNoiThatEntity;
+import com.huy.backendnoithat.DataModel.PhongCach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,26 +15,27 @@ public class PhongCachServiceImpl implements PhongCachService {
         this.phongCachDAO = phongCachDAO;
     }
     @Override
-    public List<PhongCachResponse> findAll() {
-        List<PhongCachNoiThat> phongCachNoiThats = phongCachDAO.findAll();
-        List<PhongCachResponse> phongCachResponses = phongCachNoiThats.stream()
-                .map(phongCachNoiThat -> new PhongCachResponse(phongCachNoiThat, false)).toList();
-        return phongCachResponses;
+    public List<PhongCach> findAll() {
+        List<PhongCachNoiThatEntity> phongCachNoiThatEntities = phongCachDAO.findAll();
+        List<PhongCach> phongCachRespons = phongCachNoiThatEntities.stream()
+                .map(phongCachNoiThat -> new PhongCach(phongCachNoiThat, false)).toList();
+        return phongCachRespons;
     }
     @Override
-    public PhongCachResponse findById(int id) {
-        PhongCachResponse phongCachResponse = new PhongCachResponse(phongCachDAO.findById(id), false);
-        return phongCachResponse;
+    public PhongCach findById(int id) {
+        PhongCach phongCach = new PhongCach(phongCachDAO.findById(id), false);
+        return phongCach;
     }
     @Override
-    public PhongCachResponse findUsingName(String name) {
-        PhongCachResponse phongCachResponse = new PhongCachResponse(phongCachDAO.findUsingName(name), false);
-        return phongCachResponse;
+    public PhongCach findUsingName(String name) {
+        PhongCach phongCach = new PhongCach(phongCachDAO.findUsingName(name), false);
+        return phongCach;
     }
 
     @Override
-    public void save(PhongCachNoiThat phongCachNoiThat) {
-        phongCachDAO.save(phongCachNoiThat);
+    public void save(PhongCach phongCachNoiThatEntity) {
+
+        phongCachDAO.save(phongCachNoiThatEntity);
     }
 
     @Override
@@ -43,18 +44,18 @@ public class PhongCachServiceImpl implements PhongCachService {
     }
 
     @Override
-    public void update(PhongCachNoiThat phongCachNoiThat) {
-        phongCachDAO.update(phongCachNoiThat);
+    public void update(PhongCach phongCachNoiThatEntity) {
+        phongCachDAO.update(phongCachNoiThatEntity);
     }
 
     @Override
-    public List<PhongCachResponse> joinFetchPhongCach() {
+    public List<PhongCach> joinFetchPhongCach() {
         return phongCachDAO.findAllAndJoinFetch().stream()
-                .map(phongCachNoiThat -> new PhongCachResponse(phongCachNoiThat, true)).toList();
+                .map(phongCachNoiThat -> new PhongCach(phongCachNoiThat, true)).toList();
     }
 
     @Override
-    public PhongCachResponse joinFetchPhongCachUsingId(int id) {
-        return new PhongCachResponse(phongCachDAO.findByIdAndJoinFetch(id), true);
+    public PhongCach joinFetchPhongCachUsingId(int id) {
+        return new PhongCach(phongCachDAO.findByIdAndJoinFetch(id), true);
     }
 }

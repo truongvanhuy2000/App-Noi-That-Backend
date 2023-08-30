@@ -1,6 +1,5 @@
 package com.huy.backendnoithat.Security;
 
-import com.huy.backendnoithat.Entity.Account;
 import com.huy.backendnoithat.Service.Account.AccountService;
 import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import jakarta.servlet.FilterChain;

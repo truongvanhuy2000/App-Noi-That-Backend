@@ -1,17 +1,17 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.VatLieu;
 
-import com.huy.backendnoithat.Entity.ThongSo;
-import com.huy.backendnoithat.Entity.VatLieu;
+import com.huy.backendnoithat.Entity.VatLieuEntity;
 
 import java.util.List;
 
 public interface VatLieuDAO {
-    List<VatLieu> findAll();
-    VatLieu findById(int id);
-    VatLieu findUsingName(String name);
-    void save(VatLieu vatLieu);
+    List<VatLieuEntity> findAll();
+    VatLieuEntity findById(int id);
+    VatLieuEntity findUsingName(String name);
+    void save(VatLieuEntity vatLieuEntity);
     void deleteById(int id);
-    void update(VatLieu vatLieu);
-    List<VatLieu> findAllAndJoinFetch();
-    VatLieu findByIdAndJoinFetch(int id);
+    void update(VatLieuEntity vatLieuEntity);
+    List<VatLieuEntity> findAllAndJoinFetch();
+    VatLieuEntity findByIdAndJoinFetch(int id);
+    List<VatLieuEntity> searchByHangMuc(int id);
 }

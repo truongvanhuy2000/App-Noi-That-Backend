@@ -1,10 +1,9 @@
 package com.huy.backendnoithat.Controller.Account;
 
-import com.huy.backendnoithat.Entity.Account;
+import com.huy.backendnoithat.Entity.AccountEntity;
 import com.huy.backendnoithat.Service.Account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,20 +17,20 @@ public class AccountController {
         this.accountService = accountService;
     }
     @GetMapping("") // Chi list nhung acc da enable roi
-    public List<Account> findAll() {
+    public List<AccountEntity> findAll() {
         return accountService.findAll();
     }
     @GetMapping("/{id}")
-    public Account findById(@PathVariable(value = "id") int id) {
+    public AccountEntity findById(@PathVariable(value = "id") int id) {
         return accountService.findById(id);
     }
     @GetMapping("/search")
-    public Account findByUsername(@RequestParam(name="username") String username) {
+    public AccountEntity findByUsername(@RequestParam(name="username") String username) {
         return accountService.findByUsername(username);
     }
     @PostMapping("")
-    public ResponseEntity<String> save(@RequestBody Account account) {
-        accountService.save(account);
+    public ResponseEntity<String> save(@RequestBody AccountEntity accountEntity) {
+        accountService.save(accountEntity);
         return ResponseEntity.ok("Saved successfully.");
     }
     @DeleteMapping("/{id}")
@@ -50,11 +49,11 @@ public class AccountController {
         return ResponseEntity.ok("Deactivated successfully.");
     }
     @GetMapping("/notEnabled") // Api de list nhung tai khoan chua duoc enable
-    public List<Account> findAllNotEnabledAccount() {
+    public List<AccountEntity> findAllNotEnabledAccount() {
         return accountService.findAllNotEnabled();
     }
     @GetMapping("/enabled") // Api de list nhung tai khoan chua duoc enable
-    public List<Account> findAllEnabledAccount() {
+    public List<AccountEntity> findAllEnabledAccount() {
         return accountService.findAllEnabled();
     }
     @PutMapping("/enable/{id}")

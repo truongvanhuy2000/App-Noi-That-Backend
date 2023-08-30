@@ -1,20 +1,22 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc;
 
-import com.huy.backendnoithat.Entity.HangMuc;
-import com.huy.backendnoithat.Response.HangMucResponse;
+import com.huy.backendnoithat.Entity.HangMucEntity;
+import com.huy.backendnoithat.DataModel.HangMuc;
 
 import java.util.List;
 
 public interface HangMucService {
     // Hang muc
-    List<HangMucResponse> findAll();
-    HangMucResponse findUsingId(int id);
-    HangMucResponse findUsingName(String name);
-    void save(HangMuc hangMuc);
+    List<HangMuc> findAll();
+    HangMuc findUsingId(int id);
+    HangMuc findUsingName(String name);
+    void save(HangMucEntity hangMucEntity);
     void deleteById(int id);
-    void update(HangMuc hangMuc);
+    void update(HangMucEntity hangMucEntity);
 
-    List<HangMucResponse> joinFetchHangMuc();
+    List<HangMuc> joinFetchHangMuc();
 
-    HangMucResponse joinFetchHangMucUsingId(int id);
+    HangMuc joinFetchHangMucUsingId(int id);
+
+    List<HangMuc> searchByNoiThat(int id);
 }

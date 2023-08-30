@@ -1,21 +1,23 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat;
 
-import com.huy.backendnoithat.Entity.NoiThat;
-import com.huy.backendnoithat.Response.NoiThatResponse;
+import com.huy.backendnoithat.Entity.NoiThatEntity;
+import com.huy.backendnoithat.DataModel.NoiThat;
 
 import java.util.List;
 
 public interface NoiThatService {
 
     // Noi that
-    List<NoiThatResponse> findAll();
-    NoiThatResponse findUsingId(int id);
-    NoiThatResponse findUsingName(String name);
-    void save(NoiThat noiThat);
+    List<NoiThat> findAll();
+    NoiThat findUsingId(int id);
+    NoiThat findUsingName(String name);
+    void save(NoiThatEntity noiThatEntity);
     void deleteById(int id);
-    void update(NoiThat noiThat);
+    void update(NoiThatEntity noiThatEntity);
 
-    List<NoiThatResponse> joinFetchNoiThat();
+    List<NoiThat> joinFetchNoiThat();
 
-    NoiThatResponse joinFetchNoiThatUsingId(int id);
+    NoiThat joinFetchNoiThatUsingId(int id);
+
+    List<NoiThat> searchByPhongCach(int id);
 }

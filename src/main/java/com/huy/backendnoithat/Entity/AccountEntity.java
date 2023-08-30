@@ -3,14 +3,12 @@ package com.huy.backendnoithat.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "account")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class AccountEntity {
     @Id @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -22,7 +20,7 @@ public class Account {
     private boolean active;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "info_id", referencedColumnName = "id")
-    private AccountInformation accountInformation;
+    private AccountInformationEntity accountInformationEntity;
     @Column(name="enabled")
     private boolean enabled;
 }

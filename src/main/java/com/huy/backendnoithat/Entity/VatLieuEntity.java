@@ -8,7 +8,7 @@ import lombok.*;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class VatLieu {
+public class VatLieuEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -17,9 +17,9 @@ public class VatLieu {
     private String name;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "thong_so_id", referencedColumnName = "id")
-    private ThongSo thongSo;
+    private ThongSoEntity thongSoEntity;
     @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "hang_muc_id", referencedColumnName = "id")
-    private HangMuc hangMuc;
+    private HangMucEntity hangMucEntity;
 }

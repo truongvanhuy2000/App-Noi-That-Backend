@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.PhongCach;
 
-import com.huy.backendnoithat.Entity.PhongCachNoiThat;
+import com.huy.backendnoithat.Entity.PhongCachNoiThatEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,52 +17,54 @@ public class PhongCachDAOMysql implements PhongCachDAO {
         this.entityManager = entityManager;
     }
     @Override
-    public List<PhongCachNoiThat> findAll() {
-        TypedQuery<PhongCachNoiThat> query = entityManager.createQuery("from PhongCachNoiThat pc ORDER BY pc.id", PhongCachNoiThat.class);
+    public List<PhongCachNoiThatEntity> findAll() {
+        TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery("from PhongCachNoiThatEntity pc ORDER BY pc.id", PhongCachNoiThatEntity.class);
         return query.getResultList();
     }
     @Override
-    public PhongCachNoiThat findById(int id) {
-        return entityManager.find(PhongCachNoiThat.class, id);
+    public PhongCachNoiThatEntity findById(int id) {
+        return entityManager.find(PhongCachNoiThatEntity.class, id);
     }
     @Override
-    public PhongCachNoiThat findUsingName(String name) {
-        TypedQuery<PhongCachNoiThat> query = entityManager.createQuery("from PhongCachNoiThat where name = :name", PhongCachNoiThat.class);
+    public PhongCachNoiThatEntity findUsingName(String name) {
+        TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery("from PhongCachNoiThatEntity where name = :name", PhongCachNoiThatEntity.class);
         query.setParameter("name", name);
         return query.getSingleResult();
     }
     @Override
     @Transactional
-    public void save(PhongCachNoiThat phongCachNoiThat) {
-        entityManager.persist(phongCachNoiThat);
+    public void save(PhongCachNoiThatEntity phongCachNoiThatEntity) {
+        entityManager.persist(phongCachNoiThatEntity);
     }
     @Override
     public void deleteById(int id) {
-        PhongCachNoiThat phongCachNoiThat = entityManager.find(PhongCachNoiThat.class, id);
-        entityManager.remove(phongCachNoiThat);
+        PhongCachNoiThatEntity phongCachNoiThatEntity = entityManager.find(PhongCachNoiThatEntity.class, id);
+        entityManager.remove(phongCachNoiThatEntity);
     }
     @Override
     @Transactional
-    public void update(PhongCachNoiThat phongCachNoiThat) {
-        entityManager.merge(phongCachNoiThat);
+    public void update(PhongCachNoiThatEntity phongCachNoiThatEntity) {
+        entityManager.merge(phongCachNoiThatEntity);
     }
     @Override
-    public List<PhongCachNoiThat> findAllAndJoinFetch() {
-        TypedQuery<PhongCachNoiThat> query = entityManager.createQuery(
-                "FROM PhongCachNoiThat pc "
-                        + "JOIN FETCH pc.noiThat "
-                        + "ORDER BY pc.id "
-                , PhongCachNoiThat.class);
+    public List<PhongCachNoiThatEntity> findAllAndJoinFetch() {
+        TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery(
+                "FROM PhongCachNoiThatEntity p " +
+                        "LEFT JOIN FETCH p.noiThat nt " +
+                        "LEFT JOIN FETCH nt.hangMuc hm " +
+                        "LEFT JOIN FETCH hm.vatLieu vl " +
+                        "LEFT JOIN FETCH vl.thongSo"
+                , PhongCachNoiThatEntity.class);
         return query.getResultList();
     }
     @Override
-    public PhongCachNoiThat findByIdAndJoinFetch(int id) {
-        TypedQuery<PhongCachNoiThat> query = entityManager.createQuery(
-                "SELECT pc FROM PhongCachNoiThat pc "
+    public PhongCachNoiThatEntity findByIdAndJoinFetch(int id) {
+        TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery(
+                "SELECT pc FROM PhongCachNoiThatEntity pc "
                         + "JOIN FETCH pc.noiThat "
                         + "WHERE pc.id = :id "
                         + "ORDER BY pc.id "
-                , PhongCachNoiThat.class);
+                , PhongCachNoiThatEntity.class);
         entityManager.setProperty("id", id);
         return query.getSingleResult();
     }

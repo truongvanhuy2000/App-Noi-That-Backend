@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiTHat;
 
-import com.huy.backendnoithat.Entity.ThongSo;
-import com.huy.backendnoithat.Response.ThongSoResponse;
+import com.huy.backendnoithat.Entity.ThongSoEntity;
+import com.huy.backendnoithat.DataModel.ThongSo;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.ThongSo.ThongSoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +17,15 @@ public class ThongSoController {
         this.thongSoService = thongSoService;
     }
     @GetMapping("")
-    public List<ThongSoResponse> findAll() {
+    public List<ThongSo> findAll() {
         return thongSoService.findAll();
     }
     @GetMapping("/search")
-    public ThongSoResponse findUsingName(String name) {
+    public ThongSo findUsingName(String name) {
         return thongSoService.findUsingName(name);
     }
     @GetMapping("{id}")
-    public ThongSoResponse findById(int id) {
+    public ThongSo findById(int id) {
         return thongSoService.findUsingId(id);
     }
     @DeleteMapping("{id}")
@@ -33,11 +33,15 @@ public class ThongSoController {
         thongSoService.deleteById(id);
     }
     @PostMapping("/add")
-    public void save(ThongSo thongSo) {
-        thongSoService.save(thongSo);
+    public void save(ThongSoEntity thongSoEntity) {
+        thongSoService.save(thongSoEntity);
     }
     @PutMapping("/update")
-    public void update(ThongSo thongSo) {
-        thongSoService.update(thongSo);
+    public void update(ThongSoEntity thongSoEntity) {
+        thongSoService.update(thongSoEntity);
+    }
+    @GetMapping("/searchByVatlieu/{id}")
+    public List<ThongSo> searchByVatLieu(@PathVariable int id) {
+        return thongSoService.searchByVatLieu(id);
     }
 }

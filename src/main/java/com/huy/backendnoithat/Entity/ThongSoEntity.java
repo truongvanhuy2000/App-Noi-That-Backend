@@ -8,7 +8,7 @@ import lombok.*;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ThongSo {
+public class ThongSoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -24,6 +24,6 @@ public class ThongSo {
     @Column(name="don_gia")
     private double donGia;
     @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongSo", fetch = FetchType.EAGER)
-    private VatLieu vatLieu;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "thongSo", fetch = FetchType.LAZY)
+    private VatLieuEntity vatLieuEntity;
 }

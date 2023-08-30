@@ -1,17 +1,18 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat;
 
-import com.huy.backendnoithat.Entity.NoiThat;
-import com.huy.backendnoithat.Entity.PhongCachNoiThat;
+import com.huy.backendnoithat.Entity.NoiThatEntity;
 
 import java.util.List;
 
 public interface NoiThatDAO {
-    List<NoiThat> findAll();
-    NoiThat findById(int id);
-    NoiThat findUsingName(String name);
-    void save(NoiThat noiThat);
+    List<NoiThatEntity> findAll();
+    NoiThatEntity findById(int id);
+    NoiThatEntity findUsingName(String name);
+    void save(NoiThatEntity noiThatEntity);
     void deleteById(int id);
-    void update(NoiThat noiThat);
-    List<NoiThat> findAllAndJoinFetch();
-    NoiThat findByIdAndJoinFetch(int id);
+    void update(NoiThatEntity noiThatEntity);
+    List<NoiThatEntity> findAllAndJoinFetch();
+    NoiThatEntity findByIdAndJoinFetch(int id);
+
+    List<NoiThatEntity> searchByPhongCach(int id);
 }

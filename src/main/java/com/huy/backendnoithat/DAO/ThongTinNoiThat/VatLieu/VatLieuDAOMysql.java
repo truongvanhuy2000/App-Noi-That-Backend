@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.VatLieu;
 
-import com.huy.backendnoithat.Entity.VatLieu;
+import com.huy.backendnoithat.Entity.VatLieuEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,46 +15,53 @@ public class VatLieuDAOMysql implements VatLieuDAO {
         this.entityManager = entityManager;
     }
     @Override
-    public List<VatLieu> findAll() {
-        TypedQuery<VatLieu> query = entityManager.createQuery("from VatLieu vl order by vl.id", VatLieu.class);
+    public List<VatLieuEntity> findAll() {
+        TypedQuery<VatLieuEntity> query = entityManager.createQuery("from VatLieuEntity vl order by vl.id", VatLieuEntity.class);
         return query.getResultList();
 
     }
     @Override
-    public VatLieu findById(int id) {
-        return entityManager.find(VatLieu.class, id);
+    public VatLieuEntity findById(int id) {
+        return entityManager.find(VatLieuEntity.class, id);
     }
 
     @Override
-    public VatLieu findUsingName(String name) {
-        TypedQuery<VatLieu> query = entityManager.createQuery("from VatLieu where name = :name", VatLieu.class);
+    public VatLieuEntity findUsingName(String name) {
+        TypedQuery<VatLieuEntity> query = entityManager.createQuery("from VatLieuEntity where name = :name", VatLieuEntity.class);
         query.setParameter("name", name);
         return query.getSingleResult();
     }
 
     @Override
-    public void save(VatLieu vatLieu) {
-        entityManager.persist(vatLieu);
+    public void save(VatLieuEntity vatLieuEntity) {
+        entityManager.persist(vatLieuEntity);
     }
 
     @Override
     public void deleteById(int id) {
-        VatLieu vatLieu = entityManager.find(VatLieu.class, id);
-        entityManager.remove(vatLieu);
+        VatLieuEntity vatLieuEntity = entityManager.find(VatLieuEntity.class, id);
+        entityManager.remove(vatLieuEntity);
     }
 
     @Override
-    public void update(VatLieu vatLieu) {
-        entityManager.merge(vatLieu);
+    public void update(VatLieuEntity vatLieuEntity) {
+        entityManager.merge(vatLieuEntity);
     }
 
     @Override
-    public List<VatLieu> findAllAndJoinFetch() {
+    public List<VatLieuEntity> findAllAndJoinFetch() {
         return null;
     }
 
     @Override
-    public VatLieu findByIdAndJoinFetch(int id) {
+    public VatLieuEntity findByIdAndJoinFetch(int id) {
         return null;
+    }
+
+    @Override
+    public List<VatLieuEntity> searchByHangMuc(int id) {
+        TypedQuery<VatLieuEntity> query = entityManager.createQuery("from VatLieuEntity vl where vl.hangMuc.id = :id order by vl.id", VatLieuEntity.class);
+        query.setParameter("id", id);
+        return query.getResultList();
     }
 }

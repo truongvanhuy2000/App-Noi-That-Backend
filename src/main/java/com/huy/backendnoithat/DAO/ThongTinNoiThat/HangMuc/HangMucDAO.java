@@ -1,17 +1,17 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc;
 
-import com.huy.backendnoithat.Entity.HangMuc;
-import com.huy.backendnoithat.Entity.NoiThat;
+import com.huy.backendnoithat.Entity.HangMucEntity;
 
 import java.util.List;
 
 public interface HangMucDAO {
-    List<HangMuc> findAll();
-    HangMuc findById(int id);
-    HangMuc findUsingName(String name);
-    void save(HangMuc hangMuc);
+    List<HangMucEntity> findAll();
+    HangMucEntity findById(int id);
+    HangMucEntity findUsingName(String name);
+    void save(HangMucEntity hangMucEntity);
     void deleteById(int id);
-    void update(HangMuc hangMuc);
-    List<HangMuc> findAllAndJoinFetch();
-    HangMuc findByIdAndJoinFetch(int id);
+    void update(HangMucEntity hangMucEntity);
+    List<HangMucEntity> findAllAndJoinFetch();
+    HangMucEntity findByIdAndJoinFetch(int id);
+    List<HangMucEntity> searchByNoiThat(int id);
 }

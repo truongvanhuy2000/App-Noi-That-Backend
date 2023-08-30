@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.DAO.Account;
 
-import com.huy.backendnoithat.Entity.Account;
+import com.huy.backendnoithat.Entity.AccountEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -18,74 +18,74 @@ public class AccountDAOMysql implements AccountDAO{
     }
 
     @Override
-    public List<Account> findAll() {
-        TypedQuery<Account> query = entityManager.createQuery("from Account", Account.class);
+    public List<AccountEntity> findAll() {
+        TypedQuery<AccountEntity> query = entityManager.createQuery("from AccountEntity", AccountEntity.class);
         return query.getResultList();
     }
     @Override
-    public Account findById(int id) {
-        return entityManager.find(Account.class, id);
+    public AccountEntity findById(int id) {
+        return entityManager.find(AccountEntity.class, id);
     }
     @Override
-    public Account findByUsername(String username) {
-        TypedQuery<Account> query = entityManager.createQuery("from Account where username = :username", Account.class);
+    public AccountEntity findByUsername(String username) {
+        TypedQuery<AccountEntity> query = entityManager.createQuery("from AccountEntity where username = :username", AccountEntity.class);
         query.setParameter("username", username);
         return query.getSingleResult();
     }
     @Override
     @Transactional
-    public void save(Account account) {
-        entityManager.persist(account);
+    public void save(AccountEntity accountEntity) {
+        entityManager.persist(accountEntity);
     }
     @Override
     @Transactional
     public void deleteById(int id) {
-        Account account = entityManager.find(Account.class, id);
-        entityManager.remove(account);
+        AccountEntity accountEntity = entityManager.find(AccountEntity.class, id);
+        entityManager.remove(accountEntity);
     }
     @Override
     @Transactional
     public void activateAccount(int id) {
-        Account account = entityManager.find(Account.class, id);
-        account.setActive(true);
-        updateAccount(account);
+        AccountEntity accountEntity = entityManager.find(AccountEntity.class, id);
+        accountEntity.setActive(true);
+        updateAccount(accountEntity);
     }
     @Override
     @Transactional
     public void deactivateAccount(int id) {
-        Account account = entityManager.find(Account.class, id);
-        account.setActive(false);
-        updateAccount(account);
+        AccountEntity accountEntity = entityManager.find(AccountEntity.class, id);
+        accountEntity.setActive(false);
+        updateAccount(accountEntity);
     }
     @Override
     @Transactional
-    public void updateAccount(Account account) {
-        entityManager.merge(account);
+    public void updateAccount(AccountEntity accountEntity) {
+        entityManager.merge(accountEntity);
     }
 
     @Override
-    public List<Account> findAllNotEnabled() {
-        TypedQuery<Account> query = entityManager.createQuery("from Account where enabled = false", Account.class);
+    public List<AccountEntity> findAllNotEnabled() {
+        TypedQuery<AccountEntity> query = entityManager.createQuery("from AccountEntity where enabled = false", AccountEntity.class);
         return query.getResultList();
     }
     @Override
-    public List<Account> findAllEnabled() {
-        TypedQuery<Account> query = entityManager.createQuery("from Account where enabled = true", Account.class);
+    public List<AccountEntity> findAllEnabled() {
+        TypedQuery<AccountEntity> query = entityManager.createQuery("from AccountEntity where enabled = true", AccountEntity.class);
         return query.getResultList();
     }
     @Transactional
     @Override
     public void enableAccount(int id) {
-        Account account = entityManager.find(Account.class, id);
-        account.setEnabled(true);
-        updateAccount(account);
+        AccountEntity accountEntity = entityManager.find(AccountEntity.class, id);
+        accountEntity.setEnabled(true);
+        updateAccount(accountEntity);
     }
     @Transactional
     @Override
     public void disableAccount(int id) {
-        Account account = entityManager.find(Account.class, id);
-        account.setEnabled(false);
-        updateAccount(account);
+        AccountEntity accountEntity = entityManager.find(AccountEntity.class, id);
+        accountEntity.setEnabled(false);
+        updateAccount(accountEntity);
     }
 
 

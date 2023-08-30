@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.Service.Account;
 
 import com.huy.backendnoithat.DAO.Account.AccountDAO;
-import com.huy.backendnoithat.Entity.Account;
+import com.huy.backendnoithat.Entity.AccountEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,23 +15,23 @@ public class AccountServiceImpl implements AccountService {
         this.accountDAO = accountDAO;
     }
     @Override
-    public List<Account> findAll() {
+    public List<AccountEntity> findAll() {
         return accountDAO.findAll();
     }
 
     @Override
-    public Account findById(int id) {
+    public AccountEntity findById(int id) {
         return accountDAO.findById(id);
     }
 
     @Override
-    public Account findByUsername(String username) {
+    public AccountEntity findByUsername(String username) {
         return accountDAO.findByUsername(username);
     }
 
     @Override
-    public void save(Account account) {
-        accountDAO.save(account);
+    public void save(AccountEntity accountEntity) {
+        accountDAO.save(accountEntity);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> findAllNotEnabled() {
+    public List<AccountEntity> findAllNotEnabled() {
         return accountDAO.findAllNotEnabled();
     }
 
@@ -65,7 +65,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> findAllEnabled() {
+    public List<AccountEntity> findAllEnabled() {
         return accountDAO.findAllEnabled();
     }
 }

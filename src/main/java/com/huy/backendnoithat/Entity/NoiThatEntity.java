@@ -5,27 +5,25 @@ import lombok.*;
 
 import java.util.List;
 
-@Table(name = "hangmuc")
+@Table(name = "noithat")
 @Entity
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class HangMuc {
+public class NoiThatEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private int id;
     @Column(name="name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hangMuc", fetch = FetchType.LAZY)
-    private List<VatLieu> vatLieu;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "noiThat", fetch = FetchType.LAZY)
+    private List<HangMucEntity> hangMucEntity;
     @Setter(AccessLevel.NONE) @Getter(AccessLevel.NONE)
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "noi_that_id", referencedColumnName = "id")
-    private NoiThat noiThat;
-
-    public void addVatLieu(VatLieu vatLieu) {
-        this.vatLieu.add(vatLieu);
+    @JoinColumn(name = "phong_cach_id", referencedColumnName = "id")
+    private PhongCachNoiThatEntity phongCachNoiThatEntity;
+    public void addHangMuc(HangMucEntity hangMucEntity) {
+        this.hangMucEntity.add(hangMucEntity);
     }
-
 }

@@ -1,18 +1,18 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.PhongCach;
 
-import com.huy.backendnoithat.Entity.PhongCachNoiThat;
-import com.huy.backendnoithat.Response.PhongCachResponse;
+import com.huy.backendnoithat.Entity.PhongCachNoiThatEntity;
+import com.huy.backendnoithat.DataModel.PhongCach;
 
 import java.util.List;
 
 public interface PhongCachService {
     // Phong Cach Noi That
-    List<PhongCachResponse> findAll();
-    PhongCachResponse findById(int id);
-    PhongCachResponse findUsingName(String name);
-    void save(PhongCachNoiThat phongCachNoiThat);
+    List<PhongCach> findAll();
+    PhongCach findById(int id);
+    PhongCach findUsingName(String name);
+    void save(PhongCach phongCachNoiThatEntity);
     void deleteById(int id);
-    void update(PhongCachNoiThat phongCachNoiThat);
-    List<PhongCachResponse> joinFetchPhongCach();
-    PhongCachResponse joinFetchPhongCachUsingId(int id);
+    void update(PhongCach phongCachNoiThatEntity);
+    List<PhongCach> joinFetchPhongCach();
+    PhongCach joinFetchPhongCachUsingId(int id);
 }

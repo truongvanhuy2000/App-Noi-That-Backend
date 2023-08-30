@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiTHat;
 
-import com.huy.backendnoithat.Entity.HangMuc;
-import com.huy.backendnoithat.Response.HangMucResponse;
+import com.huy.backendnoithat.Entity.HangMucEntity;
+import com.huy.backendnoithat.DataModel.HangMuc;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc.HangMucService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +17,15 @@ public class HangMucController {
         this.hangMucService = hangMucService;
     }
     @GetMapping("")
-    public List<HangMucResponse> findAll() {
+    public List<HangMuc> findAll() {
         return hangMucService.findAll();
     }
     @GetMapping("/search")
-    public HangMucResponse findUsingName(String name) {
+    public HangMuc findUsingName(String name) {
         return hangMucService.findUsingName(name);
     }
     @GetMapping("{id}")
-    public HangMucResponse findById(int id) {
+    public HangMuc findById(int id) {
         return hangMucService.findUsingId(id);
     }
     @DeleteMapping("{id}")
@@ -33,19 +33,24 @@ public class HangMucController {
         hangMucService.deleteById(id);
     }
     @PutMapping("/update")
-    public void update(HangMuc hangMuc) {
-        hangMucService.update(hangMuc);
+    public void update(HangMucEntity hangMucEntity) {
+        hangMucService.update(hangMucEntity);
     }
     @PostMapping("/add")
-    public void save(HangMuc hangMuc) {
-        hangMucService.save(hangMuc);
+    public void save(HangMucEntity hangMucEntity) {
+        hangMucService.save(hangMucEntity);
     }
+    @GetMapping("/searchByNoiThat/{id}")
+    public List<HangMuc> searchByNoiThat(@PathVariable int id) {
+        return hangMucService.searchByNoiThat(id);
+    }
+    // Dont use this API yet
     @GetMapping("/fetch")
-    public List<HangMucResponse> joinFetchHangMuc() {
+    public List<HangMuc> joinFetchHangMuc() {
         return hangMucService.joinFetchHangMuc();
     }
     @GetMapping("/fetch/{id}")
-    public HangMucResponse joinFetchHangMucUsingId(@PathVariable int id) {
+    public HangMuc joinFetchHangMucUsingId(@PathVariable int id) {
         return hangMucService.joinFetchHangMucUsingId(id);
     }
 }

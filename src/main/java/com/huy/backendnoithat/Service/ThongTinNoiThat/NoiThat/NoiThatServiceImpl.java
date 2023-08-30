@@ -1,8 +1,8 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat.NoiThatDAO;
-import com.huy.backendnoithat.Entity.NoiThat;
-import com.huy.backendnoithat.Response.NoiThatResponse;
+import com.huy.backendnoithat.Entity.NoiThatEntity;
+import com.huy.backendnoithat.DataModel.NoiThat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,41 +15,47 @@ public class NoiThatServiceImpl implements NoiThatService {
         this.noiThatDAO = noiThatDAO;
     }
     @Override
-    public List<NoiThatResponse> findAll() {
-        List<NoiThatResponse> noiThatResponses = noiThatDAO.findAll().stream()
-                .map(item -> new NoiThatResponse(item, false)).toList();
-        return noiThatResponses;
+    public List<NoiThat> findAll() {
+        List<NoiThat> noiThatRespons = noiThatDAO.findAll().stream()
+                .map(item -> new NoiThat(item, false)).toList();
+        return noiThatRespons;
     }
     @Override
-    public NoiThatResponse findUsingId(int id) {
-        NoiThat noiThat = noiThatDAO.findById(id);
-        return new NoiThatResponse(noiThat, false);
+    public NoiThat findUsingId(int id) {
+        NoiThatEntity noiThatEntity = noiThatDAO.findById(id);
+        return new NoiThat(noiThatEntity, false);
     }
     @Override
-    public NoiThatResponse findUsingName(String name) {
-        NoiThat noiThat = noiThatDAO.findUsingName(name);
-        return new NoiThatResponse(noiThat, false);
+    public NoiThat findUsingName(String name) {
+        NoiThatEntity noiThatEntity = noiThatDAO.findUsingName(name);
+        return new NoiThat(noiThatEntity, false);
     }
     @Override
-    public void save(NoiThat noiThat) {
-        noiThatDAO.save(noiThat);
+    public void save(NoiThatEntity noiThatEntity) {
+        noiThatDAO.save(noiThatEntity);
     }
     @Override
     public void deleteById(int id) {
         noiThatDAO.deleteById(id);
     }
     @Override
-    public void update(NoiThat noiThat) {
-        noiThatDAO.update(noiThat);
+    public void update(NoiThatEntity noiThatEntity) {
+        noiThatDAO.update(noiThatEntity);
     }
 
     @Override
-    public List<NoiThatResponse> joinFetchNoiThat() {
+    public List<NoiThat> joinFetchNoiThat() {
         return null;
     }
 
     @Override
-    public NoiThatResponse joinFetchNoiThatUsingId(int id) {
+    public NoiThat joinFetchNoiThatUsingId(int id) {
         return null;
+    }
+
+    @Override
+    public List<NoiThat> searchByPhongCach(int id) {
+        return noiThatDAO.searchByPhongCach(id).stream()
+                .map(item -> new NoiThat(item, false)).toList();
     }
 }

@@ -1,7 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc;
 
-import com.huy.backendnoithat.Entity.HangMuc;
-import com.huy.backendnoithat.Entity.PhongCachNoiThat;
+import com.huy.backendnoithat.Entity.HangMucEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,39 +16,46 @@ public class HangMucDAOMysql implements HangMucDAO {
         this.entityManager = entityManager;
     }
     @Override
-    public List<HangMuc> findAll() {
-        TypedQuery<HangMuc> query = entityManager.createQuery("from HangMuc pc ORDER BY pc.id", HangMuc.class);
+    public List<HangMucEntity> findAll() {
+        TypedQuery<HangMucEntity> query = entityManager.createQuery("from HangMucEntity pc ORDER BY pc.id", HangMucEntity.class);
         return query.getResultList();
     }
     @Override
-    public HangMuc findById(int id) {
-        return entityManager.find(HangMuc.class, id);
+    public HangMucEntity findById(int id) {
+        return entityManager.find(HangMucEntity.class, id);
     }
     @Override
-    public HangMuc findUsingName(String name) {
-        TypedQuery<HangMuc> query = entityManager.createQuery("from HangMuc where name = :name", HangMuc.class);
+    public HangMucEntity findUsingName(String name) {
+        TypedQuery<HangMucEntity> query = entityManager.createQuery("from HangMucEntity where name = :name", HangMucEntity.class);
         query.setParameter("name", name);
         return query.getSingleResult();
     }
     @Override
-    public void save(HangMuc hangMuc) {
-        entityManager.persist(hangMuc);
+    public void save(HangMucEntity hangMucEntity) {
+        entityManager.persist(hangMucEntity);
     }
     @Override
     public void deleteById(int id) {
-        HangMuc hangMuc = entityManager.find(HangMuc.class, id);
-        entityManager.remove(hangMuc);
+        HangMucEntity hangMucEntity = entityManager.find(HangMucEntity.class, id);
+        entityManager.remove(hangMucEntity);
     }
     @Override
-    public void update(HangMuc hangMuc) {
-        entityManager.merge(hangMuc);
+    public void update(HangMucEntity hangMucEntity) {
+        entityManager.merge(hangMucEntity);
     }
     @Override
-    public List<HangMuc> findAllAndJoinFetch() {
+    public List<HangMucEntity> findAllAndJoinFetch() {
         return null;
     }
     @Override
-    public HangMuc findByIdAndJoinFetch(int id) {
+    public HangMucEntity findByIdAndJoinFetch(int id) {
         return null;
+    }
+
+    @Override
+    public List<HangMucEntity> searchByNoiThat(int id) {
+        TypedQuery<HangMucEntity> query = entityManager.createQuery("from HangMucEntity pc where pc.noiThat.id = :id order by pc.id", HangMucEntity.class);
+        query.setParameter("id", id);
+        return query.getResultList();
     }
 }

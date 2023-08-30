@@ -1,4 +1,4 @@
-﻿CREATE TABLE `account` (
+﻿CREATE TABLE `accountEntity` (
 `id` integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
 `username` varchar(50) UNIQUE NOT NULL,
 `password` varchar(50) NOT NULL,
@@ -63,6 +63,6 @@ ALTER TABLE `vatlieu` ADD FOREIGN KEY (`hang_muc_id`) REFERENCES `hangmuc` (`id`
 
 ALTER TABLE `vatlieu` ADD FOREIGN KEY (`thong_so_id`) REFERENCES `thongso` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE `roles` ADD FOREIGN KEY (`username`) REFERENCES `account` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `roles` ADD FOREIGN KEY (`username`) REFERENCES `accountEntity` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE `account` ADD FOREIGN KEY (`info_id`) REFERENCES `accountinformation` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `accountEntity` ADD FOREIGN KEY (`info_id`) REFERENCES `accountinformation` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;

@@ -1,8 +1,8 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.ThongSo;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.ThongSo.ThongSoDAO;
-import com.huy.backendnoithat.Entity.ThongSo;
-import com.huy.backendnoithat.Response.ThongSoResponse;
+import com.huy.backendnoithat.Entity.ThongSoEntity;
+import com.huy.backendnoithat.DataModel.ThongSo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,22 +15,22 @@ public class ThongSoServiceImpl implements ThongSoService {
         this.thongSoDAO = thongSoDAO;
     }
     @Override
-    public List<ThongSoResponse> findAll() {
-        return thongSoDAO.findAll().stream().map(ThongSoResponse::new).toList();
+    public List<ThongSo> findAll() {
+        return thongSoDAO.findAll().stream().map(ThongSo::new).toList();
     }
     @Override
-    public ThongSoResponse findUsingId(int id) {
-        return new ThongSoResponse(thongSoDAO.findById(id));
-    }
-
-    @Override
-    public ThongSoResponse findUsingName(String name) {
-        return new ThongSoResponse(thongSoDAO.findUsingName(name));
+    public ThongSo findUsingId(int id) {
+        return new ThongSo(thongSoDAO.findById(id));
     }
 
     @Override
-    public void save(ThongSo thongSo) {
-        thongSoDAO.save(thongSo);
+    public ThongSo findUsingName(String name) {
+        return new ThongSo(thongSoDAO.findUsingName(name));
+    }
+
+    @Override
+    public void save(ThongSoEntity thongSoEntity) {
+        thongSoDAO.save(thongSoEntity);
     }
 
     @Override
@@ -39,7 +39,12 @@ public class ThongSoServiceImpl implements ThongSoService {
     }
 
     @Override
-    public void update(ThongSo thongSo) {
-        thongSoDAO.update(thongSo);
+    public void update(ThongSoEntity thongSoEntity) {
+        thongSoDAO.update(thongSoEntity);
+    }
+
+    @Override
+    public List<ThongSo> searchByVatLieu(int id) {
+        return thongSoDAO.searchByVatLieu(id).stream().map(ThongSo::new).toList();
     }
 }

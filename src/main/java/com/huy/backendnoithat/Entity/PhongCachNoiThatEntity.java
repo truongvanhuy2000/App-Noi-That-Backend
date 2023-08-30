@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.Entity;
 
+import com.huy.backendnoithat.DataModel.PhongCach;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PhongCachNoiThat {
+public class PhongCachNoiThatEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -18,8 +19,13 @@ public class PhongCachNoiThat {
     @Column(name="name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "phongCachNoiThat", fetch = FetchType.LAZY)
-    private List<NoiThat> noiThat;
-    public void addNoiThat(NoiThat noiThat) {
-        this.noiThat.add(noiThat);
+    private List<NoiThatEntity> noiThatEntity;
+    public PhongCachNoiThatEntity(PhongCach phongCach) {
+        this.id = phongCach.getId();
+        this.name = phongCach.getName();
+        this.noiThatEntity = phongCach.getNoiThatEntity();
+    }
+    public void addNoiThat(NoiThatEntity noiThatEntity) {
+        this.noiThatEntity.add(noiThatEntity);
     }
 }

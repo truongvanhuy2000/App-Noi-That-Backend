@@ -1,8 +1,8 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc.HangMucDAO;
-import com.huy.backendnoithat.Entity.HangMuc;
-import com.huy.backendnoithat.Response.HangMucResponse;
+import com.huy.backendnoithat.Entity.HangMucEntity;
+import com.huy.backendnoithat.DataModel.HangMuc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,37 +15,42 @@ public class HangMucServiceImpl implements HangMucService {
         this.hangMucDAO = hangMucDAO;
     }
     @Override
-    public List<HangMucResponse> findAll() {
-        return hangMucDAO.findAll().stream().map(hangMuc -> new HangMucResponse(hangMuc, false)).toList();
+    public List<HangMuc> findAll() {
+        return hangMucDAO.findAll().stream().map(hangMuc -> new HangMuc(hangMuc, false)).toList();
     }
     @Override
-    public HangMucResponse findUsingId(int id) {
-        return new HangMucResponse(hangMucDAO.findById(id), false);
+    public HangMuc findUsingId(int id) {
+        return new HangMuc(hangMucDAO.findById(id), false);
     }
     @Override
-    public HangMucResponse findUsingName(String name) {
-        return new HangMucResponse(hangMucDAO.findUsingName(name), false);
+    public HangMuc findUsingName(String name) {
+        return new HangMuc(hangMucDAO.findUsingName(name), false);
     }
     @Override
-    public void save(HangMuc hangMuc) {
-        hangMucDAO.save(hangMuc);
+    public void save(HangMucEntity hangMucEntity) {
+        hangMucDAO.save(hangMucEntity);
     }
     @Override
     public void deleteById(int id) {
         hangMucDAO.deleteById(id);
     }
     @Override
-    public void update(HangMuc hangMuc) {
-        hangMucDAO.update(hangMuc);
+    public void update(HangMucEntity hangMucEntity) {
+        hangMucDAO.update(hangMucEntity);
     }
 
     @Override
-    public List<HangMucResponse> joinFetchHangMuc() {
+    public List<HangMuc> joinFetchHangMuc() {
         return null;
     }
 
     @Override
-    public HangMucResponse joinFetchHangMucUsingId(int id) {
+    public HangMuc joinFetchHangMucUsingId(int id) {
         return null;
+    }
+
+    @Override
+    public List<HangMuc> searchByNoiThat(int id) {
+        return hangMucDAO.searchByNoiThat(id).stream().map(hangMuc -> new HangMuc(hangMuc, false)).toList();
     }
 }
