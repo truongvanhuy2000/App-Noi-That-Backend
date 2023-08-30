@@ -13,4 +13,6 @@ public interface PhongCachService {
     void save(PhongCachNoiThat phongCachNoiThat);
     void deleteById(int id);
     void update(PhongCachNoiThat phongCachNoiThat);
+    List<PhongCachResponse> joinFetchPhongCach();
+    PhongCachResponse joinFetchPhongCachUsingId(int id);
 }

@@ -14,4 +14,8 @@ public interface NoiThatService {
     void save(NoiThat noiThat);
     void deleteById(int id);
     void update(NoiThat noiThat);
+
+    List<NoiThatResponse> joinFetchNoiThat();
+
+    NoiThatResponse joinFetchNoiThatUsingId(int id);
 }

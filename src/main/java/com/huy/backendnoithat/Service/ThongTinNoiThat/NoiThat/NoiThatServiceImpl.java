@@ -42,4 +42,14 @@ public class NoiThatServiceImpl implements NoiThatService {
     public void update(NoiThat noiThat) {
         noiThatDAO.update(noiThat);
     }
+
+    @Override
+    public List<NoiThatResponse> joinFetchNoiThat() {
+        return null;
+    }
+
+    @Override
+    public NoiThatResponse joinFetchNoiThatUsingId(int id) {
+        return null;
+    }
 }

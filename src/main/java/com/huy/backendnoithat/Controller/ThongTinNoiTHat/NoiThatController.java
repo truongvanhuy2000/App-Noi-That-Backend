@@ -40,5 +40,12 @@ public class NoiThatController {
     public void update(NoiThat noiThat) {
         noiThatService.update(noiThat);
     }
-
+    @GetMapping("/fetch")
+    public List<NoiThatResponse> joinFetchNoiThat() {
+        return noiThatService.joinFetchNoiThat();
+    }
+    @GetMapping("/fetch/{id}")
+    public NoiThatResponse joinFetchNoiThatUsingId(@PathVariable int id) {
+        return noiThatService.joinFetchNoiThatUsingId(id);
+    }
 }

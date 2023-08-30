@@ -40,4 +40,12 @@ public class HangMucController {
     public void save(HangMuc hangMuc) {
         hangMucService.save(hangMuc);
     }
+    @GetMapping("/fetch")
+    public List<HangMucResponse> joinFetchHangMuc() {
+        return hangMucService.joinFetchHangMuc();
+    }
+    @GetMapping("/fetch/{id}")
+    public HangMucResponse joinFetchHangMucUsingId(@PathVariable int id) {
+        return hangMucService.joinFetchHangMucUsingId(id);
+    }
 }

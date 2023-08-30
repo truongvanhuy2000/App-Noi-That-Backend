@@ -46,4 +46,15 @@ public class PhongCachServiceImpl implements PhongCachService {
     public void update(PhongCachNoiThat phongCachNoiThat) {
         phongCachDAO.update(phongCachNoiThat);
     }
+
+    @Override
+    public List<PhongCachResponse> joinFetchPhongCach() {
+        return phongCachDAO.findAllAndJoinFetch().stream()
+                .map(phongCachNoiThat -> new PhongCachResponse(phongCachNoiThat, true)).toList();
+    }
+
+    @Override
+    public PhongCachResponse joinFetchPhongCachUsingId(int id) {
+        return new PhongCachResponse(phongCachDAO.findByIdAndJoinFetch(id), true);
+    }
 }

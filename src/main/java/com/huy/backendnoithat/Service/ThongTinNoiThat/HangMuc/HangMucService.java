@@ -13,4 +13,8 @@ public interface HangMucService {
     void save(HangMuc hangMuc);
     void deleteById(int id);
     void update(HangMuc hangMuc);
+
+    List<HangMucResponse> joinFetchHangMuc();
+
+    HangMucResponse joinFetchHangMucUsingId(int id);
 }

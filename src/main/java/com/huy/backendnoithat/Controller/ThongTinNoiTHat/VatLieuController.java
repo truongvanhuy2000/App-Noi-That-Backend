@@ -40,5 +40,4 @@ public class VatLieuController {
     public void save(VatLieu vatLieu) {
         vatLieuService.save(vatLieu);
     }
-
 }

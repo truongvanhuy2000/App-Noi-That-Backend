@@ -38,4 +38,14 @@ public class HangMucServiceImpl implements HangMucService {
     public void update(HangMuc hangMuc) {
         hangMucDAO.update(hangMuc);
     }
+
+    @Override
+    public List<HangMucResponse> joinFetchHangMuc() {
+        return null;
+    }
+
+    @Override
+    public HangMucResponse joinFetchHangMucUsingId(int id) {
+        return null;
+    }
 }

@@ -40,4 +40,12 @@ public class PhongCachController {
     public void update(@RequestBody PhongCachNoiThat phongCachNoiThat) {
         phongCachService.update(phongCachNoiThat);
     }
+    @GetMapping("/fetch")
+    public List<PhongCachResponse> joinFetchPhongCach() {
+        return phongCachService.joinFetchPhongCach();
+    }
+    @GetMapping("/fetch/{id}")
+    public PhongCachResponse joinFetchPhongCachUsingId(@PathVariable int id) {
+        return phongCachService.joinFetchPhongCachUsingId(id);
+    }
 }
