@@ -1,7 +1,6 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat;
 
-import com.huy.backendnoithat.Entity.NoiThatEntity;
-import com.huy.backendnoithat.DataModel.NoiThat;
+import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 
 import java.util.List;
 
@@ -11,9 +10,9 @@ public interface NoiThatService {
     List<NoiThat> findAll();
     NoiThat findUsingId(int id);
     NoiThat findUsingName(String name);
-    void save(NoiThatEntity noiThatEntity);
+    void save(NoiThat noiThat, int parentId);
     void deleteById(int id);
-    void update(NoiThatEntity noiThatEntity);
+    void update(NoiThat noiThat);
 
     List<NoiThat> joinFetchNoiThat();
 

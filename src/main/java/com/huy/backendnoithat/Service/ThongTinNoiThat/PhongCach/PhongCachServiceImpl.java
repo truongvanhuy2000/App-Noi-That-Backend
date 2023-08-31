@@ -1,8 +1,15 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.PhongCach;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.PhongCach.PhongCachDAO;
-import com.huy.backendnoithat.Entity.PhongCachNoiThatEntity;
-import com.huy.backendnoithat.DataModel.PhongCach;
+import com.huy.backendnoithat.DTO.BangNoiThat.HangMuc;
+import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
+import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
+import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
+import com.huy.backendnoithat.DTO.BangNoiThat.PhongCach;
+import com.huy.backendnoithat.Entity.BangNoiThat.VatLieuEntity;
+import com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc.HangMucService;
+import com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat.NoiThatService;
+import com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu.VatLieuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,31 +17,31 @@ import java.util.List;
 @Service
 public class PhongCachServiceImpl implements PhongCachService {
     PhongCachDAO phongCachDAO;
+    NoiThatService noiThatService;
     @Autowired
-    public void setPhongCachDAO(PhongCachDAO phongCachDAO) {
+    public PhongCachServiceImpl(PhongCachDAO phongCachDAO, NoiThatService noiThatService) {
         this.phongCachDAO = phongCachDAO;
+        this.noiThatService = noiThatService;
     }
+
     @Override
     public List<PhongCach> findAll() {
         List<PhongCachNoiThatEntity> phongCachNoiThatEntities = phongCachDAO.findAll();
-        List<PhongCach> phongCachRespons = phongCachNoiThatEntities.stream()
+        return phongCachNoiThatEntities.stream()
                 .map(phongCachNoiThat -> new PhongCach(phongCachNoiThat, false)).toList();
-        return phongCachRespons;
     }
     @Override
     public PhongCach findById(int id) {
-        PhongCach phongCach = new PhongCach(phongCachDAO.findById(id), false);
-        return phongCach;
+        return new PhongCach(phongCachDAO.findById(id), false);
     }
     @Override
     public PhongCach findUsingName(String name) {
-        PhongCach phongCach = new PhongCach(phongCachDAO.findUsingName(name), false);
-        return phongCach;
+        return new PhongCach(phongCachDAO.findUsingName(name), false);
     }
 
     @Override
-    public void save(PhongCach phongCachNoiThatEntity) {
-
+    public void save(PhongCach phongCachNoiThat) {
+        PhongCachNoiThatEntity phongCachNoiThatEntity = new PhongCachNoiThatEntity(phongCachNoiThat);
         phongCachDAO.save(phongCachNoiThatEntity);
     }
 
@@ -44,14 +51,17 @@ public class PhongCachServiceImpl implements PhongCachService {
     }
 
     @Override
-    public void update(PhongCach phongCachNoiThatEntity) {
+    public void update(PhongCach phongCachNoi) {
+        PhongCachNoiThatEntity phongCachNoiThatEntity = new PhongCachNoiThatEntity(phongCachNoi);
         phongCachDAO.update(phongCachNoiThatEntity);
     }
 
     @Override
     public List<PhongCach> joinFetchPhongCach() {
-        return phongCachDAO.findAllAndJoinFetch().stream()
-                .map(phongCachNoiThat -> new PhongCach(phongCachNoiThat, true)).toList();
+        List<PhongCach> phongCachList = phongCachDAO.findAllAndJoinFetch().stream()
+                .map(phongCachNoiThat -> new PhongCach(phongCachNoiThat, true)).toList();;
+        List<NoiThat> noiThats = noiThatService.joinFetchNoiThat();
+        return phongCachNoiThatEntities
     }
 
     @Override

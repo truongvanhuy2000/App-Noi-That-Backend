@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc;
 
-import com.huy.backendnoithat.Entity.HangMucEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,11 @@ public class HangMucDAOMysql implements HangMucDAO {
     }
     @Override
     public List<HangMucEntity> findAllAndJoinFetch() {
-        return null;
+        TypedQuery<HangMucEntity> query = entityManager.createQuery(
+                "FROM HangMucEntity hm " +
+                        "JOIN FETCH hm.noiThatEntity nt "
+                , HangMucEntity.class);
+        return query.getResultList();
     }
     @Override
     public HangMucEntity findByIdAndJoinFetch(int id) {

@@ -1,4 +1,4 @@
-package com.huy.backendnoithat.Entity;
+package com.huy.backendnoithat.Entity.Account;
 
 import jakarta.persistence.*;
 import lombok.*;

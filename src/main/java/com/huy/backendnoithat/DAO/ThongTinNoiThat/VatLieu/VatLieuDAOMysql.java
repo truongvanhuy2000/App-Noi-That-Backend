@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.VatLieu;
 
-import com.huy.backendnoithat.Entity.VatLieuEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.VatLieuEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,22 +16,19 @@ public class VatLieuDAOMysql implements VatLieuDAO {
     }
     @Override
     public List<VatLieuEntity> findAll() {
-        TypedQuery<VatLieuEntity> query = entityManager.createQuery("from VatLieuEntity vl order by vl.id", VatLieuEntity.class);
+        TypedQuery<VatLieuEntity> query = entityManager.createQuery("from VatLieuEntity vl join fetch vl.thongSoEntity order by vl.id", VatLieuEntity.class);
         return query.getResultList();
-
     }
     @Override
     public VatLieuEntity findById(int id) {
         return entityManager.find(VatLieuEntity.class, id);
     }
-
     @Override
     public VatLieuEntity findUsingName(String name) {
         TypedQuery<VatLieuEntity> query = entityManager.createQuery("from VatLieuEntity where name = :name", VatLieuEntity.class);
         query.setParameter("name", name);
         return query.getSingleResult();
     }
-
     @Override
     public void save(VatLieuEntity vatLieuEntity) {
         entityManager.persist(vatLieuEntity);
@@ -42,22 +39,22 @@ public class VatLieuDAOMysql implements VatLieuDAO {
         VatLieuEntity vatLieuEntity = entityManager.find(VatLieuEntity.class, id);
         entityManager.remove(vatLieuEntity);
     }
-
     @Override
     public void update(VatLieuEntity vatLieuEntity) {
         entityManager.merge(vatLieuEntity);
     }
-
     @Override
     public List<VatLieuEntity> findAllAndJoinFetch() {
-        return null;
+        TypedQuery<VatLieuEntity> query = entityManager.createQuery(
+                "FROM VatLieuEntity vl " +
+                        "JOIN FETCH vl.thongSoEntity ts "
+                , VatLieuEntity.class);
+        return query.getResultList();
     }
-
     @Override
     public VatLieuEntity findByIdAndJoinFetch(int id) {
         return null;
     }
-
     @Override
     public List<VatLieuEntity> searchByHangMuc(int id) {
         TypedQuery<VatLieuEntity> query = entityManager.createQuery("from VatLieuEntity vl where vl.hangMuc.id = :id order by vl.id", VatLieuEntity.class);

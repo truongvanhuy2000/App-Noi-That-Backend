@@ -1,8 +1,12 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat.NoiThatDAO;
-import com.huy.backendnoithat.Entity.NoiThatEntity;
-import com.huy.backendnoithat.DataModel.NoiThat;
+import com.huy.backendnoithat.DAO.ThongTinNoiThat.PhongCach.PhongCachDAO;
+import com.huy.backendnoithat.DTO.BangNoiThat.PhongCach;
+import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
+import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
+import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
+import com.huy.backendnoithat.Service.ThongTinNoiThat.PhongCach.PhongCachService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,15 +14,16 @@ import java.util.List;
 @Service
 public class NoiThatServiceImpl implements NoiThatService {
     NoiThatDAO noiThatDAO;
+    PhongCachService phongCachService;
     @Autowired
-    public void setNoiThatDAO(NoiThatDAO noiThatDAO) {
+    public NoiThatServiceImpl(NoiThatDAO noiThatDAO, PhongCachService phongCachService) {
         this.noiThatDAO = noiThatDAO;
+        this.phongCachService = phongCachService;
     }
     @Override
     public List<NoiThat> findAll() {
-        List<NoiThat> noiThatRespons = noiThatDAO.findAll().stream()
+        return noiThatDAO.findAll().stream()
                 .map(item -> new NoiThat(item, false)).toList();
-        return noiThatRespons;
     }
     @Override
     public NoiThat findUsingId(int id) {
@@ -31,7 +36,10 @@ public class NoiThatServiceImpl implements NoiThatService {
         return new NoiThat(noiThatEntity, false);
     }
     @Override
-    public void save(NoiThatEntity noiThatEntity) {
+    public void save(NoiThat noiThat, int parentId) {
+        NoiThatEntity noiThatEntity = new NoiThatEntity(noiThat);
+        PhongCachNoiThatEntity phongCachNoiThatEntity = new PhongCachNoiThatEntity(phongCachService.findById(parentId));
+        noiThatEntity.setPhongCachNoiThatEntity(phongCachNoiThatEntity);
         noiThatDAO.save(noiThatEntity);
     }
     @Override
@@ -39,13 +47,13 @@ public class NoiThatServiceImpl implements NoiThatService {
         noiThatDAO.deleteById(id);
     }
     @Override
-    public void update(NoiThatEntity noiThatEntity) {
-        noiThatDAO.update(noiThatEntity);
+    public void update(NoiThat noiThat) {
+        noiThatDAO.update(new NoiThatEntity(noiThat));
     }
-
     @Override
     public List<NoiThat> joinFetchNoiThat() {
-        return null;
+        return noiThatDAO.findAllAndJoinFetch().stream()
+                .map(item -> new NoiThat(item, true)).toList();
     }
 
     @Override

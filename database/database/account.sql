@@ -5,7 +5,7 @@ VALUES
   ('Jane Smith', 'Female', 'jane.smith@example.com', '456 Elm St, Town', '987-654-3210');
 
 -- Account
-INSERT INTO appnoithat.accountEntity (`username`, `password`, `active`, `info_id`, `enabled`)
+INSERT INTO appnoithat.account (`username`, `password`, `active`, `info_id`, `enabled`)
 VALUES
   ('john_doe', '{noop}123456', 1, 1, 1),
   ('admin', '{noop}admin', 1, 2, 1);

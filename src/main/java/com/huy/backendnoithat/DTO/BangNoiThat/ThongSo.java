@@ -1,24 +1,27 @@
-package com.huy.backendnoithat.DataModel;
+package com.huy.backendnoithat.DTO.BangNoiThat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.huy.backendnoithat.Entity.ThongSoEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.ThongSoEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ThongSo {
     @JsonProperty("id")
     private int id;
     @JsonProperty("dai")
-    private float dai;
+    private Float dai;
     @JsonProperty("rong")
-    private float rong;
+    private Float rong;
     @JsonProperty("cao")
-    private float cao;
+    private Float cao;
     @JsonProperty("donVi")
     private String donVi;
     @JsonProperty("donGia")
-    private double donGia;
+    private Double donGia;
     public ThongSo(ThongSoEntity thongSoEntity) {
         this.id = thongSoEntity.getId();
         this.dai = thongSoEntity.getDai();

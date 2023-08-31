@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.Controller.Account;
 
-import com.huy.backendnoithat.Entity.AccountEntity;
+import com.huy.backendnoithat.Entity.Account.AccountEntity;
 import com.huy.backendnoithat.Service.Account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +32,11 @@ public class AccountController {
     public ResponseEntity<String> save(@RequestBody AccountEntity accountEntity) {
         accountService.save(accountEntity);
         return ResponseEntity.ok("Saved successfully.");
+    }
+    @PutMapping("")
+    public ResponseEntity<String> update(@RequestBody AccountEntity accountEntity) {
+        accountService.update(accountEntity);
+        return ResponseEntity.ok("Updated successfully.");
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable(value = "id") int id) {

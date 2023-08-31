@@ -1,7 +1,6 @@
-package com.huy.backendnoithat.Controller.ThongTinNoiTHat;
+package com.huy.backendnoithat.Controller.ThongTinNoiThat;
 
-import com.huy.backendnoithat.Entity.VatLieuEntity;
-import com.huy.backendnoithat.DataModel.VatLieu;
+import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu.VatLieuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,24 +20,24 @@ public class VatLieuController {
         return vatLieuService.findAll();
     }
     @GetMapping("/search")
-    public VatLieu findUsingName(String name) {
+    public VatLieu findUsingName(@RequestParam String name) {
         return vatLieuService.findUsingName(name);
     }
-    @GetMapping("{id}")
-    public VatLieu findById(int id) {
+    @GetMapping("/{id}")
+    public VatLieu findById(@PathVariable int id) {
         return vatLieuService.findUsingId(id);
     }
-    @DeleteMapping("{id}")
-    public void deleteById(int id) {
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable int id) {
         vatLieuService.deleteById(id);
     }
-    @PutMapping("/update")
-    public void update(VatLieuEntity vatLieuEntity) {
-        vatLieuService.update(vatLieuEntity);
+    @PutMapping("")
+    public void update(@RequestBody VatLieu vatLieu) {
+        vatLieuService.update(vatLieu);
     }
-    @PostMapping("/add")
-    public void save(VatLieuEntity vatLieuEntity) {
-        vatLieuService.save(vatLieuEntity);
+    @PostMapping("")
+    public void save(@RequestBody VatLieu vatLieu, @RequestParam("parentId") int parentId) {
+        vatLieuService.save(vatLieu, parentId);
     }
     @GetMapping("/searchByHangMuc/{id}")
     public List<VatLieu> searchByHangMuc(@PathVariable int id) {

@@ -1,7 +1,6 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.PhongCach;
 
-import com.huy.backendnoithat.Entity.PhongCachNoiThatEntity;
-import com.huy.backendnoithat.DataModel.PhongCach;
+import com.huy.backendnoithat.DTO.BangNoiThat.PhongCach;
 
 import java.util.List;
 
@@ -10,9 +9,9 @@ public interface PhongCachService {
     List<PhongCach> findAll();
     PhongCach findById(int id);
     PhongCach findUsingName(String name);
-    void save(PhongCach phongCachNoiThatEntity);
+    void save(PhongCach phongCach);
     void deleteById(int id);
-    void update(PhongCach phongCachNoiThatEntity);
+    void update(PhongCach phongCach);
     List<PhongCach> joinFetchPhongCach();
     PhongCach joinFetchPhongCachUsingId(int id);
 }

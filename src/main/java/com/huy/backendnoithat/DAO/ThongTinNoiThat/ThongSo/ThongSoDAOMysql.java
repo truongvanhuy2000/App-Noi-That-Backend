@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.ThongSo;
 
-import com.huy.backendnoithat.Entity.ThongSoEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.ThongSoEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class ThongSoDAOMysql implements ThongSoDAO {
     }
     @Override
     public List<ThongSoEntity> findAll() {
-        TypedQuery<ThongSoEntity> query = entityManager.createQuery("from ThongSoEntity", ThongSoEntity.class);
+        TypedQuery<ThongSoEntity> query = entityManager.createQuery("from ThongSoEntity ts order by ts.id", ThongSoEntity.class);
         return query.getResultList();
     }
     @Override

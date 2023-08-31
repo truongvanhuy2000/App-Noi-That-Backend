@@ -1,9 +1,10 @@
-package com.huy.backendnoithat.Entity;
+package com.huy.backendnoithat.Entity.BangNoiThat;
 
-import com.huy.backendnoithat.DataModel.PhongCach;
+import com.huy.backendnoithat.DTO.BangNoiThat.PhongCach;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "phongcachnoithat")
@@ -18,12 +19,16 @@ public class PhongCachNoiThatEntity {
     private int id;
     @Column(name="name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "phongCachNoiThat", fetch = FetchType.LAZY)
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "phongCachNoiThatEntity", fetch = FetchType.LAZY)
     private List<NoiThatEntity> noiThatEntity;
     public PhongCachNoiThatEntity(PhongCach phongCach) {
         this.id = phongCach.getId();
         this.name = phongCach.getName();
-        this.noiThatEntity = phongCach.getNoiThatEntity();
+        this.noiThatEntity = new ArrayList<>();
+        if (phongCach.getNoiThat() != null) {
+            this.noiThatEntity = phongCach.getNoiThat().stream().map(NoiThatEntity::new).toList();
+        }
     }
     public void addNoiThat(NoiThatEntity noiThatEntity) {
         this.noiThatEntity.add(noiThatEntity);

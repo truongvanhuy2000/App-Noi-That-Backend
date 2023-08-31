@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat;
 
-import com.huy.backendnoithat.Entity.NoiThatEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
 
 import java.util.List;
 

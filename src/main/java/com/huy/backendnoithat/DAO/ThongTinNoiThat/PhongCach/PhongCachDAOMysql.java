@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.PhongCach;
 
-import com.huy.backendnoithat.Entity.PhongCachNoiThatEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,22 +50,13 @@ public class PhongCachDAOMysql implements PhongCachDAO {
     public List<PhongCachNoiThatEntity> findAllAndJoinFetch() {
         TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery(
                 "FROM PhongCachNoiThatEntity p " +
-                        "LEFT JOIN FETCH p.noiThat nt " +
-                        "LEFT JOIN FETCH nt.hangMuc hm " +
-                        "LEFT JOIN FETCH hm.vatLieu vl " +
-                        "LEFT JOIN FETCH vl.thongSo"
+                        "JOIN FETCH p.noiThatEntity nt "
                 , PhongCachNoiThatEntity.class);
         return query.getResultList();
     }
+    // Not used
     @Override
     public PhongCachNoiThatEntity findByIdAndJoinFetch(int id) {
-        TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery(
-                "SELECT pc FROM PhongCachNoiThatEntity pc "
-                        + "JOIN FETCH pc.noiThat "
-                        + "WHERE pc.id = :id "
-                        + "ORDER BY pc.id "
-                , PhongCachNoiThatEntity.class);
-        entityManager.setProperty("id", id);
-        return query.getSingleResult();
+        return null;
     }
 }

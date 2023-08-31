@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu;
 
-import com.huy.backendnoithat.Entity.VatLieuEntity;
-import com.huy.backendnoithat.DataModel.VatLieu;
+import com.huy.backendnoithat.DTO.BangNoiThat.PhongCach;
+import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
 
 import java.util.List;
 
@@ -10,8 +10,9 @@ public interface VatLieuService {
     List<VatLieu> findAll();
     VatLieu findUsingId(int id);
     VatLieu findUsingName(String name);
-    void save(VatLieuEntity vatLieuEntity);
+    void save(VatLieu vatLieu, int parentId);
     void deleteById(int id);
-    void update(VatLieuEntity vatLieuEntity);
+    void update(VatLieu vatLieu);
+    List<VatLieu> joinFetchVatLieu();
     List<VatLieu> searchByHangMuc(int id);
 }

@@ -1,28 +1,29 @@
-package com.huy.backendnoithat.DataModel;
+package com.huy.backendnoithat.DTO.BangNoiThat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.huy.backendnoithat.Entity.HangMucEntity;
-import com.huy.backendnoithat.Entity.VatLieuEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class HangMuc {
     @JsonProperty("id")
     private int id;
     @JsonProperty("name")
     private String name;
     @JsonProperty("vatLieu")
-    private List<VatLieuEntity> vatLieuEntity;
+    private List<VatLieu> vatLieu;
     public HangMuc(HangMucEntity hangMucEntity, boolean fetchAll) {
-        if (fetchAll) {
-            this.vatLieuEntity = hangMucEntity.getVatLieuEntity();
-        }
-        else {
-            this.vatLieuEntity = null;
-        }
         this.id = hangMucEntity.getId();
         this.name = hangMucEntity.getName();
+        this.vatLieu = new ArrayList<>();
+        if (fetchAll && hangMucEntity.getVatLieuEntity() != null) {
+            this.vatLieu = hangMucEntity.getVatLieuEntity().stream().map(item -> new VatLieu(item, false)).toList();
+        }
     }
 }

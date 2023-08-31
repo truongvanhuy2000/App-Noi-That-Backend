@@ -1,7 +1,6 @@
-package com.huy.backendnoithat.Controller.ThongTinNoiTHat;
+package com.huy.backendnoithat.Controller.ThongTinNoiThat;
 
-import com.huy.backendnoithat.Entity.NoiThatEntity;
-import com.huy.backendnoithat.DataModel.NoiThat;
+import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat.NoiThatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,25 +19,25 @@ public class NoiThatController {
     public List<NoiThat> findAll() {
         return noiThatService.findAll();
     }
-    @GetMapping("{id}")
-    public NoiThat findById(int id) {
+    @GetMapping("/{id}")
+    public NoiThat findById(@PathVariable int id) {
         return noiThatService.findUsingId(id);
     }
     @GetMapping("/search")
-    public NoiThat findUsingName(String name) {
+    public NoiThat findUsingName(@RequestParam String name) {
         return noiThatService.findUsingName(name);
     }
-    @PostMapping("/add")
-    public void save(NoiThatEntity noiThatEntity) {
-        noiThatService.save(noiThatEntity);
+    @PostMapping("")
+    public void save(@RequestBody NoiThat noiThat, @RequestParam("parentId") int parentId) {
+        noiThatService.save(noiThat, parentId);
     }
-    @DeleteMapping("{id}")
-    public void deleteById(int id) {
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable int id) {
         noiThatService.deleteById(id);
     }
-    @PutMapping("/update")
-    public void update(NoiThatEntity noiThatEntity) {
-        noiThatService.update(noiThatEntity);
+    @PutMapping("")
+    public void update(@RequestBody NoiThat noiThat) {
+        noiThatService.update(noiThat);
     }
     @GetMapping("/searchByPhongCach/{id}")
     public List<NoiThat> searchByPhongCach(@PathVariable int id) {

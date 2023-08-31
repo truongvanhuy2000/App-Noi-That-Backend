@@ -1,8 +1,12 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.ThongSo;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.ThongSo.ThongSoDAO;
-import com.huy.backendnoithat.Entity.ThongSoEntity;
-import com.huy.backendnoithat.DataModel.ThongSo;
+import com.huy.backendnoithat.DAO.ThongTinNoiThat.VatLieu.VatLieuDAO;
+import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
+import com.huy.backendnoithat.Entity.BangNoiThat.ThongSoEntity;
+import com.huy.backendnoithat.DTO.BangNoiThat.ThongSo;
+import com.huy.backendnoithat.Entity.BangNoiThat.VatLieuEntity;
+import com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu.VatLieuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +14,11 @@ import java.util.List;
 @Service
 public class ThongSoServiceImpl implements ThongSoService {
     ThongSoDAO thongSoDAO;
+    VatLieuService vatLieuService;
     @Autowired
-    public void setThongSoDAO(ThongSoDAO thongSoDAO) {
+    public ThongSoServiceImpl(ThongSoDAO thongSoDAO, VatLieuService vatLieuService) {
         this.thongSoDAO = thongSoDAO;
+        this.vatLieuService = vatLieuService;
     }
     @Override
     public List<ThongSo> findAll() {
@@ -29,8 +35,11 @@ public class ThongSoServiceImpl implements ThongSoService {
     }
 
     @Override
-    public void save(ThongSoEntity thongSoEntity) {
-        thongSoDAO.save(thongSoEntity);
+    public void save(ThongSo thongSo, int parentId) {
+        ThongSoEntity thongSoEntity = new ThongSoEntity(thongSo);
+        VatLieuEntity vatLieuEntity = new VatLieuEntity(vatLieuService.findUsingId(parentId));
+        thongSoEntity.setVatLieuEntity(vatLieuEntity);
+        thongSoDAO.save(new ThongSoEntity(thongSo));
     }
 
     @Override
@@ -39,8 +48,8 @@ public class ThongSoServiceImpl implements ThongSoService {
     }
 
     @Override
-    public void update(ThongSoEntity thongSoEntity) {
-        thongSoDAO.update(thongSoEntity);
+    public void update(ThongSo thongSo) {
+        thongSoDAO.update(new ThongSoEntity(thongSo));
     }
 
     @Override

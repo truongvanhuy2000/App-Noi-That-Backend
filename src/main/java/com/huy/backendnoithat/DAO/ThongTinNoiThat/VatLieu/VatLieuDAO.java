@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.VatLieu;
 
-import com.huy.backendnoithat.Entity.VatLieuEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.VatLieuEntity;
 
 import java.util.List;
 

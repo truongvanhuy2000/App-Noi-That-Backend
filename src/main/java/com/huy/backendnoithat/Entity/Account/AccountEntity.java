@@ -1,7 +1,9 @@
-package com.huy.backendnoithat.Entity;
+package com.huy.backendnoithat.Entity.Account;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "account")
@@ -18,9 +20,14 @@ public class AccountEntity {
     private String password;
     @Column(name="active")
     private boolean active;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "info_id", referencedColumnName = "id")
     private AccountInformationEntity accountInformationEntity;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountEntity", fetch = FetchType.LAZY)
+    List<RoleEntity> roleEntity;
+
     @Column(name="enabled")
     private boolean enabled;
 }

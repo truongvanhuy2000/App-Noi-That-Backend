@@ -1,8 +1,11 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc.HangMucDAO;
-import com.huy.backendnoithat.Entity.HangMucEntity;
-import com.huy.backendnoithat.DataModel.HangMuc;
+import com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat.NoiThatDAO;
+import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
+import com.huy.backendnoithat.DTO.BangNoiThat.HangMuc;
+import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
+import com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat.NoiThatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +13,11 @@ import java.util.List;
 @Service
 public class HangMucServiceImpl implements HangMucService {
     HangMucDAO hangMucDAO;
+    NoiThatService noiThatService;
     @Autowired
-    public void setHangMucDAO(HangMucDAO hangMucDAO) {
+    public HangMucServiceImpl(HangMucDAO hangMucDAO, NoiThatService noiThatService) {
         this.hangMucDAO = hangMucDAO;
+        this.noiThatService = noiThatService;
     }
     @Override
     public List<HangMuc> findAll() {
@@ -27,7 +32,10 @@ public class HangMucServiceImpl implements HangMucService {
         return new HangMuc(hangMucDAO.findUsingName(name), false);
     }
     @Override
-    public void save(HangMucEntity hangMucEntity) {
+    public void save(HangMuc hangMuc, int parentId) {
+        HangMucEntity hangMucEntity = new HangMucEntity(hangMuc);
+        NoiThatEntity noiThatEntity = new NoiThatEntity(noiThatService.findUsingId(parentId));
+        hangMucEntity.setNoiThatEntity(noiThatEntity);
         hangMucDAO.save(hangMucEntity);
     }
     @Override
@@ -35,13 +43,13 @@ public class HangMucServiceImpl implements HangMucService {
         hangMucDAO.deleteById(id);
     }
     @Override
-    public void update(HangMucEntity hangMucEntity) {
-        hangMucDAO.update(hangMucEntity);
+    public void update(HangMuc hangMuc) {
+        hangMucDAO.update(new HangMucEntity(hangMuc));
     }
 
     @Override
     public List<HangMuc> joinFetchHangMuc() {
-        return null;
+        return hangMucDAO.findAllAndJoinFetch().stream().map(hangMuc -> new HangMuc(hangMuc, true)).toList();
     }
 
     @Override

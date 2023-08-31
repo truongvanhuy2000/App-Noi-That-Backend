@@ -1,7 +1,6 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.ThongSo;
 
-import com.huy.backendnoithat.Entity.ThongSoEntity;
-import com.huy.backendnoithat.DataModel.ThongSo;
+import com.huy.backendnoithat.DTO.BangNoiThat.ThongSo;
 
 import java.util.List;
 
@@ -9,9 +8,8 @@ public interface ThongSoService {
     List<ThongSo> findAll();
     ThongSo findUsingId(int id);
     ThongSo findUsingName(String name);
-    void save(ThongSoEntity thongSoEntity);
+    void save(ThongSo thongSo, int parentId);
     void deleteById(int id);
-    void update(ThongSoEntity thongSoEntity);
-
+    void update(ThongSo thongSo);
     List<ThongSo> searchByVatLieu(int id);
 }

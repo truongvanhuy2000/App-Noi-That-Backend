@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.DAO.Account;
 
-import com.huy.backendnoithat.Entity.AccountEntity;
+import com.huy.backendnoithat.Entity.Account.AccountEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository(value = "mysqlAccountDAO")
 public class AccountDAOMysql implements AccountDAO{
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
     @Autowired
     public AccountDAOMysql(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -19,7 +19,7 @@ public class AccountDAOMysql implements AccountDAO{
 
     @Override
     public List<AccountEntity> findAll() {
-        TypedQuery<AccountEntity> query = entityManager.createQuery("from AccountEntity", AccountEntity.class);
+        TypedQuery<AccountEntity> query = entityManager.createQuery("from AccountEntity acc join fetch acc.roleEntity", AccountEntity.class);
         return query.getResultList();
     }
     @Override
@@ -28,7 +28,7 @@ public class AccountDAOMysql implements AccountDAO{
     }
     @Override
     public AccountEntity findByUsername(String username) {
-        TypedQuery<AccountEntity> query = entityManager.createQuery("from AccountEntity where username = :username", AccountEntity.class);
+        TypedQuery<AccountEntity> query = entityManager.createQuery("from AccountEntity acc join fetch acc.roleEntity where acc.username = :username", AccountEntity.class);
         query.setParameter("username", username);
         return query.getSingleResult();
     }
@@ -36,6 +36,10 @@ public class AccountDAOMysql implements AccountDAO{
     @Transactional
     public void save(AccountEntity accountEntity) {
         entityManager.persist(accountEntity);
+    }
+    @Override
+    public void update(AccountEntity accountEntity) {
+        entityManager.merge(accountEntity);
     }
     @Override
     @Transactional

@@ -1,10 +1,11 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat;
 
-import com.huy.backendnoithat.Entity.NoiThatEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Repository("noiThatDAOMysql")
@@ -33,24 +34,31 @@ public class NoiThatDAOMysql implements NoiThatDAO {
     }
 
     @Override
+    @Transactional
     public void save(NoiThatEntity noiThatEntity) {
         entityManager.persist(noiThatEntity);
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
         NoiThatEntity noiThatEntity = entityManager.find(NoiThatEntity.class, id);
         entityManager.remove(noiThatEntity);
     }
 
     @Override
+    @Transactional
     public void update(NoiThatEntity noiThatEntity) {
         entityManager.merge(noiThatEntity);
     }
 
     @Override
     public List<NoiThatEntity> findAllAndJoinFetch() {
-        return null;
+        TypedQuery<NoiThatEntity> query = entityManager.createQuery(
+                "FROM NoiThatEntity nt " +
+                        "JOIN FETCH nt.hangMucEntity hm "
+                , NoiThatEntity.class);
+        return query.getResultList();
     }
 
     @Override
@@ -60,7 +68,7 @@ public class NoiThatDAOMysql implements NoiThatDAO {
 
     @Override
     public List<NoiThatEntity> searchByPhongCach(int id) {
-        TypedQuery<NoiThatEntity> query = entityManager.createQuery("from NoiThatEntity pc where pc.phongCachNoiThat.id = :id order by pc.id", NoiThatEntity.class);
+        TypedQuery<NoiThatEntity> query = entityManager.createQuery("from NoiThatEntity pc where pc.phongCachNoiThatEntity.id = :id order by pc.id", NoiThatEntity.class);
         query.setParameter("id", id);
         return query.getResultList();
     }

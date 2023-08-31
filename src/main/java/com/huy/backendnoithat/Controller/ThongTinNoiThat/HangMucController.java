@@ -1,7 +1,6 @@
-package com.huy.backendnoithat.Controller.ThongTinNoiTHat;
+package com.huy.backendnoithat.Controller.ThongTinNoiThat;
 
-import com.huy.backendnoithat.Entity.HangMucEntity;
-import com.huy.backendnoithat.DataModel.HangMuc;
+import com.huy.backendnoithat.DTO.BangNoiThat.HangMuc;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc.HangMucService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,24 +20,24 @@ public class HangMucController {
         return hangMucService.findAll();
     }
     @GetMapping("/search")
-    public HangMuc findUsingName(String name) {
+    public HangMuc findUsingName(@RequestParam String name) {
         return hangMucService.findUsingName(name);
     }
-    @GetMapping("{id}")
-    public HangMuc findById(int id) {
+    @GetMapping("/{id}")
+    public HangMuc findById(@PathVariable int id) {
         return hangMucService.findUsingId(id);
     }
-    @DeleteMapping("{id}")
-    public void deleteById(int id) {
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable int id) {
         hangMucService.deleteById(id);
     }
-    @PutMapping("/update")
-    public void update(HangMucEntity hangMucEntity) {
-        hangMucService.update(hangMucEntity);
+    @PutMapping("")
+    public void update(@RequestBody HangMuc hangMuc) {
+        hangMucService.update(hangMuc);
     }
-    @PostMapping("/add")
-    public void save(HangMucEntity hangMucEntity) {
-        hangMucService.save(hangMucEntity);
+    @PostMapping("")
+    public void save(@RequestBody HangMuc hangMuc, @RequestParam("parentId") int parentId) {
+        hangMucService.save(hangMuc, parentId);
     }
     @GetMapping("/searchByNoiThat/{id}")
     public List<HangMuc> searchByNoiThat(@PathVariable int id) {

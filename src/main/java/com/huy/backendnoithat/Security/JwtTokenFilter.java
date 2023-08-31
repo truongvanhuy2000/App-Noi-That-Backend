@@ -21,14 +21,13 @@ import java.util.List;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
-    private JwtTokenUtil jwtTokenUtil;
-    private UserDetailsService userDetailsService;
-    private AccountService accountService;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final UserDetailsService userDetailsService;
+
     @Autowired
     public JwtTokenFilter(JwtTokenUtil jwtTokenUtil, UserDetailsService userDetailsService, AccountService accountService) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
-        this.accountService = accountService;
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request,

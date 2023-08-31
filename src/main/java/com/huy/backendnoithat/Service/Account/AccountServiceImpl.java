@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.Service.Account;
 
 import com.huy.backendnoithat.DAO.Account.AccountDAO;
-import com.huy.backendnoithat.Entity.AccountEntity;
+import com.huy.backendnoithat.Entity.Account.AccountEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -32,6 +32,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void save(AccountEntity accountEntity) {
         accountDAO.save(accountEntity);
+    }
+
+    @Override
+    public void update(AccountEntity accountEntity) {
+        accountDAO.update(accountEntity);
     }
 
     @Override
@@ -68,4 +73,5 @@ public class AccountServiceImpl implements AccountService {
     public List<AccountEntity> findAllEnabled() {
         return accountDAO.findAllEnabled();
     }
+
 }
