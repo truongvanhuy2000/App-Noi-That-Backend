@@ -1,15 +1,8 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.PhongCach;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.PhongCach.PhongCachDAO;
-import com.huy.backendnoithat.DTO.BangNoiThat.HangMuc;
-import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
-import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
 import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
 import com.huy.backendnoithat.DTO.BangNoiThat.PhongCach;
-import com.huy.backendnoithat.Entity.BangNoiThat.VatLieuEntity;
-import com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc.HangMucService;
-import com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat.NoiThatService;
-import com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu.VatLieuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +10,10 @@ import java.util.List;
 @Service
 public class PhongCachServiceImpl implements PhongCachService {
     PhongCachDAO phongCachDAO;
-    NoiThatService noiThatService;
     @Autowired
-    public PhongCachServiceImpl(PhongCachDAO phongCachDAO, NoiThatService noiThatService) {
+    public void setPhongCachDAO(PhongCachDAO phongCachDAO) {
         this.phongCachDAO = phongCachDAO;
-        this.noiThatService = noiThatService;
     }
-
     @Override
     public List<PhongCach> findAll() {
         List<PhongCachNoiThatEntity> phongCachNoiThatEntities = phongCachDAO.findAll();
@@ -58,10 +48,8 @@ public class PhongCachServiceImpl implements PhongCachService {
 
     @Override
     public List<PhongCach> joinFetchPhongCach() {
-        List<PhongCach> phongCachList = phongCachDAO.findAllAndJoinFetch().stream()
-                .map(phongCachNoiThat -> new PhongCach(phongCachNoiThat, true)).toList();;
-        List<NoiThat> noiThats = noiThatService.joinFetchNoiThat();
-        return phongCachNoiThatEntities
+        return phongCachDAO.findAllAndJoinFetch().stream()
+                .map(phongCachNoiThat -> new PhongCach(phongCachNoiThat, true)).toList();
     }
 
     @Override

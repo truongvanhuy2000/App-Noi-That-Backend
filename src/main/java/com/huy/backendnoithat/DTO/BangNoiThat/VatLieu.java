@@ -19,7 +19,7 @@ public class VatLieu {
     public VatLieu(VatLieuEntity vatLieuEntity, boolean fetchAll) {
         this.id = vatLieuEntity.getId();
         this.name = vatLieuEntity.getName();
-        this.thongSo = new ThongSo();
+        this.thongSo = null;
         if (fetchAll && vatLieuEntity.getThongSoEntity() != null) {
             this.thongSo = new ThongSo(vatLieuEntity.getThongSoEntity());
         }
