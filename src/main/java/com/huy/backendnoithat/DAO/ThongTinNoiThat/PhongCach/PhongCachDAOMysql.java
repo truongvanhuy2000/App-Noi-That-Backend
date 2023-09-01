@@ -37,6 +37,7 @@ public class PhongCachDAOMysql implements PhongCachDAO {
         entityManager.persist(phongCachNoiThatEntity);
     }
     @Override
+    @Transactional
     public void deleteById(int id) {
         PhongCachNoiThatEntity phongCachNoiThatEntity = entityManager.find(PhongCachNoiThatEntity.class, id);
         entityManager.remove(phongCachNoiThatEntity);
@@ -57,6 +58,11 @@ public class PhongCachDAOMysql implements PhongCachDAO {
     // Not used
     @Override
     public PhongCachNoiThatEntity findByIdAndJoinFetch(int id) {
-        return null;
+        String jpql = "SELECT DISTINCT a FROM PhongCachNoiThatEntity a "
+                + "JOIN FETCH a.noiThatEntity b "
+                + "WHERE a.id = :id";
+        TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery(jpql, PhongCachNoiThatEntity.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
     }
 }

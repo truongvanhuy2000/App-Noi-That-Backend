@@ -1,6 +1,7 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiThat;
 
 import com.huy.backendnoithat.DTO.BangNoiThat.PhongCach;
+import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.BangNoiThatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,7 @@ public class BangNoiThatController {
         this.bangNoiThatService = bangNoiThatService;
     }
     @GetMapping("/fetchAll")
-    public List<PhongCach> fetchAll() {
+    public List<PhongCachNoiThatEntity> fetchAll() {
         return bangNoiThatService.fetchAll();
     }
 }

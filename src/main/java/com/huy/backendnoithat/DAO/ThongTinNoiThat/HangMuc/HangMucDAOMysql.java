@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,15 +32,18 @@ public class HangMucDAOMysql implements HangMucDAO {
         return query.getSingleResult();
     }
     @Override
+    @Transactional
     public void save(HangMucEntity hangMucEntity) {
         entityManager.persist(hangMucEntity);
     }
     @Override
+    @Transactional
     public void deleteById(int id) {
         HangMucEntity hangMucEntity = entityManager.find(HangMucEntity.class, id);
         entityManager.remove(hangMucEntity);
     }
     @Override
+    @Transactional
     public void update(HangMucEntity hangMucEntity) {
         entityManager.merge(hangMucEntity);
     }

@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Repository("vatLieuDAOMysql")
@@ -30,16 +31,19 @@ public class VatLieuDAOMysql implements VatLieuDAO {
         return query.getSingleResult();
     }
     @Override
+    @Transactional
     public void save(VatLieuEntity vatLieuEntity) {
         entityManager.persist(vatLieuEntity);
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
         VatLieuEntity vatLieuEntity = entityManager.find(VatLieuEntity.class, id);
         entityManager.remove(vatLieuEntity);
     }
     @Override
+    @Transactional
     public void update(VatLieuEntity vatLieuEntity) {
         entityManager.merge(vatLieuEntity);
     }
