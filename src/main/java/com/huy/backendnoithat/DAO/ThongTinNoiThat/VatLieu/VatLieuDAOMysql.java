@@ -61,7 +61,7 @@ public class VatLieuDAOMysql implements VatLieuDAO {
     }
     @Override
     public List<VatLieuEntity> searchByHangMuc(int id) {
-        TypedQuery<VatLieuEntity> query = entityManager.createQuery("from VatLieuEntity vl where vl.hangMuc.id = :id order by vl.id", VatLieuEntity.class);
+        TypedQuery<VatLieuEntity> query = entityManager.createQuery("from VatLieuEntity vl where vl.hangMucEntity.id = :id order by vl.id", VatLieuEntity.class);
         query.setParameter("id", id);
         return query.getResultList();
     }

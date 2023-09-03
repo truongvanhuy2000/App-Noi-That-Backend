@@ -55,7 +55,7 @@ public class ThongSoDAOMysql implements ThongSoDAO {
 
     @Override
     public List<ThongSoEntity> searchByVatLieu(int id) {
-        TypedQuery<ThongSoEntity> query = entityManager.createQuery("from ThongSoEntity pc where pc.vatLieu.id = :id", ThongSoEntity.class);
+        TypedQuery<ThongSoEntity> query = entityManager.createQuery("from ThongSoEntity pc where pc.vatLieuEntity.id = :id", ThongSoEntity.class);
         query.setParameter("id", id);
         return query.getResultList();
     }

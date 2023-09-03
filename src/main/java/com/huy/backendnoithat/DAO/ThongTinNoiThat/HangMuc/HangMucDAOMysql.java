@@ -62,7 +62,7 @@ public class HangMucDAOMysql implements HangMucDAO {
 
     @Override
     public List<HangMucEntity> searchByNoiThat(int id) {
-        TypedQuery<HangMucEntity> query = entityManager.createQuery("from HangMucEntity pc where pc.noiThat.id = :id order by pc.id", HangMucEntity.class);
+        TypedQuery<HangMucEntity> query = entityManager.createQuery("from HangMucEntity pc where pc.noiThatEntity.id = :id order by pc.id", HangMucEntity.class);
         query.setParameter("id", id);
         return query.getResultList();
     }

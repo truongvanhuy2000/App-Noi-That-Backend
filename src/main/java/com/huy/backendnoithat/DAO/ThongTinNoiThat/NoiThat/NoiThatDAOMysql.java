@@ -68,7 +68,8 @@ public class NoiThatDAOMysql implements NoiThatDAO {
 
     @Override
     public List<NoiThatEntity> searchByPhongCach(int id) {
-        TypedQuery<NoiThatEntity> query = entityManager.createQuery("from NoiThatEntity pc where pc.phongCachNoiThatEntity.id = :id order by pc.id", NoiThatEntity.class);
+        TypedQuery<NoiThatEntity> query = entityManager.createQuery(
+                "from NoiThatEntity pc where pc.phongCachNoiThatEntity.id = :id order by pc.id", NoiThatEntity.class);
         query.setParameter("id", id);
         return query.getResultList();
     }
