@@ -39,7 +39,7 @@ public class ThongSoServiceImpl implements ThongSoService {
         ThongSoEntity thongSoEntity = new ThongSoEntity(thongSo);
         VatLieuEntity vatLieuEntity = new VatLieuEntity(vatLieuService.findUsingId(parentId));
         thongSoEntity.setVatLieuEntity(vatLieuEntity);
-        thongSoDAO.save(new ThongSoEntity(thongSo));
+        thongSoDAO.save(thongSoEntity);
     }
 
     @Override

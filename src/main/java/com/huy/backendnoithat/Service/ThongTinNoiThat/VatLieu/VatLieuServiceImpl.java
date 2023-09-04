@@ -37,7 +37,7 @@ public class VatLieuServiceImpl implements VatLieuService {
         VatLieuEntity vatLieuEntity = new VatLieuEntity(vatLieu);
         HangMucEntity hangMucEntity = new HangMucEntity(hangMucService.findUsingId(parentId));
         vatLieuEntity.setHangMucEntity(hangMucEntity);
-        vatLieuDAO.save(new VatLieuEntity(vatLieu));
+        vatLieuDAO.save(vatLieuEntity);
     }
     @Override
     public void deleteById(int id) {
