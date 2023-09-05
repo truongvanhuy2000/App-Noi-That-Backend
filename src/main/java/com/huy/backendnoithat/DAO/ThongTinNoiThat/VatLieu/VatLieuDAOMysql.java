@@ -2,6 +2,7 @@ package com.huy.backendnoithat.DAO.ThongTinNoiThat.VatLieu;
 
 import com.huy.backendnoithat.Entity.BangNoiThat.VatLieuEntity;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -45,12 +46,12 @@ public class VatLieuDAOMysql implements VatLieuDAO {
     @Override
     @Transactional
     public void update(VatLieuEntity vatLieuEntity) {
-        TypedQuery<VatLieuEntity> query = entityManager.createQuery(
-                "update VatLieuEntity set name = :name where id = :id",
-                VatLieuEntity.class);
+        String updateQuery = "update VatLieuEntity set name = :name where id = :id";
+        Query query = entityManager.createNativeQuery(updateQuery);
         query.setParameter("name", vatLieuEntity.getName());
         query.setParameter("id", vatLieuEntity.getId());
-        query.executeUpdate();
+        int rowsAffected = query.executeUpdate();
+
     }
     @Override
     public List<VatLieuEntity> findAllAndJoinFetch() {
