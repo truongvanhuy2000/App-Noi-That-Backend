@@ -2,6 +2,7 @@ package com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat;
 
 import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -49,9 +50,8 @@ public class NoiThatDAOMysql implements NoiThatDAO {
     @Override
     @Transactional
     public void update(NoiThatEntity noiThatEntity) {
-        TypedQuery<NoiThatEntity> query = entityManager.createQuery(
-                "update NoiThatEntity set name = :name where id = :id",
-                NoiThatEntity.class);
+        Query query = entityManager.createNativeQuery(
+                "update noithat set name = :name where id = :id");
         query.setParameter("name", noiThatEntity.getName());
         query.setParameter("id", noiThatEntity.getId());
         query.executeUpdate();

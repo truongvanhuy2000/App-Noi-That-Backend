@@ -2,6 +2,7 @@ package com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc;
 
 import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -45,9 +46,8 @@ public class HangMucDAOMysql implements HangMucDAO {
     @Override
     @Transactional
     public void update(HangMucEntity hangMucEntity) {
-        TypedQuery<HangMucEntity> query = entityManager.createQuery(
-                "update HangMucEntity set name = :name where id = :id",
-                HangMucEntity.class);
+        Query query = entityManager.createNativeQuery(
+                "update hangmuc set name = :name where id = :id");
         query.setParameter("name", hangMucEntity.getName());
         query.setParameter("id", hangMucEntity.getId());
         query.executeUpdate();

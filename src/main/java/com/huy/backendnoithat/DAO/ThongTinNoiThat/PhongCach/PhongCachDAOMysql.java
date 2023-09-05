@@ -2,6 +2,7 @@ package com.huy.backendnoithat.DAO.ThongTinNoiThat.PhongCach;
 
 import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +46,8 @@ public class PhongCachDAOMysql implements PhongCachDAO {
     @Override
     @Transactional
     public void update(PhongCachNoiThatEntity phongCachNoiThatEntity) {
-        TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery(
-                "update PhongCachNoiThatEntity set name = :name where id = :id",
-                PhongCachNoiThatEntity.class);
+        Query query = entityManager.createNativeQuery(
+                "update phongcachnoithat set name = :name where id = :id");
         query.setParameter("name", phongCachNoiThatEntity.getName());
         query.setParameter("id", phongCachNoiThatEntity.getId());
         query.executeUpdate();
