@@ -45,7 +45,12 @@ public class HangMucDAOMysql implements HangMucDAO {
     @Override
     @Transactional
     public void update(HangMucEntity hangMucEntity) {
-        entityManager.merge(hangMucEntity);
+        TypedQuery<HangMucEntity> query = entityManager.createQuery(
+                "update HangMucEntity set name = :name where id = :id",
+                HangMucEntity.class);
+        query.setParameter("name", hangMucEntity.getName());
+        query.setParameter("id", hangMucEntity.getId());
+        query.executeUpdate();
     }
     @Override
     public List<HangMucEntity> findAllAndJoinFetch() {

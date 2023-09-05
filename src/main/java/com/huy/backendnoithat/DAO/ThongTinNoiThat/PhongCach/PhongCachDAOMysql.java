@@ -45,7 +45,12 @@ public class PhongCachDAOMysql implements PhongCachDAO {
     @Override
     @Transactional
     public void update(PhongCachNoiThatEntity phongCachNoiThatEntity) {
-        entityManager.merge(phongCachNoiThatEntity);
+        TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery(
+                "update PhongCachNoiThatEntity set name = :name where id = :id",
+                PhongCachNoiThatEntity.class);
+        query.setParameter("name", phongCachNoiThatEntity.getName());
+        query.setParameter("id", phongCachNoiThatEntity.getId());
+        query.executeUpdate();
     }
     @Override
     public List<PhongCachNoiThatEntity> findAllAndJoinFetch() {

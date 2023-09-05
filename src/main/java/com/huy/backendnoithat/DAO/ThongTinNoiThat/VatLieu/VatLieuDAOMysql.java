@@ -45,7 +45,12 @@ public class VatLieuDAOMysql implements VatLieuDAO {
     @Override
     @Transactional
     public void update(VatLieuEntity vatLieuEntity) {
-        entityManager.merge(vatLieuEntity);
+        TypedQuery<VatLieuEntity> query = entityManager.createQuery(
+                "update VatLieuEntity set name = :name where id = :id",
+                VatLieuEntity.class);
+        query.setParameter("name", vatLieuEntity.getName());
+        query.setParameter("id", vatLieuEntity.getId());
+        query.executeUpdate();
     }
     @Override
     public List<VatLieuEntity> findAllAndJoinFetch() {

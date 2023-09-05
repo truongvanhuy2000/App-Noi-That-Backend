@@ -49,7 +49,12 @@ public class NoiThatDAOMysql implements NoiThatDAO {
     @Override
     @Transactional
     public void update(NoiThatEntity noiThatEntity) {
-        entityManager.merge(noiThatEntity);
+        TypedQuery<NoiThatEntity> query = entityManager.createQuery(
+                "update NoiThatEntity set name = :name where id = :id",
+                NoiThatEntity.class);
+        query.setParameter("name", noiThatEntity.getName());
+        query.setParameter("id", noiThatEntity.getId());
+        query.executeUpdate();
     }
 
     @Override
