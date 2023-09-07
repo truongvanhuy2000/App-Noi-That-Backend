@@ -13,7 +13,6 @@ public interface AccountDAO {
     void deleteById(int id);
     void activateAccount(int id);
     void deactivateAccount(int id);
-    void updateAccount(AccountEntity accountEntity);
     List<AccountEntity> findAllNotEnabled();
     void enableAccount(int id);
     void disableAccount(int id);

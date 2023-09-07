@@ -70,23 +70,19 @@ public class AccountDAOMysql implements AccountDAO{
     @Override
     @Transactional
     public void activateAccount(int id) {
-        AccountEntity accountEntity = entityManager.find(AccountEntity.class, id);
-        accountEntity.setActive(true);
-        updateAccount(accountEntity);
+        Query query = entityManager.createQuery(
+                "UPDATE AccountEntity acc SET acc.active = true WHERE acc.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
     @Override
     @Transactional
     public void deactivateAccount(int id) {
-        AccountEntity accountEntity = entityManager.find(AccountEntity.class, id);
-        accountEntity.setActive(false);
-        updateAccount(accountEntity);
+        Query query = entityManager.createQuery(
+                "UPDATE AccountEntity acc SET acc.active = false WHERE acc.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
-    @Override
-    @Transactional
-    public void updateAccount(AccountEntity accountEntity) {
-        entityManager.merge(accountEntity);
-    }
-
     @Override
     public List<AccountEntity> findAllNotEnabled() {
         TypedQuery<AccountEntity> query = entityManager.createQuery("from AccountEntity where enabled = false", AccountEntity.class);
@@ -100,16 +96,18 @@ public class AccountDAOMysql implements AccountDAO{
     @Transactional
     @Override
     public void enableAccount(int id) {
-        AccountEntity accountEntity = entityManager.find(AccountEntity.class, id);
-        accountEntity.setEnabled(true);
-        updateAccount(accountEntity);
+        Query query = entityManager.createQuery(
+                "UPDATE AccountEntity acc SET acc.enabled = true WHERE acc.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
     @Transactional
     @Override
     public void disableAccount(int id) {
-        AccountEntity accountEntity = entityManager.find(AccountEntity.class, id);
-        accountEntity.setEnabled(false);
-        updateAccount(accountEntity);
+        Query query = entityManager.createQuery(
+                "UPDATE AccountEntity acc SET acc.enabled = false WHERE acc.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 
 
