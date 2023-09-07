@@ -2,6 +2,7 @@ package com.huy.backendnoithat.DAO.Account;
 
 import com.huy.backendnoithat.Entity.Account.AccountEntity;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,29 @@ public class AccountDAOMysql implements AccountDAO{
 
     @Override
     public List<AccountEntity> findAll() {
-        TypedQuery<AccountEntity> query = entityManager.createQuery("from AccountEntity acc join fetch acc.roleEntity", AccountEntity.class);
+        TypedQuery<AccountEntity> query = entityManager.createQuery(
+                "from AccountEntity acc " +
+                        "join fetch acc.roleEntity " +
+                        "join fetch acc.accountInformationEntity", AccountEntity.class);
         return query.getResultList();
     }
     @Override
     public AccountEntity findById(int id) {
-        return entityManager.find(AccountEntity.class, id);
+        TypedQuery<AccountEntity> query = entityManager.createQuery(
+                "from AccountEntity acc " +
+                        "join fetch acc.roleEntity " +
+                        "join fetch acc.accountInformationEntity " +
+                        "where acc.id = :id", AccountEntity.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
     }
     @Override
     public AccountEntity findByUsername(String username) {
-        TypedQuery<AccountEntity> query = entityManager.createQuery("from AccountEntity acc join fetch acc.roleEntity where acc.username = :username", AccountEntity.class);
+        TypedQuery<AccountEntity> query = entityManager.createQuery(
+                "from AccountEntity acc " +
+                        "join fetch acc.roleEntity " +
+                        "join fetch acc.accountInformationEntity " +
+                        "where acc.username = :username", AccountEntity.class);
         query.setParameter("username", username);
         return query.getSingleResult();
     }
@@ -38,8 +52,14 @@ public class AccountDAOMysql implements AccountDAO{
         entityManager.persist(accountEntity);
     }
     @Override
-    public void update(AccountEntity accountEntity) {
-        entityManager.merge(accountEntity);
+    @Transactional
+    public void update(String username, String password, int id) {
+        Query query = entityManager.createQuery(
+                "UPDATE AccountEntity acc SET acc.username = :username, acc.password = :password WHERE acc.id = :id");
+        query.setParameter("username", username);
+        query.setParameter("password", password);
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
     @Override
     @Transactional

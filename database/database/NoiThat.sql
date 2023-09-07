@@ -18,7 +18,7 @@ CREATE TABLE `accountinformation` (
 
 CREATE TABLE `roles` (
 `id` integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
-`username` varchar(50) NOT NULL,
+`account_id` integer NOT NULL,
 `role` varchar(50) NOT NULL
 )ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
 
@@ -63,6 +63,6 @@ ALTER TABLE `vatlieu` ADD FOREIGN KEY (`hang_muc_id`) REFERENCES `hangmuc` (`id`
 
 ALTER TABLE `vatlieu` ADD FOREIGN KEY (`thong_so_id`) REFERENCES `thongso` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE `roles` ADD FOREIGN KEY (`username`) REFERENCES `account` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `roles` ADD FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE `account` ADD FOREIGN KEY (`info_id`) REFERENCES `accountinformation` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
