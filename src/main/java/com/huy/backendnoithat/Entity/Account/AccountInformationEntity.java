@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.Entity.Account;
 
+import com.huy.backendnoithat.DTO.AccountManagement.AccountInformation;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,4 +24,12 @@ public class AccountInformationEntity {
     private String email;
     @Column(name="gender")
     private String gender;
+    public AccountInformationEntity(AccountInformation accountInformation) {
+        this.id = accountInformation.getId();
+        this.name = accountInformation.getName();
+        this.phone = accountInformation.getPhone();
+        this.address = accountInformation.getAddress();
+        this.email = accountInformation.getEmail();
+        this.gender = accountInformation.getGender();
+    }
 }

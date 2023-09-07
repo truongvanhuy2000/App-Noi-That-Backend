@@ -1,6 +1,8 @@
 package com.huy.backendnoithat.DTO.AccountManagement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.huy.backendnoithat.Entity.Account.AccountEntity;
+import com.huy.backendnoithat.Entity.Account.RoleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,4 +25,13 @@ public class Account {
     private List<String> roles;
     @JsonProperty("accountInformation")
     private AccountInformation accountInformation;
+    public Account(AccountEntity accountEntity) {
+        this.id = accountEntity.getId();
+        this.username = accountEntity.getUsername();
+        this.password = accountEntity.getPassword();
+        this.active = accountEntity.isActive();
+        this.enabled = accountEntity.isEnabled();
+        this.roles = accountEntity.getRoleEntity().stream().map(RoleEntity::getRole).toList();
+        this.accountInformation = new AccountInformation(accountEntity.getAccountInformationEntity());
+    }
 }

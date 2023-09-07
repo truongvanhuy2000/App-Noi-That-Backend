@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.Entity.Account;
 
+import com.huy.backendnoithat.DTO.AccountManagement.Account;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,4 +31,13 @@ public class AccountEntity {
 
     @Column(name="enabled")
     private boolean enabled;
+
+    public AccountEntity(Account account) {
+        this.id = account.getId();
+        this.username = account.getUsername();
+        this.password = account.getPassword();
+        this.active = account.isActive();
+        this.enabled = account.isEnabled();
+        this.accountInformationEntity = new AccountInformationEntity(account.getAccountInformation());
+    }
 }
