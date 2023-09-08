@@ -11,10 +11,10 @@ VALUES
   ('admin', '{noop}admin', 1, 2, 1);
 
 -- Roles
-INSERT INTO appnoithat.roles (`username`, `role`)
+INSERT INTO appnoithat.roles (`account_id`, `role`)
 VALUES
-  ('john_doe', 'ROLE_USER'),
-  ('admin', 'ROLE_ADMIN');
+  (1, 'ROLE_USER'),
+  (2, 'ROLE_ADMIN');
 	 
 
 

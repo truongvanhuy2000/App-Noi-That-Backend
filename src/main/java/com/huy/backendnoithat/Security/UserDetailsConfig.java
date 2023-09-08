@@ -16,7 +16,11 @@ public class UserDetailsConfig {
                 "SELECT username, password, active FROM account WHERE username=?"
         );
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
-                "SELECT username, role FROM roles where username=?"
+                "SELECT account.username, roles.role\n" +
+                        "FROM account\n" +
+                        "INNER JOIN roles\n" +
+                        "ON account.id=roles.id\n" +
+                        "WHERE account.username=?"
         );
         return jdbcUserDetailsManager;
     }

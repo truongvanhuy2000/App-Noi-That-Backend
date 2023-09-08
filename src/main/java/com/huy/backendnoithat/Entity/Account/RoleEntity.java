@@ -14,8 +14,8 @@ public class RoleEntity {
     @Column(name="id")
     private int id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="username", referencedColumnName = "username")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="account_id", referencedColumnName = "id")
     @Setter(AccessLevel.NONE) @Getter(AccessLevel.NONE)
     private AccountEntity accountEntity;
 

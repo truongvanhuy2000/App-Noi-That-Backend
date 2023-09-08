@@ -22,7 +22,7 @@ public class AccountEntity {
     @Column(name="active")
     private boolean active;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "info_id", referencedColumnName = "id")
     private AccountInformationEntity accountInformationEntity;
 
@@ -38,6 +38,7 @@ public class AccountEntity {
         this.password = account.getPassword();
         this.active = account.isActive();
         this.enabled = account.isEnabled();
+        this.roleEntity = account.getRoles().stream().map(item -> new RoleEntity(0, this, item)).toList();
         this.accountInformationEntity = new AccountInformationEntity(account.getAccountInformation());
     }
 }

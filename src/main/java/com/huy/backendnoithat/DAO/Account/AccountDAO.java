@@ -9,11 +9,10 @@ public interface AccountDAO {
     AccountEntity findById(int id);
     AccountEntity findByUsername(String username);
     void save(AccountEntity accountEntity);
-    void update(AccountEntity accountEntity);
+    void update(String username, String password, int id);
     void deleteById(int id);
     void activateAccount(int id);
     void deactivateAccount(int id);
-    void updateAccount(AccountEntity accountEntity);
     List<AccountEntity> findAllNotEnabled();
     void enableAccount(int id);
     void disableAccount(int id);
