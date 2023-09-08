@@ -17,8 +17,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class LoginController {
-    private AuthenticationManager authenticationManager;
-    private JwtTokenUtil jwtTokenUtil;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenUtil jwtTokenUtil;
     @Autowired
     public LoginController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil) {
         this.authenticationManager = authenticationManager;
