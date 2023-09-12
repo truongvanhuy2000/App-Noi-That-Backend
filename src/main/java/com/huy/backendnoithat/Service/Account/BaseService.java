@@ -1,4 +1,7 @@
 package com.huy.backendnoithat.Service.Account;
 
-public class BaseService {
+import com.huy.backendnoithat.DTO.AccountManagement.Account;
+
+public interface BaseService {
+    Account getAccountInformation(String username);
 }
