@@ -10,11 +10,11 @@
 
 CREATE TABLE `accountinformation` (
 `id` integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
-`name` nvarchar(255) NOT NULL,
-`gender` varchar(255) NOT NULL,
-`email` varchar(255) UNIQUE NOT NULL,
-`address` varchar(255) NOT NULL,
-`phone` varchar(255) UNIQUE NOT NULL
+`name` nvarchar(255) ,
+`gender` varchar(255) ,
+`email` varchar(255) ,
+`address` varchar(255) ,
+`phone` varchar(255) 
 )ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
 
 CREATE TABLE `roles` (
@@ -25,26 +25,26 @@ CREATE TABLE `roles` (
 
 CREATE TABLE `phongcachnoithat` (
 `id` integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
-`name` nvarchar(255) NOT NULL
+`name` nvarchar(255) 
 )ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
 
 CREATE TABLE `noithat` (
 `id` integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
-`name` nvarchar(255)  NOT NULL,
-`phong_cach_id` integer NOT NULL
+`name` nvarchar(255)  ,
+`phong_cach_id` integer 
 )ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
 
 CREATE TABLE `hangmuc` (
 `id` integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
-`name` nvarchar(255)  NOT NULL,
-`noi_that_id` integer NOT NULL
+`name` nvarchar(255)  ,
+`noi_that_id` integer 
 )ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
 
 CREATE TABLE `vatlieu` (
 `id` integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
-`name` nvarchar(500)  NOT NULL,
-`hang_muc_id` integer NOT NULL,
-`thong_so_id` integer NOT NULL
+`name` nvarchar(500)  ,
+`hang_muc_id` integer ,
+`thong_so_id` integer 
 )ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
 
 CREATE TABLE `thongso` (
