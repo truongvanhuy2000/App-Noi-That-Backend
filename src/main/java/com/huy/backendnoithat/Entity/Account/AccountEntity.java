@@ -4,6 +4,7 @@ import com.huy.backendnoithat.DTO.AccountManagement.Account;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -27,11 +28,13 @@ public class AccountEntity {
     private AccountInformationEntity accountInformationEntity;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountEntity", fetch = FetchType.LAZY)
-    List<RoleEntity> roleEntity;
+    private List<RoleEntity> roleEntity;
 
     @Column(name="enabled")
     private boolean enabled;
 
+    @Column(name="expire_date")
+    private Date expiredDate;
     public AccountEntity(Account account) {
         this.id = account.getId();
         this.username = account.getUsername();
@@ -40,5 +43,6 @@ public class AccountEntity {
         this.enabled = account.isEnabled();
         this.roleEntity = account.getRoles().stream().map(item -> new RoleEntity(0, this, item)).toList();
         this.accountInformationEntity = new AccountInformationEntity(account.getAccountInformation());
+        this.expiredDate = new Date(Date.valueOf(account.getExpiredDate()).getTime());
     }
 }

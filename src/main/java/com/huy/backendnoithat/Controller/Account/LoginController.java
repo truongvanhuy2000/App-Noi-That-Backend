@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.Controller.Account;
 
+import com.huy.backendnoithat.Service.Account.LoginService;
 import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,25 +18,16 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class LoginController {
-    private AuthenticationManager authenticationManager;
-    private JwtTokenUtil jwtTokenUtil;
+    private final LoginService loginService;
     @Autowired
-    public LoginController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil) {
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenUtil = jwtTokenUtil;
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
     }
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody) {
         String username = requestBody.get("username");
         String password = requestBody.get("password");
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        username,
-                        password
-                )
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtTokenUtil.generateAccessToken(username);
+        String token = loginService.login(username, password);
         return ResponseEntity.ok(token);
     }
 }

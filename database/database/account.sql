@@ -5,10 +5,10 @@ VALUES
   ('Jane Smith', 'Female', 'jane.smith@example.com', '456 Elm St, Town', '987-654-3210');
 
 -- Account
-INSERT INTO appnoithat.account (`username`, `password`, `active`, `info_id`, `enabled`)
+INSERT INTO appnoithat.account (`username`, `password`, `active`, `info_id`, `enabled`, `expire_date`)
 VALUES
-  ('john_doe', '{noop}123456', 1, 1, 1),
-  ('admin', '{noop}admin', 1, 2, 1);
+  ('john_doe', '{noop}123456', 1, 1, 1, '2023-12-31'),
+  ('admin', '{noop}admin', 1, 2, 1, '2300-12-31');
 
 -- Roles
 INSERT INTO appnoithat.roles (`account_id`, `role`)

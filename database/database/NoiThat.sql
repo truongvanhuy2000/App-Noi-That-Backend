@@ -4,7 +4,8 @@
 `password` varchar(50) NOT NULL,
 `active` tinyint NOT NULL,
 `info_id` integer NOT NULL,
-`enabled` tinyint NOT NULL
+`enabled` tinyint NOT NULL,
+`expire_date` DATE
 )ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
 
 CREATE TABLE `accountinformation` (
