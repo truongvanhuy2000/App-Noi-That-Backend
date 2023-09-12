@@ -35,14 +35,10 @@ public class LoginServiceImpl implements LoginService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtTokenUtil.generateAccessToken(username);
         Account account = accountService.findByUsername(username);
-        ObjectNode responseObject = objectMapper.createObjectNode();
-        ObjectNode accountObject = objectMapper.createObjectNode();
-        try {
-            responseObject.put("account", objectMapper.writeValueAsString(account));
-            responseObject.put("token", token);
-            return objectMapper.writeValueAsString(responseObject);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+//        ObjectNode responseObject = objectMapper.createObjectNode();
+//        ObjectNode accountObject = objectMapper.createObjectNode();
+        //            responseObject.put("account", objectMapper.writeValueAsString(account));
+//        responseObject.put("token", token);
+        return token;
     }
 }
