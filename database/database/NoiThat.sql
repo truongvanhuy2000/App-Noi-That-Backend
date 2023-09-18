@@ -52,8 +52,8 @@ CREATE TABLE `thongso` (
 `dai` float,
 `rong` float,
 `cao` float,
-`don_vi` nvarchar(100) NOT NULL,
-`don_gia` integer NOT NULL
+`don_vi` nvarchar(100),
+`don_gia` integer
 )ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
 
 ALTER TABLE `noithat` ADD FOREIGN KEY (`phong_cach_id`) REFERENCES `phongcachnoithat` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
