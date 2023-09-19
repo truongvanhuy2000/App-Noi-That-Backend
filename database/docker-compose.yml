@@ -21,17 +21,17 @@ services:
       - cat
     command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_520_ci', '--default-authentication-plugin=mysql_native_password']
 
-  backend:
-    image: truongvanhuy2000/appnoithatbackend
-    restart: always
-    ports:
-      - "8080:8080"
-    depends_on:
-      db:
-        condition: service_healthy
-    networks:
-      - cat
-    environment:
-        DB_HOST: db
+#  backend:
+#    image: truongvanhuy2000/appnoithatbackend
+#    restart: always
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#    networks:
+#      - cat
+#    environment:
+#        DB_HOST: db
 networks:
   cat:

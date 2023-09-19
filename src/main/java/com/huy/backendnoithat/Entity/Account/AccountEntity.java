@@ -38,7 +38,12 @@ public class AccountEntity {
     public AccountEntity(Account account) {
         this.id = account.getId();
         this.username = account.getUsername();
-        this.password = account.getPassword();
+        if (account.getPassword().contains("{noop}")) {
+            this.password = account.getPassword();
+        }
+        else {
+            this.password = account.getPassword().replace("{noop}", "");
+        }
         this.active = account.isActive();
         this.enabled = account.isEnabled();
         this.roleEntity = account.getRoles().stream().map(item -> new RoleEntity(0, this, item)).toList();
