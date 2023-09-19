@@ -42,7 +42,7 @@ public class AccountEntity {
             this.password = account.getPassword();
         }
         else {
-            this.password = account.getPassword().replace("{noop}", "");
+            this.password = "{noop}" + account.getPassword();
         }
         this.active = account.isActive();
         this.enabled = account.isEnabled();
