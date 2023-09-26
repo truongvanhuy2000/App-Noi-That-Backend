@@ -13,6 +13,7 @@ services:
       MYSQL_PASSWORD: huy2000
     volumes:
       - "./database:/docker-entrypoint-initdb.d"
+      -  "/home/appnoithat/mysqlDB:/var/lib/mysql"
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 20s
