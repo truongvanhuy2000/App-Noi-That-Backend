@@ -16,31 +16,31 @@ public class VatLieuController {
         this.vatLieuService = vatLieuService;
     }
     @GetMapping("")
-    public List<VatLieu> findAll() {
-        return vatLieuService.findAll();
+    public List<VatLieu> findAll(@RequestParam(value = "owner") String owner) {
+        return vatLieuService.findAll(owner);
     }
     @GetMapping("/search")
-    public VatLieu findUsingName(@RequestParam String name) {
-        return vatLieuService.findUsingName(name);
+    public VatLieu findUsingName(@RequestParam(value = "owner") String owner, @RequestParam String name) {
+        return vatLieuService.findUsingName(owner, name);
     }
     @GetMapping("/{id}")
-    public VatLieu findById(@PathVariable int id) {
-        return vatLieuService.findUsingId(id);
+    public VatLieu findById(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        return vatLieuService.findUsingId(owner, id);
     }
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id) {
-        vatLieuService.deleteById(id);
+    public void deleteById(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        vatLieuService.deleteById(owner, id);
     }
     @PutMapping("")
-    public void update(@RequestBody VatLieu vatLieu) {
-        vatLieuService.update(vatLieu);
+    public void update(@RequestParam(value = "owner") String owner, @RequestBody VatLieu vatLieu) {
+        vatLieuService.update(owner, vatLieu);
     }
     @PostMapping("")
-    public void save(@RequestBody VatLieu vatLieu, @RequestParam("parentId") int parentId) {
-        vatLieuService.save(vatLieu, parentId);
+    public void save(@RequestParam(value = "owner") String owner, @RequestBody VatLieu vatLieu, @RequestParam("parentId") int parentId) {
+        vatLieuService.save(owner, vatLieu, parentId);
     }
     @GetMapping("/searchByHangMuc/{id}")
-    public List<VatLieu> searchByHangMuc(@PathVariable int id) {
-        return vatLieuService.searchByHangMuc(id);
+    public List<VatLieu> searchByHangMuc(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        return vatLieuService.searchByHangMuc(owner, id);
     }
 }

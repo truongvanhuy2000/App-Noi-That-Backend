@@ -18,42 +18,72 @@ public class PhongCachDAOMysql implements PhongCachDAO {
         this.entityManager = entityManager;
     }
     @Override
-    public List<PhongCachNoiThatEntity> findAll() {
-        TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery("from PhongCachNoiThatEntity pc ORDER BY pc.id", PhongCachNoiThatEntity.class);
+    public List<PhongCachNoiThatEntity> findAll(String owner) {
+        TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery(
+                "from PhongCachNoiThatEntity pc " +
+                        "where pc.account.username = :owner " +
+                        "ORDER BY pc.id", PhongCachNoiThatEntity.class);
+        query.setParameter("owner", owner);
         return query.getResultList();
     }
     @Override
-    public PhongCachNoiThatEntity findById(int id) {
-        return entityManager.find(PhongCachNoiThatEntity.class, id);
+    public PhongCachNoiThatEntity findById(String owner, int id) {
+        TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery(
+                "from PhongCachNoiThatEntity pc " +
+                        "where pc.account.username = :owner " +
+                        "and pc.id = :id", PhongCachNoiThatEntity.class);
+        query.setParameter("owner", owner);
+        query.setParameter("id", id);
+        return query.getSingleResult();
     }
     @Override
-    public PhongCachNoiThatEntity findUsingName(String name) {
-        TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery("from PhongCachNoiThatEntity where name = :name", PhongCachNoiThatEntity.class);
+    public PhongCachNoiThatEntity findUsingName(String owner, String name) {
+        TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery(
+                "from PhongCachNoiThatEntity pc " +
+                        "where pc.name = :name " +
+                        "and pc.account.username = :owner", PhongCachNoiThatEntity.class);
         query.setParameter("name", name);
+        query.setParameter("owner", owner);
         return query.getSingleResult();
     }
     @Override
     @Transactional
-    public void save(PhongCachNoiThatEntity phongCachNoiThatEntity) {
-        entityManager.persist(phongCachNoiThatEntity);
-    }
-    @Override
-    @Transactional
-    public void deleteById(int id) {
-        PhongCachNoiThatEntity phongCachNoiThatEntity = entityManager.find(PhongCachNoiThatEntity.class, id);
-        entityManager.remove(phongCachNoiThatEntity);
-    }
-    @Override
-    @Transactional
-    public void update(PhongCachNoiThatEntity phongCachNoiThatEntity) {
+    public void save(String owner, PhongCachNoiThatEntity phongCachNoiThatEntity) {
         Query query = entityManager.createQuery(
-                "update PhongCachNoiThatEntity set name = :name where id = :id");
+                "insert into PhongCachNoiThatEntity (name, account) " +
+                        "select :name, a " +
+                        "from AccountEntity a " +
+                        "where a.username = :owner");
         query.setParameter("name", phongCachNoiThatEntity.getName());
-        query.setParameter("id", phongCachNoiThatEntity.getId());
+        query.setParameter("owner", owner);
         query.executeUpdate();
     }
     @Override
-    public List<PhongCachNoiThatEntity> findAllAndJoinFetch() {
+    @Transactional
+    public void deleteById(String owner, int id) {
+        Query query = entityManager.createQuery(
+                "delete from PhongCachNoiThatEntity pc " +
+                        "where pc.id = :id " +
+                        "and pc.account.id = (select a.id from AccountEntity a where a.username = :owner)");
+        query.setParameter("id", id);
+        query.setParameter("owner", owner);
+        query.executeUpdate();
+    }
+    @Override
+    @Transactional
+    public void update(String owner, PhongCachNoiThatEntity phongCachNoiThatEntity) {
+        Query query = entityManager.createQuery(
+                "update PhongCachNoiThatEntity pc" +
+                        " set pc.name = :name" +
+                        " where pc.id = :id " +
+                        "and pc.account.id = (select a.id from AccountEntity a where a.username = :owner)");
+        query.setParameter("name", phongCachNoiThatEntity.getName());
+        query.setParameter("id", phongCachNoiThatEntity.getId());
+        query.setParameter("owner", owner);
+        query.executeUpdate();
+    }
+    @Override
+    public List<PhongCachNoiThatEntity> findAllAndJoinFetch(String owner) {
         TypedQuery<PhongCachNoiThatEntity> query = entityManager.createQuery(
                 "FROM PhongCachNoiThatEntity p " +
                         "JOIN FETCH p.noiThatEntity nt "
@@ -62,7 +92,7 @@ public class PhongCachDAOMysql implements PhongCachDAO {
     }
     // Not used
     @Override
-    public PhongCachNoiThatEntity findByIdAndJoinFetch(int id) {
+    public PhongCachNoiThatEntity findByIdAndJoinFetch(String owner, int id) {
         String jpql = "SELECT DISTINCT a FROM PhongCachNoiThatEntity a "
                 + "JOIN FETCH a.noiThatEntity b "
                 + "WHERE a.id = :id";

@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface VatLieuService {
     // Vat Lieu
-    List<VatLieu> findAll();
-    VatLieu findUsingId(int id);
-    VatLieu findUsingName(String name);
-    void save(VatLieu vatLieu, int parentId);
-    void deleteById(int id);
-    void update(VatLieu vatLieu);
+    List<VatLieu> findAll(String owner);
+    VatLieu findUsingId(String owner, int id);
+    VatLieu findUsingName(String owner, String name);
+    void save(String owner, VatLieu vatLieu, int parentId);
+    void deleteById(String owner, int id);
+    void update(String owner, VatLieu vatLieu);
     List<VatLieu> joinFetchVatLieu();
-    List<VatLieu> searchByHangMuc(int id);
+    List<VatLieu> searchByHangMuc(String owner, int id);
 }

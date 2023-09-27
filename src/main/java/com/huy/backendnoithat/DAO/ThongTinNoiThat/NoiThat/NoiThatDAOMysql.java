@@ -1,6 +1,7 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat;
 
 import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
@@ -17,43 +18,70 @@ public class NoiThatDAOMysql implements NoiThatDAO {
         this.entityManager = entityManager;
     }
     @Override
-    public List<NoiThatEntity> findAll() {
-        TypedQuery<NoiThatEntity> query = entityManager.createQuery("from NoiThatEntity pc order by pc.id", NoiThatEntity.class);
+    public List<NoiThatEntity> findAll(String owner) {
+        TypedQuery<NoiThatEntity> query = entityManager.createQuery(
+                "from NoiThatEntity pc " +
+                        "where pc.account.username = :owner " +
+                        "order by pc.id", NoiThatEntity.class);
+        query.setParameter("owner", owner);
         return query.getResultList();
     }
 
     @Override
-    public NoiThatEntity findById(int id) {
-        return entityManager.find(NoiThatEntity.class, id);
-    }
-
-    @Override
-    public NoiThatEntity findUsingName(String name) {
-        TypedQuery<NoiThatEntity> query = entityManager.createQuery("from NoiThatEntity where name = :name", NoiThatEntity.class);
-        query.setParameter("name", name);
+    public NoiThatEntity findById(String owner, int id) {
+        TypedQuery<NoiThatEntity> query = entityManager.createQuery(
+                "from NoiThatEntity pc " +
+                        "where pc.account.username = :owner " +
+                        "and pc.id = :id", NoiThatEntity.class);
+        query.setParameter("owner", owner);
+        query.setParameter("id", id);
         return query.getSingleResult();
     }
 
     @Override
-    @Transactional
-    public void save(NoiThatEntity noiThatEntity) {
-        entityManager.persist(noiThatEntity);
+    public NoiThatEntity findUsingName(String owner, String name) {
+        TypedQuery<NoiThatEntity> query = entityManager.createQuery(
+                "from NoiThatEntity pc " +
+                        "where pc.name = :name " +
+                        "and pc.account.username = :owner", NoiThatEntity.class);
+        query.setParameter("name", name);
+        query.setParameter("owner", owner);
+        return query.getSingleResult();
     }
 
     @Override
-    @Transactional
-    public void deleteById(int id) {
-        NoiThatEntity noiThatEntity = entityManager.find(NoiThatEntity.class, id);
-        entityManager.remove(noiThatEntity);
+    public void save(String owner, NoiThatEntity noiThatEntity) {
+        Query query = entityManager.createQuery(
+                "insert into NoiThatEntity (name, account) " +
+                        "select :name, a " +
+                        "from AccountEntity a " +
+                        "where a.username = :owner");
+        query.setParameter("name", noiThatEntity.getName());
+        query.setParameter("owner", owner);
+        query.executeUpdate();
     }
 
     @Override
-    @Transactional
-    public void update(NoiThatEntity noiThatEntity) {
-        Query query = entityManager.createNativeQuery(
-                "update noithat set name = :name where id = :id");
+    public void deleteById(String owner, int id) {
+        Query query = entityManager.createQuery(
+                "delete from NoiThatEntity pc " +
+                        "where pc.id = :id " +
+                        "and pc.account.id = (select a.id from AccountEntity a where a.username = :owner)");
+        query.setParameter("id", id);
+        query.setParameter("owner", owner);
+        query.executeUpdate();
+    }
+
+    @Override
+    public void update(String owner, NoiThatEntity noiThatEntity) {
+        Query query = entityManager.createQuery(
+                "update NoiThatEntity pc" +
+                        " set pc.name = :name" +
+                        " where pc.id = :id " +
+                        "and pc.account.id = (select a.id from AccountEntity a where a.username = :owner)");
         query.setParameter("name", noiThatEntity.getName());
         query.setParameter("id", noiThatEntity.getId());
+        query.setParameter("owner", owner);
         query.executeUpdate();
     }
 
@@ -72,10 +100,13 @@ public class NoiThatDAOMysql implements NoiThatDAO {
     }
 
     @Override
-    public List<NoiThatEntity> searchByPhongCach(int id) {
+    public List<NoiThatEntity> searchByPhongCach(String owner, int id) {
         TypedQuery<NoiThatEntity> query = entityManager.createQuery(
-                "from NoiThatEntity pc where pc.phongCachNoiThatEntity.id = :id order by pc.id", NoiThatEntity.class);
+                "from NoiThatEntity pc " +
+                        "where pc.phongCachNoiThatEntity.id = :id and pc.account.username = :owner " +
+                        "order by pc.id", NoiThatEntity.class);
         query.setParameter("id", id);
+        query.setParameter("owner", owner);
         return query.getResultList();
     }
 }

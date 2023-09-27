@@ -5,13 +5,13 @@ import com.huy.backendnoithat.Entity.BangNoiThat.ThongSoEntity;
 import java.util.List;
 
 public interface ThongSoDAO {
-    List<ThongSoEntity> findAll();
-    ThongSoEntity findById(int id);
-    ThongSoEntity findUsingName(String name);
-    void save(ThongSoEntity thongSoEntity);
-    void deleteById(int id);
-    void update(ThongSoEntity thongSoEntity);
+    List<ThongSoEntity> findAll(String owner);
+    ThongSoEntity findById(String owner, int id);
+    ThongSoEntity findUsingName(String owner, String name);
+    void save(String owner, ThongSoEntity thongSoEntity);
+    void deleteById(String owner, int id);
+    void update(String owner, ThongSoEntity thongSoEntity);
     List<ThongSoEntity> findAllAndJoinFetch();
     ThongSoEntity findByIdAndJoinFetch(int id);
-    List<ThongSoEntity> searchByVatLieu(int id);
+    List<ThongSoEntity> searchByVatLieu(String owner, int id);
 }

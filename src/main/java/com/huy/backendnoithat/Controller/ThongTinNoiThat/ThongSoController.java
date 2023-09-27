@@ -16,31 +16,31 @@ public class ThongSoController {
         this.thongSoService = thongSoService;
     }
     @GetMapping("")
-    public List<ThongSo> findAll() {
-        return thongSoService.findAll();
+    public List<ThongSo> findAll(@RequestParam(value = "owner") String owner) {
+        return thongSoService.findAll(owner);
     }
     @GetMapping("/search")
-    public ThongSo findUsingName(@RequestParam String name) {
-        return thongSoService.findUsingName(name);
+    public ThongSo findUsingName(@RequestParam(value = "owner") String owner, @RequestParam String name) {
+        return thongSoService.findUsingName(owner, name);
     }
     @GetMapping("/{id}")
-    public ThongSo findById(@PathVariable int id) {
-        return thongSoService.findUsingId(id);
+    public ThongSo findById(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        return thongSoService.findUsingId(owner, id);
     }
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id) {
-        thongSoService.deleteById(id);
+    public void deleteById(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        thongSoService.deleteById(owner, id);
     }
     @PostMapping("")
-    public void save(@RequestBody ThongSo thongSo, @RequestParam("parentId") int parentId) {
-        thongSoService.save(thongSo, parentId);
+    public void save(@RequestParam(value = "owner") String owner, @RequestBody ThongSo thongSo, @RequestParam("parentId") int parentId) {
+        thongSoService.save(owner, thongSo, parentId);
     }
     @PutMapping("")
-    public void update(@RequestBody ThongSo thongSo) {
-        thongSoService.update(thongSo);
+    public void update(@RequestParam(value = "owner") String owner, @RequestBody ThongSo thongSo) {
+        thongSoService.update(owner, thongSo);
     }
     @GetMapping("/searchByVatlieu/{id}")
-    public List<ThongSo> searchByVatLieu(@PathVariable int id) {
-        return thongSoService.searchByVatLieu(id);
+    public List<ThongSo> searchByVatLieu(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        return thongSoService.searchByVatLieu(owner, id);
     }
 }

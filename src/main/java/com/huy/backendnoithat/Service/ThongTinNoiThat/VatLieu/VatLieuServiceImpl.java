@@ -21,40 +21,41 @@ public class VatLieuServiceImpl implements VatLieuService {
         this.hangMucService = hangMucService;
     }
     @Override
-    public List<VatLieu> findAll() {
-        return vatLieuDAO.findAll().stream().map(item -> new VatLieu(item, true)).toList();
+    public List<VatLieu> findAll(String owner) {
+        return vatLieuDAO.findAll(owner).stream().map(item -> new VatLieu(item, true)).toList();
     }
     @Override
-    public VatLieu findUsingId(int id) {
-        return new VatLieu(vatLieuDAO.findById(id), true);
+    public VatLieu findUsingId(String owner, int id) {
+        return new VatLieu(vatLieuDAO.findById(owner, id), true);
     }
     @Override
-    public VatLieu findUsingName(String name) {
-        return new VatLieu(vatLieuDAO.findUsingName(name), true);
+    public VatLieu findUsingName(String owner, String name) {
+        return new VatLieu(vatLieuDAO.findUsingName(owner, name), true);
     }
     @Override
-    public void save(VatLieu vatLieu, int parentId) {
+    public void save(String owner, VatLieu vatLieu, int parentId) {
         VatLieuEntity vatLieuEntity = new VatLieuEntity(vatLieu);
-        HangMucEntity hangMucEntity = new HangMucEntity(hangMucService.findUsingId(parentId));
+        HangMucEntity hangMucEntity = new HangMucEntity(hangMucService.findUsingId(owner, parentId));
         vatLieuEntity.setHangMucEntity(hangMucEntity);
-        vatLieuDAO.save(vatLieuEntity);
+        vatLieuDAO.save(owner, vatLieuEntity);
     }
     @Override
-    public void deleteById(int id) {
-        vatLieuDAO.deleteById(id);
+    public void deleteById(String owner, int id) {
+        vatLieuDAO.deleteById(owner, id);
     }
     @Override
-    public void update(VatLieu vatLieu) {
-        vatLieuDAO.update(new VatLieuEntity(vatLieu));
+    public void update(String owner, VatLieu vatLieu) {
+        vatLieuDAO.update(owner, new VatLieuEntity(vatLieu));
     }
 
     @Override
     public List<VatLieu> joinFetchVatLieu() {
-        return vatLieuDAO.findAllAndJoinFetch().stream().map(item -> new VatLieu(item, true)).toList();
+//        return vatLieuDAO.findAllAndJoinFetch().stream().map(item -> new VatLieu(item, true)).toList();
+        return null;
     }
 
     @Override
-    public List<VatLieu> searchByHangMuc(int id) {
-        return vatLieuDAO.searchByHangMuc(id).stream().map(item -> new VatLieu(item, true)).toList();
+    public List<VatLieu> searchByHangMuc(String owner, int id) {
+        return vatLieuDAO.searchByHangMuc(owner, id).stream().map(item -> new VatLieu(item, true)).toList();
     }
 }

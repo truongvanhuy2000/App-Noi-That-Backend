@@ -16,40 +16,40 @@ public class HangMucController {
         this.hangMucService = hangMucService;
     }
     @GetMapping("")
-    public List<HangMuc> findAll() {
-        return hangMucService.findAll();
+    public List<HangMuc> findAll(@RequestParam(value = "owner") String owner) {
+        return hangMucService.findAll(owner);
     }
     @GetMapping("/search")
-    public HangMuc findUsingName(@RequestParam String name) {
-        return hangMucService.findUsingName(name);
+    public HangMuc findUsingName(@RequestParam(value = "owner") String owner, @RequestParam String name) {
+        return hangMucService.findUsingName(owner, name);
     }
     @GetMapping("/{id}")
-    public HangMuc findById(@PathVariable int id) {
-        return hangMucService.findUsingId(id);
+    public HangMuc findById(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        return hangMucService.findUsingId(owner, id);
     }
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id) {
-        hangMucService.deleteById(id);
+    public void deleteById(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        hangMucService.deleteById(owner, id);
     }
     @PutMapping("")
-    public void update(@RequestBody HangMuc hangMuc) {
-        hangMucService.update(hangMuc);
+    public void update(@RequestParam(value = "owner") String owner, @RequestBody HangMuc hangMuc) {
+        hangMucService.update(owner, hangMuc);
     }
     @PostMapping("")
-    public void save(@RequestBody HangMuc hangMuc, @RequestParam("parentId") int parentId) {
-        hangMucService.save(hangMuc, parentId);
+    public void save(@RequestParam(value = "owner") String owner, @RequestBody HangMuc hangMuc, @RequestParam("parentId") int parentId) {
+        hangMucService.save(owner, hangMuc, parentId);
     }
     @GetMapping("/searchByNoiThat/{id}")
-    public List<HangMuc> searchByNoiThat(@PathVariable int id) {
-        return hangMucService.searchByNoiThat(id);
+    public List<HangMuc> searchByNoiThat(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        return hangMucService.searchByNoiThat(owner, id);
     }
     // Dont use this API yet
     @GetMapping("/fetch")
-    public List<HangMuc> joinFetchHangMuc() {
+    public List<HangMuc> joinFetchHangMuc(@RequestParam(value = "owner") String owner) {
         return hangMucService.joinFetchHangMuc();
     }
     @GetMapping("/fetch/{id}")
-    public HangMuc joinFetchHangMucUsingId(@PathVariable int id) {
+    public HangMuc joinFetchHangMucUsingId(@RequestParam(value = "owner") String owner, @PathVariable int id) {
         return hangMucService.joinFetchHangMucUsingId(id);
     }
 }

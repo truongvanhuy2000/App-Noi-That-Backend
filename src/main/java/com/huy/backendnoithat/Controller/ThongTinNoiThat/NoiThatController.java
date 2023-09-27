@@ -16,40 +16,40 @@ public class NoiThatController {
         this.noiThatService = noiThatService;
     }
     @GetMapping("")
-    public List<NoiThat> findAll() {
-        return noiThatService.findAll();
+    public List<NoiThat> findAll(@RequestParam(value = "owner") String owner) {
+        return noiThatService.findAll(owner);
     }
     @GetMapping("/{id}")
-    public NoiThat findById(@PathVariable int id) {
-        return noiThatService.findUsingId(id);
+    public NoiThat findById(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        return noiThatService.findUsingId(owner, id);
     }
     @GetMapping("/search")
-    public NoiThat findUsingName(@RequestParam String name) {
-        return noiThatService.findUsingName(name);
+    public NoiThat findUsingName(@RequestParam(value = "owner") String owner, @RequestParam String name) {
+        return noiThatService.findUsingName(owner, name);
     }
     @PostMapping("")
-    public void save(@RequestBody NoiThat noiThat, @RequestParam("parentId") int parentId) {
-        noiThatService.save(noiThat, parentId);
+    public void save(@RequestParam(value = "owner") String owner, @RequestBody NoiThat noiThat, @RequestParam("parentId") int parentId) {
+        noiThatService.save(owner, noiThat, parentId);
     }
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id) {
-        noiThatService.deleteById(id);
+    public void deleteById(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        noiThatService.deleteById(owner, id);
     }
     @PutMapping("")
-    public void update(@RequestBody NoiThat noiThat) {
-        noiThatService.update(noiThat);
+    public void update(@RequestParam(value = "owner") String owner, @RequestBody NoiThat noiThat) {
+        noiThatService.update(owner, noiThat);
     }
     @GetMapping("/searchByPhongCach/{id}")
-    public List<NoiThat> searchByPhongCach(@PathVariable int id) {
-        return noiThatService.searchByPhongCach(id);
+    public List<NoiThat> searchByPhongCach(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        return noiThatService.searchByPhongCach(owner, id);
     }
     // Dont use this API yet
     @GetMapping("/fetch")
-    public List<NoiThat> joinFetchNoiThat() {
+    public List<NoiThat> joinFetchNoiThat(@RequestParam(value = "owner") String owner) {
         return noiThatService.joinFetchNoiThat();
     }
     @GetMapping("/fetch/{id}")
-    public NoiThat joinFetchNoiThatUsingId(@PathVariable int id) {
+    public NoiThat joinFetchNoiThatUsingId(@RequestParam(value = "owner") String owner, @PathVariable int id) {
         return noiThatService.joinFetchNoiThatUsingId(id);
     }
 

@@ -5,14 +5,14 @@ import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
 import java.util.List;
 
 public interface NoiThatDAO {
-    List<NoiThatEntity> findAll();
-    NoiThatEntity findById(int id);
-    NoiThatEntity findUsingName(String name);
-    void save(NoiThatEntity noiThatEntity);
-    void deleteById(int id);
-    void update(NoiThatEntity noiThatEntity);
+    List<NoiThatEntity> findAll(String owner);
+    NoiThatEntity findById(String owner, int id);
+    NoiThatEntity findUsingName(String owner, String name);
+    void save(String owner, NoiThatEntity noiThatEntity);
+    void deleteById(String owner, int id);
+    void update(String owner, NoiThatEntity noiThatEntity);
     List<NoiThatEntity> findAllAndJoinFetch();
     NoiThatEntity findByIdAndJoinFetch(int id);
 
-    List<NoiThatEntity> searchByPhongCach(int id);
+    List<NoiThatEntity> searchByPhongCach(String owner, int id);
 }

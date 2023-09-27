@@ -1,6 +1,8 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc;
 
 import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
@@ -17,58 +19,92 @@ public class HangMucDAOMysql implements HangMucDAO {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
+
     @Override
-    public List<HangMucEntity> findAll() {
-        TypedQuery<HangMucEntity> query = entityManager.createQuery("from HangMucEntity pc ORDER BY pc.id", HangMucEntity.class);
+    public List<HangMucEntity> findAll(String owner) {
+        TypedQuery<HangMucEntity> query = entityManager.createQuery(
+                "from HangMucEntity pc where pc.account.username = :owner " +
+                        "ORDER BY pc.id", HangMucEntity.class);
+        query.setParameter("owner", owner);
         return query.getResultList();
     }
+
     @Override
-    public HangMucEntity findById(int id) {
-        return entityManager.find(HangMucEntity.class, id);
-    }
-    @Override
-    public HangMucEntity findUsingName(String name) {
-        TypedQuery<HangMucEntity> query = entityManager.createQuery("from HangMucEntity where name = :name", HangMucEntity.class);
-        query.setParameter("name", name);
+    public HangMucEntity findById(String owner, int id) {
+        TypedQuery<HangMucEntity> query = entityManager.createQuery(
+                "from HangMucEntity pc " +
+                        "where pc.account.username = :owner " +
+                        "and pc.id = :id", HangMucEntity.class);
+        query.setParameter("owner", owner);
+        query.setParameter("id", id);
         return query.getSingleResult();
     }
+
     @Override
-    @Transactional
-    public void save(HangMucEntity hangMucEntity) {
-        entityManager.persist(hangMucEntity);
+    public HangMucEntity findUsingName(String owner, String name) {
+        TypedQuery<HangMucEntity> query = entityManager.createQuery(
+                "from HangMucEntity pc " +
+                        "where pc.name = :name " +
+                        "and pc.account.username = :owner", HangMucEntity.class);
+        query.setParameter("name", name);
+        query.setParameter("owner", owner);
+        return query.getSingleResult();
     }
+
     @Override
-    @Transactional
-    public void deleteById(int id) {
-        HangMucEntity hangMucEntity = entityManager.find(HangMucEntity.class, id);
-        entityManager.remove(hangMucEntity);
-    }
-    @Override
-    @Transactional
-    public void update(HangMucEntity hangMucEntity) {
-        Query query = entityManager.createNativeQuery(
-                "update hangmuc set name = :name where id = :id");
+    public void save(String owner, HangMucEntity hangMucEntity) {
+        Query query = entityManager.createQuery(
+                "insert into HangMucEntity (name, account) " +
+                        "select :name, a " +
+                        "from AccountEntity a " +
+                        "where a.username = :owner");
         query.setParameter("name", hangMucEntity.getName());
-        query.setParameter("id", hangMucEntity.getId());
+        query.setParameter("owner", owner);
         query.executeUpdate();
     }
+
     @Override
-    public List<HangMucEntity> findAllAndJoinFetch() {
-        TypedQuery<HangMucEntity> query = entityManager.createQuery(
-                "FROM HangMucEntity hm " +
-                        "JOIN FETCH hm.noiThatEntity nt "
-                , HangMucEntity.class);
-        return query.getResultList();
+    public void deleteById(String owner, int id) {
+        Query query = entityManager.createQuery(
+                "delete from HangMucEntity pc " +
+                        "where pc.id = :id " +
+                        "and pc.account.id = (select a.id from AccountEntity a where a.username = :owner)");
+        query.setParameter("id", id);
+        query.setParameter("owner", owner);
+        query.executeUpdate();
     }
+
     @Override
-    public HangMucEntity findByIdAndJoinFetch(int id) {
+    public void update(String owner, HangMucEntity hangMucEntity) {
+        Query query = entityManager.createQuery(
+                "update HangMucEntity pc" +
+                        " set pc.name = :name" +
+                        " where pc.id = :id " +
+                        "and pc.account.id = (select a.id from AccountEntity a where a.username = :owner)");
+        query.setParameter("name", hangMucEntity.getName());
+        query.setParameter("id", hangMucEntity.getId());
+        query.setParameter("owner", owner);
+        query.executeUpdate();
+    }
+
+    @Override
+    public List<HangMucEntity> findAllAndJoinFetch(String owner) {
         return null;
     }
 
     @Override
-    public List<HangMucEntity> searchByNoiThat(int id) {
-        TypedQuery<HangMucEntity> query = entityManager.createQuery("from HangMucEntity pc where pc.noiThatEntity.id = :id order by pc.id", HangMucEntity.class);
+    public HangMucEntity findByIdAndJoinFetch(String owner, int id) {
+        return null;
+    }
+
+    @Override
+    public List<HangMucEntity> searchByNoiThat(String owner, int id) {
+        TypedQuery<HangMucEntity> query = entityManager.createQuery(
+                "from HangMucEntity pc " +
+                        "where pc.noiThatEntity.id = :id and pc.account.username = :owner " +
+                        "order by pc.id", HangMucEntity.class);
         query.setParameter("id", id);
+        query.setParameter("owner", owner);
         return query.getResultList();
     }
 }

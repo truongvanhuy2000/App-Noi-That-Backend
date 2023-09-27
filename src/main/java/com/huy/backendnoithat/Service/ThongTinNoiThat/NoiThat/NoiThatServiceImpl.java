@@ -21,34 +21,34 @@ public class NoiThatServiceImpl implements NoiThatService {
         this.phongCachService = phongCachService;
     }
     @Override
-    public List<NoiThat> findAll() {
-        return noiThatDAO.findAll().stream()
+    public List<NoiThat> findAll(String owner) {
+        return noiThatDAO.findAll(owner).stream()
                 .map(item -> new NoiThat(item, false)).toList();
     }
     @Override
-    public NoiThat findUsingId(int id) {
-        NoiThatEntity noiThatEntity = noiThatDAO.findById(id);
+    public NoiThat findUsingId(String owner, int id) {
+        NoiThatEntity noiThatEntity = noiThatDAO.findById(owner, id);
         return new NoiThat(noiThatEntity, false);
     }
     @Override
-    public NoiThat findUsingName(String name) {
-        NoiThatEntity noiThatEntity = noiThatDAO.findUsingName(name);
+    public NoiThat findUsingName(String owner, String name) {
+        NoiThatEntity noiThatEntity = noiThatDAO.findUsingName(owner, name);
         return new NoiThat(noiThatEntity, false);
     }
     @Override
-    public void save(NoiThat noiThat, int parentId) {
-        NoiThatEntity noiThatEntity = new NoiThatEntity(noiThat);
-        PhongCachNoiThatEntity phongCachNoiThatEntity = new PhongCachNoiThatEntity(phongCachService.findById(parentId));
-        noiThatEntity.setPhongCachNoiThatEntity(phongCachNoiThatEntity);
-        noiThatDAO.save(noiThatEntity);
+    public void save(String owner, NoiThat noiThat, int parentId) {
+//        NoiThatEntity noiThatEntity = new NoiThatEntity(noiThat);
+//        PhongCachNoiThatEntity phongCachNoiThatEntity = new PhongCachNoiThatEntity(phongCachService.findById(parentId));
+//        noiThatEntity.setPhongCachNoiThatEntity(phongCachNoiThatEntity);
+//        noiThatDAO.save(noiThatEntity);
     }
     @Override
-    public void deleteById(int id) {
-        noiThatDAO.deleteById(id);
+    public void deleteById(String owner, int id) {
+        noiThatDAO.deleteById(owner, id);
     }
     @Override
-    public void update(NoiThat noiThat) {
-        noiThatDAO.update(new NoiThatEntity(noiThat));
+    public void update(String owner, NoiThat noiThat) {
+        noiThatDAO.update(owner, new NoiThatEntity(noiThat));
     }
     @Override
     public List<NoiThat> joinFetchNoiThat() {
@@ -62,8 +62,8 @@ public class NoiThatServiceImpl implements NoiThatService {
     }
 
     @Override
-    public List<NoiThat> searchByPhongCach(int id) {
-        return noiThatDAO.searchByPhongCach(id).stream()
+    public List<NoiThat> searchByPhongCach(String owner, int id) {
+        return noiThatDAO.searchByPhongCach(owner, id).stream()
                 .map(item -> new NoiThat(item, false)).toList();
     }
 }

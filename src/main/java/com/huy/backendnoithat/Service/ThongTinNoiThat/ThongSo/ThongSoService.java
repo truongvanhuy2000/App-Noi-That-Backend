@@ -5,11 +5,11 @@ import com.huy.backendnoithat.DTO.BangNoiThat.ThongSo;
 import java.util.List;
 
 public interface ThongSoService {
-    List<ThongSo> findAll();
-    ThongSo findUsingId(int id);
-    ThongSo findUsingName(String name);
-    void save(ThongSo thongSo, int parentId);
-    void deleteById(int id);
-    void update(ThongSo thongSo);
-    List<ThongSo> searchByVatLieu(int id);
+    List<ThongSo> findAll(String owner);
+    ThongSo findUsingId(String owner, int id);
+    ThongSo findUsingName(String owner, String name);
+    void save(String owner, ThongSo thongSo, int parentId);
+    void deleteById(String owner, int id);
+    void update(String owner, ThongSo thongSo);
+    List<ThongSo> searchByVatLieu(String owner, int id);
 }

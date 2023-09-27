@@ -1,6 +1,7 @@
 package com.huy.backendnoithat.Entity.BangNoiThat;
 
 import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
+import com.huy.backendnoithat.Entity.Account.AccountEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,10 @@ public class VatLieuEntity {
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "hang_muc_id", referencedColumnName = "id")
     private HangMucEntity hangMucEntity;
+
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private AccountEntity account;
     public VatLieuEntity(VatLieu vatLieu) {
         this.id = vatLieu.getId();
         this.name = vatLieu.getName();

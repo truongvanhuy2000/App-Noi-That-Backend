@@ -8,12 +8,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PhongCachDAO{
-    List<PhongCachNoiThatEntity> findAll();
-    PhongCachNoiThatEntity findById(int id);
-    PhongCachNoiThatEntity findUsingName(String name);
-    void save(PhongCachNoiThatEntity phongCachNoiThatEntity);
-    void deleteById(int id);
-    void update(PhongCachNoiThatEntity phongCachNoiThatEntity);
-    List<PhongCachNoiThatEntity> findAllAndJoinFetch();
-    PhongCachNoiThatEntity findByIdAndJoinFetch(int id);
+    List<PhongCachNoiThatEntity> findAll(String owner);
+    PhongCachNoiThatEntity findById(String owner, int id);
+    PhongCachNoiThatEntity findUsingName(String owner, String name);
+    void save(String owner, PhongCachNoiThatEntity phongCachNoiThatEntity);
+    void deleteById(String owner, int id);
+    void update(String owner, PhongCachNoiThatEntity phongCachNoiThatEntity);
+    List<PhongCachNoiThatEntity> findAllAndJoinFetch(String owner);
+    PhongCachNoiThatEntity findByIdAndJoinFetch(String owner, int id);
 }

@@ -5,13 +5,13 @@ import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
 import java.util.List;
 
 public interface HangMucDAO {
-    List<HangMucEntity> findAll();
-    HangMucEntity findById(int id);
-    HangMucEntity findUsingName(String name);
-    void save(HangMucEntity hangMucEntity);
-    void deleteById(int id);
-    void update(HangMucEntity hangMucEntity);
-    List<HangMucEntity> findAllAndJoinFetch();
-    HangMucEntity findByIdAndJoinFetch(int id);
-    List<HangMucEntity> searchByNoiThat(int id);
+    List<HangMucEntity> findAll(String owner);
+    HangMucEntity findById(String owner, int id);
+    HangMucEntity findUsingName(String owner, String name);
+    void save(String owner, HangMucEntity hangMucEntity);
+    void deleteById(String owner, int id);
+    void update(String owner, HangMucEntity hangMucEntity);
+    List<HangMucEntity> findAllAndJoinFetch(String owner);
+    HangMucEntity findByIdAndJoinFetch(String owner, int id);
+    List<HangMucEntity> searchByNoiThat(String owner, int id);
 }
