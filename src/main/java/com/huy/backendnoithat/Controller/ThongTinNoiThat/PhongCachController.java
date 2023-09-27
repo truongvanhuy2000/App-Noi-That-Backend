@@ -16,37 +16,37 @@ public class PhongCachController {
         this.phongCachService = phongCachService;
     }
     @GetMapping("")
-    public List<PhongCach> findAll() {
-        return phongCachService.findAll();
+    public List<PhongCach> findAll(@RequestParam(value = "owner") String owner) {
+        return phongCachService.findAll(owner);
     }
     @GetMapping("/{id}")
-    public PhongCach findById(@PathVariable int id) {
-        return phongCachService.findById(id);
+    public PhongCach findById(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        return phongCachService.findById(owner, id);
     }
     @GetMapping("/search")
-    public PhongCach findUsingName(@RequestParam(value = "name") String name) {
-        return phongCachService.findUsingName(name);
+    public PhongCach findUsingName(@RequestParam(value = "owner") String owner, @RequestParam(value = "name") String name) {
+        return phongCachService.findUsingName(owner, name);
     }
     @PostMapping("")
-    public void save(@RequestBody PhongCach phongCach) {
-        phongCachService.save(phongCach);
+    public void save(@RequestParam(value = "owner") String owner, @RequestBody PhongCach phongCach) {
+        phongCachService.save(owner, phongCach);
     }
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id) {
-        phongCachService.deleteById(id);
+    public void deleteById(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        phongCachService.deleteById(owner, id);
     }
     @PutMapping("")
-    public void update(@RequestBody PhongCach phongCach) {
-        phongCachService.update(phongCach);
+    public void update(@RequestParam(value = "owner") String owner, @RequestBody PhongCach phongCach) {
+        phongCachService.update(owner, phongCach);
     }
 
     // Don't use this API yet
     @GetMapping("/fetch")
-    public List<PhongCach> joinFetchPhongCach() {
-        return phongCachService.joinFetchPhongCach();
+    public List<PhongCach> joinFetchPhongCach(@RequestParam(value = "owner") String owner) {
+        return phongCachService.joinFetchPhongCach(owner);
     }
     @GetMapping("/fetch/{id}")
-    public PhongCach joinFetchPhongCachUsingId(@PathVariable int id) {
-        return phongCachService.joinFetchPhongCachUsingId(id);
+    public PhongCach joinFetchPhongCachUsingId(@RequestParam(value = "owner") String owner, @PathVariable int id) {
+        return phongCachService.joinFetchPhongCachUsingId(owner, id);
     }
 }
