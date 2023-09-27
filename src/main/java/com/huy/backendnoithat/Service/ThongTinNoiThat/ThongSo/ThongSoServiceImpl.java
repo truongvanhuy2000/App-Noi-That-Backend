@@ -14,11 +14,10 @@ import java.util.List;
 @Service
 public class ThongSoServiceImpl implements ThongSoService {
     ThongSoDAO thongSoDAO;
-    VatLieuService vatLieuService;
+
     @Autowired
-    public ThongSoServiceImpl(ThongSoDAO thongSoDAO, VatLieuService vatLieuService) {
+    public ThongSoServiceImpl(ThongSoDAO thongSoDAO) {
         this.thongSoDAO = thongSoDAO;
-        this.vatLieuService = vatLieuService;
     }
     @Override
     public List<ThongSo> findAll(String owner) {
@@ -37,9 +36,7 @@ public class ThongSoServiceImpl implements ThongSoService {
     @Override
     public void save(String owner, ThongSo thongSo, int parentId) {
         ThongSoEntity thongSoEntity = new ThongSoEntity(thongSo);
-        VatLieuEntity vatLieuEntity = new VatLieuEntity(vatLieuService.findUsingId(owner, parentId));
-        thongSoEntity.setVatLieuEntity(vatLieuEntity);
-        thongSoDAO.save(owner, thongSoEntity);
+        thongSoDAO.save(owner, thongSoEntity, parentId);
     }
 
     @Override

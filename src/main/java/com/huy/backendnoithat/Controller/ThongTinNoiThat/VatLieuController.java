@@ -20,7 +20,7 @@ public class VatLieuController {
         return vatLieuService.findAll(owner);
     }
     @GetMapping("/search")
-    public VatLieu findUsingName(@RequestParam(value = "owner") String owner, @RequestParam String name) {
+    public VatLieu findUsingName(@RequestParam(value = "owner") String owner, @RequestParam(value = "name") String name) {
         return vatLieuService.findUsingName(owner, name);
     }
     @GetMapping("/{id}")

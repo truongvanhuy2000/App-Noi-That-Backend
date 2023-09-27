@@ -8,7 +8,7 @@ public interface NoiThatDAO {
     List<NoiThatEntity> findAll(String owner);
     NoiThatEntity findById(String owner, int id);
     NoiThatEntity findUsingName(String owner, String name);
-    void save(String owner, NoiThatEntity noiThatEntity);
+    void save(String owner, NoiThatEntity noiThatEntity, int parentId);
     void deleteById(String owner, int id);
     void update(String owner, NoiThatEntity noiThatEntity);
     List<NoiThatEntity> findAllAndJoinFetch();

@@ -24,7 +24,7 @@ public class NoiThatController {
         return noiThatService.findUsingId(owner, id);
     }
     @GetMapping("/search")
-    public NoiThat findUsingName(@RequestParam(value = "owner") String owner, @RequestParam String name) {
+    public NoiThat findUsingName(@RequestParam(value = "owner") String owner, @RequestParam(value = "name") String name) {
         return noiThatService.findUsingName(owner, name);
     }
     @PostMapping("")

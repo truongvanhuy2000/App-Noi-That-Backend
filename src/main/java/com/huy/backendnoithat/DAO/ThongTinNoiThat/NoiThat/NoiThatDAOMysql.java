@@ -50,18 +50,21 @@ public class NoiThatDAOMysql implements NoiThatDAO {
     }
 
     @Override
-    public void save(String owner, NoiThatEntity noiThatEntity) {
+    @Transactional
+    public void save(String owner, NoiThatEntity noiThatEntity, int parentId) {
         Query query = entityManager.createQuery(
-                "insert into NoiThatEntity (name, account) " +
-                        "select :name, a " +
-                        "from AccountEntity a " +
-                        "where a.username = :owner");
+                "insert into NoiThatEntity (name, account, phongCachNoiThatEntity) " +
+                        "select :name, " +
+                        "(from AccountEntity a where a.username = :owner), " +
+                        "(from PhongCachNoiThatEntity pc where pc.id = :parentId)");
         query.setParameter("name", noiThatEntity.getName());
         query.setParameter("owner", owner);
+        query.setParameter("parentId", parentId);
         query.executeUpdate();
     }
 
     @Override
+    @Transactional
     public void deleteById(String owner, int id) {
         Query query = entityManager.createQuery(
                 "delete from NoiThatEntity pc " +
@@ -73,6 +76,7 @@ public class NoiThatDAOMysql implements NoiThatDAO {
     }
 
     @Override
+    @Transactional
     public void update(String owner, NoiThatEntity noiThatEntity) {
         Query query = entityManager.createQuery(
                 "update NoiThatEntity pc" +

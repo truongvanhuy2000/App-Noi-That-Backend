@@ -8,7 +8,7 @@ public interface HangMucDAO {
     List<HangMucEntity> findAll(String owner);
     HangMucEntity findById(String owner, int id);
     HangMucEntity findUsingName(String owner, String name);
-    void save(String owner, HangMucEntity hangMucEntity);
+    void save(String owner, HangMucEntity hangMucEntity, int parentId);
     void deleteById(String owner, int id);
     void update(String owner, HangMucEntity hangMucEntity);
     List<HangMucEntity> findAllAndJoinFetch(String owner);

@@ -20,7 +20,7 @@ public class HangMucController {
         return hangMucService.findAll(owner);
     }
     @GetMapping("/search")
-    public HangMuc findUsingName(@RequestParam(value = "owner") String owner, @RequestParam String name) {
+    public HangMuc findUsingName(@RequestParam(value = "owner") String owner, @RequestParam(value = "name") String name) {
         return hangMucService.findUsingName(owner, name);
     }
     @GetMapping("/{id}")

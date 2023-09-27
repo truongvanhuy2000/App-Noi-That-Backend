@@ -45,22 +45,25 @@ public class ThongSoDAOMysql implements ThongSoDAO {
     }
 
     @Override
-    public void save(String owner, ThongSoEntity thongSoEntity) {
+    @Transactional
+    public void save(String owner, ThongSoEntity thongSoEntity, int parentId) {
         Query query = entityManager.createQuery(
                 "insert into ThongSoEntity (dai, rong, cao, donVi, donGia, account) " +
-                        "select :dai, :rong, :cao, :don_vi, :don_gia, a " +
-                        "from AccountEntity a " +
-                        "where a.username = :owner");
+                        "select :dai, :rong, :cao, :don_vi, :don_gia, " +
+                        "(from AccountEntity a where a.username = :owner), " +
+                        "(from VatLieuEntity nt where nt.id = :parentId)");
         query.setParameter("dai", thongSoEntity.getDai());
         query.setParameter("rong", thongSoEntity.getRong());
         query.setParameter("cao", thongSoEntity.getCao());
         query.setParameter("don_vi", thongSoEntity.getDonVi());
         query.setParameter("don_gia", thongSoEntity.getDonGia());
         query.setParameter("owner", owner);
+        query.setParameter("parentId", parentId);
         query.executeUpdate();
     }
 
     @Override
+    @Transactional
     public void deleteById(String owner, int id) {
         Query query = entityManager.createQuery(
                 "delete from ThongSoEntity pc " +
@@ -72,6 +75,7 @@ public class ThongSoDAOMysql implements ThongSoDAO {
     }
 
     @Override
+    @Transactional
     public void update(String owner, ThongSoEntity thongSoEntity) {
         Query query = entityManager.createQuery(
                 "update ThongSoEntity pc" +

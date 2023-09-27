@@ -8,7 +8,7 @@ public interface ThongSoDAO {
     List<ThongSoEntity> findAll(String owner);
     ThongSoEntity findById(String owner, int id);
     ThongSoEntity findUsingName(String owner, String name);
-    void save(String owner, ThongSoEntity thongSoEntity);
+    void save(String owner, ThongSoEntity thongSoEntity, int parentId);
     void deleteById(String owner, int id);
     void update(String owner, ThongSoEntity thongSoEntity);
     List<ThongSoEntity> findAllAndJoinFetch();

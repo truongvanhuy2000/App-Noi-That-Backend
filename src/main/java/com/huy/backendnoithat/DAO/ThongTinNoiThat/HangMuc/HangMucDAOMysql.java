@@ -52,18 +52,21 @@ public class HangMucDAOMysql implements HangMucDAO {
     }
 
     @Override
-    public void save(String owner, HangMucEntity hangMucEntity) {
+    @Transactional
+    public void save(String owner, HangMucEntity hangMucEntity, int parentId) {
         Query query = entityManager.createQuery(
-                "insert into HangMucEntity (name, account) " +
-                        "select :name, a " +
-                        "from AccountEntity a " +
-                        "where a.username = :owner");
+                "insert into HangMucEntity (name, account, noiThatEntity) " +
+                        "select :name, " +
+                        "(from AccountEntity a where a.username = :owner), " +
+                        "(from NoiThatEntity nt where nt.id = :parentId)");
         query.setParameter("name", hangMucEntity.getName());
         query.setParameter("owner", owner);
+        query.setParameter("parentId", parentId);
         query.executeUpdate();
     }
 
     @Override
+    @Transactional
     public void deleteById(String owner, int id) {
         Query query = entityManager.createQuery(
                 "delete from HangMucEntity pc " +
@@ -75,6 +78,7 @@ public class HangMucDAOMysql implements HangMucDAO {
     }
 
     @Override
+    @Transactional
     public void update(String owner, HangMucEntity hangMucEntity) {
         Query query = entityManager.createQuery(
                 "update HangMucEntity pc" +

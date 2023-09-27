@@ -8,7 +8,7 @@ public interface VatLieuDAO {
     List<VatLieuEntity> findAll(String owner);
     VatLieuEntity findById(String owner, int id);
     VatLieuEntity findUsingName(String owner, String name);
-    void save(String owner, VatLieuEntity vatLieuEntity);
+    void save(String owner, VatLieuEntity vatLieuEntity, int parentId);
     void deleteById(String owner, int id);
     void update(String owner, VatLieuEntity vatLieuEntity);
     List<VatLieuEntity> findAllAndJoinFetch(String owner);

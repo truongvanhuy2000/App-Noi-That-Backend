@@ -3,10 +3,13 @@ package com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu;
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc.HangMucDAO;
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.VatLieu.VatLieuDAO;
 import com.huy.backendnoithat.DTO.BangNoiThat.HangMuc;
+import com.huy.backendnoithat.DTO.BangNoiThat.ThongSo;
 import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.ThongSoEntity;
 import com.huy.backendnoithat.Entity.BangNoiThat.VatLieuEntity;
 import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc.HangMucService;
+import com.huy.backendnoithat.Service.ThongTinNoiThat.ThongSo.ThongSoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +17,11 @@ import java.util.List;
 @Service
 public class VatLieuServiceImpl implements VatLieuService {
     VatLieuDAO vatLieuDAO;
-    HangMucService hangMucService;
+    ThongSoService thongSoService;
     @Autowired
-    public VatLieuServiceImpl(VatLieuDAO vatLieuDAO, HangMucService hangMucService) {
+    public VatLieuServiceImpl(VatLieuDAO vatLieuDAO, ThongSoService thongSoService) {
         this.vatLieuDAO = vatLieuDAO;
-        this.hangMucService = hangMucService;
+        this.thongSoService = thongSoService;
     }
     @Override
     public List<VatLieu> findAll(String owner) {
@@ -35,9 +38,7 @@ public class VatLieuServiceImpl implements VatLieuService {
     @Override
     public void save(String owner, VatLieu vatLieu, int parentId) {
         VatLieuEntity vatLieuEntity = new VatLieuEntity(vatLieu);
-        HangMucEntity hangMucEntity = new HangMucEntity(hangMucService.findUsingId(owner, parentId));
-        vatLieuEntity.setHangMucEntity(hangMucEntity);
-        vatLieuDAO.save(owner, vatLieuEntity);
+        vatLieuDAO.save(owner, vatLieuEntity, parentId);
     }
     @Override
     public void deleteById(String owner, int id) {

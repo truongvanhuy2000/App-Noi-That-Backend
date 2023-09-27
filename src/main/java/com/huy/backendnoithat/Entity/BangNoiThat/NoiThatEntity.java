@@ -4,6 +4,7 @@ import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.Entity.Account.AccountEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,9 @@ public class NoiThatEntity {
     @Column(name="name")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "noiThatEntity", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "noiThatEntity",
+            fetch = FetchType.LAZY)
     private List<HangMucEntity> hangMucEntity;
 
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)

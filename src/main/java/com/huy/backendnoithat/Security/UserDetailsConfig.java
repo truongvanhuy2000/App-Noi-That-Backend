@@ -20,7 +20,8 @@ public class UserDetailsConfig {
                         "FROM account\n" +
                         "INNER JOIN roles\n" +
                         "ON account.id=roles.id\n" +
-                        "WHERE account.username=?"
+                        "WHERE account.active=true\n" +
+                        "AND account.username=?"
         );
         return jdbcUserDetailsManager;
     }

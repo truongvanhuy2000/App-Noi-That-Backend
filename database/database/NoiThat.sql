@@ -95,27 +95,27 @@ CREATE TABLE `thongso`
 
 -- Nested ref
 ALTER TABLE `noithat`
-    ADD FOREIGN KEY (`phong_cach_id`) REFERENCES `phongcachnoithat` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ADD FOREIGN KEY (`phong_cach_id`) REFERENCES `phongcachnoithat` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE `hangmuc`
-    ADD FOREIGN KEY (`noi_that_id`) REFERENCES `noithat` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ADD FOREIGN KEY (`noi_that_id`) REFERENCES `noithat` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE `vatlieu`
-    ADD FOREIGN KEY (`hang_muc_id`) REFERENCES `hangmuc` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ADD FOREIGN KEY (`hang_muc_id`) REFERENCES `hangmuc` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE `vatlieu`
-    ADD FOREIGN KEY (`thong_so_id`) REFERENCES `thongso` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ADD FOREIGN KEY (`thong_so_id`) REFERENCES `thongso` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE `roles`
-    ADD FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ADD FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE `account`
-    ADD FOREIGN KEY (`info_id`) REFERENCES `accountinformation` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ADD FOREIGN KEY (`info_id`) REFERENCES `accountinformation` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- Ref to account id
 ALTER TABLE `phongcachnoithat`
-    ADD FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ADD FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE `hangmuc`
-    ADD FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ADD FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE `vatlieu`
-    ADD FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ADD FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE `thongso`
-    ADD FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ADD FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE `noithat`
-    ADD FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ADD FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;

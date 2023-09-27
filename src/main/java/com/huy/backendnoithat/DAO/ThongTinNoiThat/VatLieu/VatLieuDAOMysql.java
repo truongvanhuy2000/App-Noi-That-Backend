@@ -18,62 +18,6 @@ public class VatLieuDAOMysql implements VatLieuDAO {
         this.entityManager = entityManager;
     }
     @Override
-    public List<VatLieuEntity> findAll() {
-        TypedQuery<VatLieuEntity> query = entityManager.createQuery("from VatLieuEntity vl join fetch vl.thongSoEntity order by vl.id", VatLieuEntity.class);
-        return query.getResultList();
-    }
-    @Override
-    public VatLieuEntity findById(int id) {
-        return entityManager.find(VatLieuEntity.class, id);
-    }
-    @Override
-    public VatLieuEntity findUsingName(String name) {
-        TypedQuery<VatLieuEntity> query = entityManager.createQuery("from VatLieuEntity where name = :name", VatLieuEntity.class);
-        query.setParameter("name", name);
-        return query.getSingleResult();
-    }
-    @Override
-    @Transactional
-    public void save(VatLieuEntity vatLieuEntity) {
-        entityManager.persist(vatLieuEntity);
-    }
-
-    @Override
-    @Transactional
-    public void deleteById(int id) {
-        VatLieuEntity vatLieuEntity = entityManager.find(VatLieuEntity.class, id);
-        entityManager.remove(vatLieuEntity);
-    }
-    @Override
-    @Transactional
-    public void update(VatLieuEntity vatLieuEntity) {
-        String updateQuery = "update vatlieu set name = :name where id = :id";
-        Query query = entityManager.createNativeQuery(updateQuery);
-        query.setParameter("name", vatLieuEntity.getName());
-        query.setParameter("id", vatLieuEntity.getId());
-        query.executeUpdate();
-
-    }
-    @Override
-    public List<VatLieuEntity> findAllAndJoinFetch() {
-        TypedQuery<VatLieuEntity> query = entityManager.createQuery(
-                "FROM VatLieuEntity vl " +
-                        "JOIN FETCH vl.thongSoEntity ts "
-                , VatLieuEntity.class);
-        return query.getResultList();
-    }
-    @Override
-    public VatLieuEntity findByIdAndJoinFetch(int id) {
-        return null;
-    }
-    @Override
-    public List<VatLieuEntity> searchByHangMuc(int id) {
-        TypedQuery<VatLieuEntity> query = entityManager.createQuery("from VatLieuEntity vl where vl.hangMucEntity.id = :id order by vl.id", VatLieuEntity.class);
-        query.setParameter("id", id);
-        return query.getResultList();
-    }
-
-    @Override
     public List<VatLieuEntity> findAll(String owner) {
         TypedQuery<VatLieuEntity> query = entityManager.createQuery(
                 "from VatLieuEntity vl " +
@@ -106,18 +50,22 @@ public class VatLieuDAOMysql implements VatLieuDAO {
     }
 
     @Override
-    public void save(String owner, VatLieuEntity vatLieuEntity) {
+    @Transactional
+    public void save(String owner, VatLieuEntity vatLieuEntity, int parentId) {
         Query query = entityManager.createQuery(
-                "insert into VatLieuEntity (name, account) " +
-                        "select :name, a " +
-                        "from AccountEntity a " +
-                        "where a.username = :owner");
+                "insert into VatLieuEntity (name, account, hangMucEntity, thongSoEntity) " +
+                        "select :name, " +
+                        "(from AccountEntity a where a.username = :owner), " +
+                        "(from HangMucEntity hm where hm.id = :parentId), " +
+                        "(value(vatLieuEntity.getThongSoEntity()))");
         query.setParameter("name", vatLieuEntity.getName());
         query.setParameter("owner", owner);
+        query.setParameter("parentId", parentId);
         query.executeUpdate();
     }
 
     @Override
+    @Transactional
     public void deleteById(String owner, int id) {
         Query query = entityManager.createQuery(
                 "delete from VatLieuEntity pc " +
@@ -129,6 +77,7 @@ public class VatLieuDAOMysql implements VatLieuDAO {
     }
 
     @Override
+    @Transactional
     public void update(String owner, VatLieuEntity vatLieuEntity) {
         Query query = entityManager.createQuery(
                 "update VatLieuEntity pc" +
@@ -155,7 +104,7 @@ public class VatLieuDAOMysql implements VatLieuDAO {
     public List<VatLieuEntity> searchByHangMuc(String owner, int id) {
         TypedQuery<VatLieuEntity> query = entityManager.createQuery(
                 "from VatLieuEntity pc " +
-                        "where pc.phongCachNoiThatEntity.id = :id and pc.account.username = :owner " +
+                        "where pc.hangMucEntity.id = :id and pc.account.username = :owner " +
                         "order by pc.id", VatLieuEntity.class);
         query.setParameter("id", id);
         query.setParameter("owner", owner);

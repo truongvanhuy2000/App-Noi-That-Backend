@@ -14,11 +14,9 @@ import java.util.List;
 @Service
 public class NoiThatServiceImpl implements NoiThatService {
     NoiThatDAO noiThatDAO;
-    PhongCachService phongCachService;
     @Autowired
-    public NoiThatServiceImpl(NoiThatDAO noiThatDAO, PhongCachService phongCachService) {
+    public NoiThatServiceImpl(NoiThatDAO noiThatDAO) {
         this.noiThatDAO = noiThatDAO;
-        this.phongCachService = phongCachService;
     }
     @Override
     public List<NoiThat> findAll(String owner) {
@@ -37,10 +35,8 @@ public class NoiThatServiceImpl implements NoiThatService {
     }
     @Override
     public void save(String owner, NoiThat noiThat, int parentId) {
-//        NoiThatEntity noiThatEntity = new NoiThatEntity(noiThat);
-//        PhongCachNoiThatEntity phongCachNoiThatEntity = new PhongCachNoiThatEntity(phongCachService.findById(parentId));
-//        noiThatEntity.setPhongCachNoiThatEntity(phongCachNoiThatEntity);
-//        noiThatDAO.save(noiThatEntity);
+        NoiThatEntity noiThatEntity = new NoiThatEntity(noiThat);
+        noiThatDAO.save(owner, noiThatEntity, parentId);
     }
     @Override
     public void deleteById(String owner, int id) {

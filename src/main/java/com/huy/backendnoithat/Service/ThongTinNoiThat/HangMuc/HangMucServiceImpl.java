@@ -13,11 +13,9 @@ import java.util.List;
 @Service
 public class HangMucServiceImpl implements HangMucService {
     HangMucDAO hangMucDAO;
-    NoiThatService noiThatService;
     @Autowired
-    public HangMucServiceImpl(HangMucDAO hangMucDAO, NoiThatService noiThatService) {
+    public HangMucServiceImpl(HangMucDAO hangMucDAO) {
         this.hangMucDAO = hangMucDAO;
-        this.noiThatService = noiThatService;
     }
     @Override
     public List<HangMuc> findAll(String owner) {
@@ -34,9 +32,7 @@ public class HangMucServiceImpl implements HangMucService {
     @Override
     public void save(String owner, HangMuc hangMuc, int parentId) {
         HangMucEntity hangMucEntity = new HangMucEntity(hangMuc);
-        NoiThatEntity noiThatEntity = new NoiThatEntity(noiThatService.findUsingId(owner, parentId));
-        hangMucEntity.setNoiThatEntity(noiThatEntity);
-        hangMucDAO.save(owner, hangMucEntity);
+        hangMucDAO.save(owner, hangMucEntity, parentId);
     }
     @Override
     public void deleteById(String owner, int id) {
