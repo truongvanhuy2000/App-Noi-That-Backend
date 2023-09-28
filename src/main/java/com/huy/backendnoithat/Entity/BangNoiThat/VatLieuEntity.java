@@ -18,8 +18,7 @@ public class VatLieuEntity {
     @Column(name="name")
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "thong_so_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "vatLieuEntity" ,fetch = FetchType.LAZY)
     private ThongSoEntity thongSoEntity;
 
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)

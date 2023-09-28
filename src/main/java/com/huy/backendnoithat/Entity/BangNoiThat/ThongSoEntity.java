@@ -30,7 +30,8 @@ public class ThongSoEntity {
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private AccountEntity account;
 
-    @OneToOne(cascade = CascadeType.MERGE, mappedBy = "thongSoEntity", fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "vatlieu_id", referencedColumnName = "id")
     private VatLieuEntity vatLieuEntity;
     public ThongSoEntity(ThongSo thongSo) {
         this.id = thongSo.getId();

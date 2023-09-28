@@ -72,7 +72,6 @@ CREATE TABLE `vatlieu`
     `id`          INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `name`        NVARCHAR(500),
     `hang_muc_id` INTEGER,
-    `thong_so_id` INTEGER,
     `account_id`  INTEGER
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -87,6 +86,7 @@ CREATE TABLE `thongso`
     `cao`        FLOAT,
     `don_vi`     NVARCHAR(100),
     `don_gia`    INTEGER,
+    `vatlieu_id` integer,
     `account_id` INTEGER
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -100,8 +100,8 @@ ALTER TABLE `hangmuc`
     ADD FOREIGN KEY (`noi_that_id`) REFERENCES `noithat` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE `vatlieu`
     ADD FOREIGN KEY (`hang_muc_id`) REFERENCES `hangmuc` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
-ALTER TABLE `vatlieu`
-    ADD FOREIGN KEY (`thong_so_id`) REFERENCES `thongso` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE `thongso`
+    ADD FOREIGN KEY (`vatlieu_id`) REFERENCES `vatlieu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE `roles`
     ADD FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;

@@ -48,7 +48,7 @@ public class ThongSoDAOMysql implements ThongSoDAO {
     @Transactional
     public void save(String owner, ThongSoEntity thongSoEntity, int parentId) {
         Query query = entityManager.createQuery(
-                "insert into ThongSoEntity (dai, rong, cao, donVi, donGia, account) " +
+                "insert into ThongSoEntity (dai, rong, cao, donVi, donGia, account, vatLieuEntity) " +
                         "select :dai, :rong, :cao, :don_vi, :don_gia, " +
                         "(from AccountEntity a where a.username = :owner), " +
                         "(from VatLieuEntity nt where nt.id = :parentId)");
