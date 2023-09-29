@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat;
 
+import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
 import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
 import jakarta.persistence.EntityManager;
@@ -111,6 +112,17 @@ public class NoiThatDAOMysql implements NoiThatDAO {
                         "order by pc.id", NoiThatEntity.class);
         query.setParameter("id", id);
         query.setParameter("owner", owner);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<NoiThatEntity> searchByParentName(String owner, String phongCachName) {
+        TypedQuery<NoiThatEntity> query = entityManager.createQuery(
+                "from NoiThatEntity nt " +
+                        "where nt.phongCachNoiThatEntity.name = :phongCachName and nt.account.username = :owner " +
+                        "order by nt.id", NoiThatEntity.class);
+        query.setParameter("owner", owner);
+        query.setParameter("phongCachName", phongCachName);
         return query.getResultList();
     }
 }

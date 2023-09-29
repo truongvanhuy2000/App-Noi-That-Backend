@@ -62,4 +62,10 @@ public class NoiThatServiceImpl implements NoiThatService {
         return noiThatDAO.searchByPhongCach(owner, id).stream()
                 .map(item -> new NoiThat(item, false)).toList();
     }
+
+    @Override
+    public List<NoiThat> searchByParentName(String owner, String phongCachName) {
+        return noiThatDAO.searchByParentName(owner, phongCachName).stream()
+                .map(item -> new NoiThat(item, false)).toList();
+    }
 }

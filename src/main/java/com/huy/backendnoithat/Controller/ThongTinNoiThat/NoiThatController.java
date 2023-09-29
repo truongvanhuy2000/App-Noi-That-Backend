@@ -52,5 +52,9 @@ public class NoiThatController {
     public NoiThat joinFetchNoiThatUsingId(@RequestParam(value = "owner") String owner, @PathVariable int id) {
         return noiThatService.joinFetchNoiThatUsingId(id);
     }
-
+    @GetMapping("/searchByParentName")
+    public List<NoiThat> searchByParentName(@RequestParam(value = "owner") String owner,
+                                           @RequestParam(value = "phongCachName") String phongCachName) {
+        return noiThatService.searchByParentName(owner, phongCachName);
+    }
 }

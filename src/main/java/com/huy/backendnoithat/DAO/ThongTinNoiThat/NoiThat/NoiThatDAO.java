@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat;
 
+import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface NoiThatDAO {
     NoiThatEntity findByIdAndJoinFetch(int id);
 
     List<NoiThatEntity> searchByPhongCach(String owner, int id);
+
+    List<NoiThatEntity> searchByParentName(String owner, String phongCachName);
 }

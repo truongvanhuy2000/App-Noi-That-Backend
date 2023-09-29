@@ -19,4 +19,6 @@ public interface NoiThatService {
     NoiThat joinFetchNoiThatUsingId(int id);
 
     List<NoiThat> searchByPhongCach(String owner, int id);
+
+    List<NoiThat> searchByParentName(String owner, String phongCachName);
 }
