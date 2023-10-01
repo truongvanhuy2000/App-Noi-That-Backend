@@ -38,7 +38,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void update(Account Account) {
-        accountDAO.update(Account.getUsername(), Account.getPassword(), Account.getId());
+        accountDAO.update(new AccountEntity(Account));
     }
 
     @Override

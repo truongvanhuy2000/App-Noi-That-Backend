@@ -9,7 +9,7 @@ public interface AccountDAO {
     AccountEntity findById(int id);
     AccountEntity findByUsername(String username);
     void save(AccountEntity accountEntity);
-    void update(String username, String password, int id);
+    void update(AccountEntity accountEntity);
     void deleteById(int id);
     void activateAccount(int id);
     void deactivateAccount(int id);

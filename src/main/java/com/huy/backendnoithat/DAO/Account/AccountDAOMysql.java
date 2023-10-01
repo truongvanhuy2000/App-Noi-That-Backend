@@ -53,12 +53,12 @@ public class AccountDAOMysql implements AccountDAO{
     }
     @Override
     @Transactional
-    public void update(String username, String password, int id) {
+    public void update(AccountEntity accountEntity) {
         Query query = entityManager.createQuery(
                 "UPDATE AccountEntity acc SET acc.username = :username, acc.password = :password WHERE acc.id = :id");
-        query.setParameter("username", username);
-        query.setParameter("password", password);
-        query.setParameter("id", id);
+        query.setParameter("username", accountEntity.getUsername());
+        query.setParameter("password", accountEntity.getPassword());
+        query.setParameter("id", accountEntity.getId());
         query.executeUpdate();
     }
     @Override
