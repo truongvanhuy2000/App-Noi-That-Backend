@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiThat;
 
+import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu.VatLieuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,12 @@ public class VatLieuController {
     @GetMapping("/searchByHangMuc/{id}")
     public List<VatLieu> searchByHangMuc(@RequestParam(value = "owner") String owner, @PathVariable int id) {
         return vatLieuService.searchByHangMuc(owner, id);
+    }
+    @GetMapping("/seachByParentName")
+    public List<NoiThat> seachByParentName(@RequestParam(value = "owner") String owner,
+                                           @RequestParam(value = "phongCachName") String phongCachName,
+                                           @RequestParam(value = "noiThatName") String noiThatName,
+                                           @RequestParam(value = "hangMucName") String hangMucName) {
+        return null;
     }
 }

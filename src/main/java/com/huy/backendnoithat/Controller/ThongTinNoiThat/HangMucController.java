@@ -1,6 +1,7 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiThat;
 
 import com.huy.backendnoithat.DTO.BangNoiThat.HangMuc;
+import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc.HangMucService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -51,5 +52,11 @@ public class HangMucController {
     @GetMapping("/fetch/{id}")
     public HangMuc joinFetchHangMucUsingId(@RequestParam(value = "owner") String owner, @PathVariable int id) {
         return hangMucService.joinFetchHangMucUsingId(id);
+    }
+    @GetMapping("/seachByParentName")
+    public List<NoiThat> seachByParentName(@RequestParam(value = "owner") String owner,
+                                           @RequestParam(value = "phongCachName") String phongCachName,
+                                           @RequestParam(value = "noiThatName") String noiThatName) {
+        return null;
     }
 }
