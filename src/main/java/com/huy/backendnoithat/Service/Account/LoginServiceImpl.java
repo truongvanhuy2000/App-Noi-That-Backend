@@ -14,16 +14,13 @@ import org.springframework.stereotype.Service;
 public class LoginServiceImpl implements LoginService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
-    private final AccountService accountService;
     @Autowired
-    public LoginServiceImpl(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, AccountService accountService) {
+    public LoginServiceImpl(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
-        this.accountService = accountService;
     }
     @Override
     public String login(String username, String password) {
-        ObjectMapper objectMapper = new ObjectMapper();
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         username,
@@ -31,12 +28,6 @@ public class LoginServiceImpl implements LoginService {
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtTokenUtil.generateAccessToken(username);
-        Account account = accountService.findByUsername(username);
-//        ObjectNode responseObject = objectMapper.createObjectNode();
-//        ObjectNode accountObject = objectMapper.createObjectNode();
-        //            responseObject.put("account", objectMapper.writeValueAsString(account));
-//        responseObject.put("token", token);
-        return token;
+        return jwtTokenUtil.generateAccessToken(username);
     }
 }
