@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.Security;
 
+import com.huy.backendnoithat.DTO.AccountManagement.Account;
 import com.huy.backendnoithat.Service.Account.AccountService;
 import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
@@ -23,11 +24,12 @@ import java.util.List;
 public class JwtTokenFilter extends OncePerRequestFilter {
     private final JwtTokenUtil jwtTokenUtil;
     private final UserDetailsService userDetailsService;
-
+    private final AccountService accountService;
     @Autowired
-    public JwtTokenFilter(JwtTokenUtil jwtTokenUtil, UserDetailsService userDetailsService, AccountService accountService) {
+    public JwtTokenFilter(JwtTokenUtil jwtTokenUtil, UserDetailsService userDetailsService, AccountService accountService, AccountService accountService1) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
+        this.accountService = accountService1;
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -52,8 +54,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private boolean isUserEnabled(String username) {
-//        Account account = accountService.findByUsername(username);
-//        return account != null && account.isEnabled();
-        return true;
+        Account account = accountService.findByUsername(username);
+        return account != null && account.isEnabled();
     }
 }
