@@ -14,7 +14,6 @@ public class RegisterServiceImpl implements RegisterService{
     public RegisterServiceImpl(AccountService accountService) {
         this.accountService = accountService;
     }
-
     @Override
     public void register(Account account) {
         account.setEnabled(false);
@@ -23,5 +22,18 @@ public class RegisterServiceImpl implements RegisterService{
         roles.add("ROLE_USER");
         account.setRoles(roles);
         accountService.save(account);
+    }
+    @Override
+    public boolean usernameValidation(String username) {
+        if (username == null || username.isEmpty()) {
+            return false;
+        }
+        Account account;
+        try {
+            account = accountService.findByUsername(username);
+        } catch (Exception e) {
+            return true;
+        }
+        return account == null;
     }
 }
