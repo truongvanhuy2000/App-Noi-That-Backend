@@ -3,11 +3,9 @@ package com.huy.backendnoithat.Controller.Account;
 import com.huy.backendnoithat.DTO.AccountManagement.Account;
 import com.huy.backendnoithat.Service.Account.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -22,7 +20,10 @@ public class BaseController {
         return ResponseEntity.ok("Hello");
     }
     @GetMapping("/info")
-    public Account info(@RequestParam(name="username") String username) {
-        return baseService.getAccountInformation(username);
+    public Account info(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                        @RequestParam(name="username", required = false) String username) {
+        String token = header.split(" ")[1].trim();
+        return baseService.getAccountInformation(token);
     }
+
 }
