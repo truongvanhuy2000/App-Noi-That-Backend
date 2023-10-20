@@ -1,7 +1,10 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc;
 
+import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface HangMucDAO {
@@ -14,4 +17,6 @@ public interface HangMucDAO {
     List<HangMucEntity> findAllAndJoinFetch(String owner);
     HangMucEntity findByIdAndJoinFetch(String owner, int id);
     List<HangMucEntity> searchByNoiThat(String owner, int id);
+
+    List<HangMucEntity> searchBy(String owner, String phongCachName, String noiThatName);
 }

@@ -20,5 +20,5 @@ public interface NoiThatService {
 
     List<NoiThat> searchByPhongCach(String owner, int id);
 
-    List<NoiThat> searchByParentName(String owner, String phongCachName);
+    List<NoiThat> searchBy(String owner, String phongCachName);
 }

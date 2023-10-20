@@ -53,10 +53,10 @@ public class HangMucController {
     public HangMuc joinFetchHangMucUsingId(@RequestParam(value = "owner") String owner, @PathVariable int id) {
         return hangMucService.joinFetchHangMucUsingId(id);
     }
-    @GetMapping("/seachByParentName")
-    public List<NoiThat> seachByParentName(@RequestParam(value = "owner") String owner,
+    @GetMapping("/searchBy")
+    public List<HangMuc> searchBy(@RequestParam(value = "owner") String owner,
                                            @RequestParam(value = "phongCachName") String phongCachName,
                                            @RequestParam(value = "noiThatName") String noiThatName) {
-        return null;
+        return hangMucService.searchBy(owner, phongCachName, noiThatName);
     }
 }

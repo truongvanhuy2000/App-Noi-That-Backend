@@ -111,4 +111,18 @@ public class HangMucDAOMysql implements HangMucDAO {
         query.setParameter("owner", owner);
         return query.getResultList();
     }
+
+    @Override
+    public List<HangMucEntity> searchBy(String owner, String phongCachName, String noiThatName) {
+        TypedQuery<HangMucEntity> query = entityManager.createQuery(
+                "from HangMucEntity pc " +
+                        "where pc.noiThatEntity.name = :noiThatName " +
+                        "and pc.noiThatEntity.phongCachNoiThatEntity.name = :phongCachName " +
+                        "and pc.account.username = :owner " +
+                        "order by pc.id", HangMucEntity.class);
+        query.setParameter("phongCachName", phongCachName);
+        query.setParameter("noiThatName", noiThatName);
+        query.setParameter("owner", owner);
+        return query.getResultList();
+    }
 }

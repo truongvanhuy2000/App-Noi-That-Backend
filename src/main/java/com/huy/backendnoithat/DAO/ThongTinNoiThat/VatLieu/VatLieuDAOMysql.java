@@ -112,4 +112,21 @@ public class VatLieuDAOMysql implements VatLieuDAO {
         query.setParameter("owner", owner);
         return query.getResultList();
     }
+
+    @Override
+    public List<VatLieuEntity> searchBy(String owner, String phongCachName, String noiThatName, String hangMucName) {
+        TypedQuery<VatLieuEntity> query = entityManager.createQuery(
+                "from VatLieuEntity pc " +
+                        "left join fetch pc.thongSoEntity " +
+                        "where pc.hangMucEntity.noiThatEntity.name = :noiThatName " +
+                        "and pc.hangMucEntity.noiThatEntity.phongCachNoiThatEntity.name = :phongCachName " +
+                        "and pc.hangMucEntity.name = :hangMucName " +
+                        "and pc.account.username = :owner " +
+                        "order by pc.id", VatLieuEntity.class);
+        query.setParameter("noiThatName", noiThatName);
+        query.setParameter("phongCachName", phongCachName);
+        query.setParameter("hangMucName", hangMucName);
+        query.setParameter("owner", owner);
+        return query.getResultList();
+    }
 }

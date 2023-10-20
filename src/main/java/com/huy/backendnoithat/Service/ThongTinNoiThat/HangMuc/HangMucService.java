@@ -1,6 +1,7 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc;
 
 import com.huy.backendnoithat.DTO.BangNoiThat.HangMuc;
+import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface HangMucService {
     HangMuc joinFetchHangMucUsingId(int id);
 
     List<HangMuc> searchByNoiThat(String owner, int id);
+
+    List<HangMuc> searchBy(String owner, String phongCachName, String noiThatName);
 }

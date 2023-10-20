@@ -3,6 +3,7 @@ package com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu;
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc.HangMucDAO;
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.VatLieu.VatLieuDAO;
 import com.huy.backendnoithat.DTO.BangNoiThat.HangMuc;
+import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.DTO.BangNoiThat.ThongSo;
 import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
 import com.huy.backendnoithat.Entity.BangNoiThat.ThongSoEntity;
@@ -58,5 +59,10 @@ public class VatLieuServiceImpl implements VatLieuService {
     @Override
     public List<VatLieu> searchByHangMuc(String owner, int id) {
         return vatLieuDAO.searchByHangMuc(owner, id).stream().map(item -> new VatLieu(item, true)).toList();
+    }
+
+    @Override
+    public List<VatLieu> searchBy(String owner, String phongCachName, String noiThatName, String hangMucName) {
+        return vatLieuDAO.searchBy(owner, phongCachName, noiThatName, hangMucName).stream().map(item -> new VatLieu(item, true)).toList();
     }
 }

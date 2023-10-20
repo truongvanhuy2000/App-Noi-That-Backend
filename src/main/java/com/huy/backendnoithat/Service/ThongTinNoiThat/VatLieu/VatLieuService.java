@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu;
 
+import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.DTO.BangNoiThat.PhongCach;
 import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
 
@@ -15,4 +16,6 @@ public interface VatLieuService {
     void update(String owner, VatLieu vatLieu);
     List<VatLieu> joinFetchVatLieu();
     List<VatLieu> searchByHangMuc(String owner, int id);
+
+    List<VatLieu> searchBy(String owner, String phongCachName, String noiThatName, String hangMucName);
 }
