@@ -4,6 +4,8 @@ build:
 	sudo docker push truongvanhuy2000/appnoithatbackend
 run:
 	@sudo docker pull truongvanhuy2000/appnoithatbackend && \
-	sudo docker compose up -d --force-recreate
+	sudo docker compose up -d db && \
+	sleep 10 && \
+	sudo docker compose up -d backend
 stop:
 	@sudo docker compose down
