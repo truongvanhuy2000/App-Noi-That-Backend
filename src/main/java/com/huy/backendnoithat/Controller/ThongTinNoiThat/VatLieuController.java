@@ -44,11 +44,11 @@ public class VatLieuController {
     public List<VatLieu> searchByHangMuc(@RequestParam(value = "owner") String owner, @PathVariable int id) {
         return vatLieuService.searchByHangMuc(owner, id);
     }
-    @GetMapping("/seachByParentName")
-    public List<NoiThat> seachByParentName(@RequestParam(value = "owner") String owner,
+    @GetMapping("/searchBy")
+    public List<VatLieu> searchBy(@RequestParam(value = "owner") String owner,
                                            @RequestParam(value = "phongCachName") String phongCachName,
                                            @RequestParam(value = "noiThatName") String noiThatName,
                                            @RequestParam(value = "hangMucName") String hangMucName) {
-        return null;
+        return vatLieuService.searchBy(owner, phongCachName, noiThatName, hangMucName);
     }
 }

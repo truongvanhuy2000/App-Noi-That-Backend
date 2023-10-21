@@ -1,12 +1,8 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat.NoiThatDAO;
-import com.huy.backendnoithat.DAO.ThongTinNoiThat.PhongCach.PhongCachDAO;
-import com.huy.backendnoithat.DTO.BangNoiThat.PhongCach;
 import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
 import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
-import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
-import com.huy.backendnoithat.Service.ThongTinNoiThat.PhongCach.PhongCachService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,8 +60,8 @@ public class NoiThatServiceImpl implements NoiThatService {
     }
 
     @Override
-    public List<NoiThat> searchByParentName(String owner, String phongCachName) {
-        return noiThatDAO.searchByParentName(owner, phongCachName).stream()
+    public List<NoiThat> searchBy(String owner, String phongCachName) {
+        return noiThatDAO.searchBy(owner, phongCachName).stream()
                 .map(item -> new NoiThat(item, false)).toList();
     }
 }

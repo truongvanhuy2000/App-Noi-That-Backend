@@ -116,7 +116,7 @@ public class NoiThatDAOMysql implements NoiThatDAO {
     }
 
     @Override
-    public List<NoiThatEntity> searchByParentName(String owner, String phongCachName) {
+    public List<NoiThatEntity> searchBy(String owner, String phongCachName) {
         TypedQuery<NoiThatEntity> query = entityManager.createQuery(
                 "from NoiThatEntity nt " +
                         "where nt.phongCachNoiThatEntity.name = :phongCachName and nt.account.username = :owner " +

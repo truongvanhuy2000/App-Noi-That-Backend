@@ -2,6 +2,7 @@ package com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc.HangMucDAO;
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat.NoiThatDAO;
+import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
 import com.huy.backendnoithat.DTO.BangNoiThat.HangMuc;
 import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
@@ -56,5 +57,11 @@ public class HangMucServiceImpl implements HangMucService {
     @Override
     public List<HangMuc> searchByNoiThat(String owner, int id) {
         return hangMucDAO.searchByNoiThat(owner, id).stream().map(hangMuc -> new HangMuc(hangMuc, false)).toList();
+    }
+
+    @Override
+    public List<HangMuc> searchBy(String owner, String phongCachName, String noiThatName) {
+        return hangMucDAO.searchBy(owner, phongCachName, noiThatName).stream().map(
+                hangMucEntity -> new HangMuc(hangMucEntity, false)).toList();
     }
 }

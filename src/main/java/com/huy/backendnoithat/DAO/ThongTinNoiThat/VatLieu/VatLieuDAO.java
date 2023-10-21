@@ -2,6 +2,7 @@ package com.huy.backendnoithat.DAO.ThongTinNoiThat.VatLieu;
 
 import com.huy.backendnoithat.Entity.BangNoiThat.VatLieuEntity;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface VatLieuDAO {
@@ -14,4 +15,5 @@ public interface VatLieuDAO {
     List<VatLieuEntity> findAllAndJoinFetch(String owner);
     VatLieuEntity findByIdAndJoinFetch(String owner, int id);
     List<VatLieuEntity> searchByHangMuc(String owner, int id);
+    List<VatLieuEntity> searchBy(String owner, String phongCachName, String noiThatName, String hangMucName);
 }
