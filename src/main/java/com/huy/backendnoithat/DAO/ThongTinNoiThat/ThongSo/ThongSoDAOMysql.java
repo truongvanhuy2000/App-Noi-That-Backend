@@ -114,5 +114,16 @@ public class ThongSoDAOMysql implements ThongSoDAO {
         query.setParameter("owner", owner);
         return query.getResultList();
     }
+
+    @Override
+    public void copySampleDataFromAdmin(int id, int parentId) {
+//        String jpql = "INSERT INTO thongso (dai, rong, cao, don_vi, don_gia, account_id) " +
+//                "SELECT name, :id, :parentId FROM thongso " +
+//                "WHERE account_id = 27";
+//        Query query = entityManager.createNativeQuery(jpql);
+//        query.setParameter("id", id);
+//        query.setParameter("parentId", parentId);
+//        query.executeUpdate();
+    }
 }
 

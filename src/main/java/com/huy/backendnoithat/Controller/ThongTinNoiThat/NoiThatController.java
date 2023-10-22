@@ -3,6 +3,8 @@ package com.huy.backendnoithat.Controller.ThongTinNoiThat;
 import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat.NoiThatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,5 +58,12 @@ public class NoiThatController {
     public List<NoiThat> searchBy(@RequestParam(value = "owner") String owner,
                                            @RequestParam(value = "phongCachName") String phongCachName) {
         return noiThatService.searchBy(owner, phongCachName);
+    }
+    @GetMapping("/copySampleData")
+    public ResponseEntity<String> copySampleDataFromAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                                                          @RequestParam(value = "parentId") int parentId) {
+        String token = header.split(" ")[1].trim();
+        noiThatService.copySampleDataFromAdmin(token, parentId);
+        return ResponseEntity.ok("Copied successfully.");
     }
 }

@@ -21,4 +21,6 @@ public interface NoiThatService {
     List<NoiThat> searchByPhongCach(String owner, int id);
 
     List<NoiThat> searchBy(String owner, String phongCachName);
+
+    void copySampleDataFromAdmin(String token, int parentId);
 }

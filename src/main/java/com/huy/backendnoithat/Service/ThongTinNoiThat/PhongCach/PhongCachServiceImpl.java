@@ -1,8 +1,11 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.PhongCach;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.PhongCach.PhongCachDAO;
+import com.huy.backendnoithat.DTO.AccountManagement.Account;
 import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
 import com.huy.backendnoithat.DTO.BangNoiThat.PhongCach;
+import com.huy.backendnoithat.Service.Account.AccountService;
+import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +13,15 @@ import java.util.List;
 @Service
 public class PhongCachServiceImpl implements PhongCachService {
     PhongCachDAO phongCachDAO;
+    AccountService accountService;
+    JwtTokenUtil jwtTokenUtil;
     @Autowired
-    public void setPhongCachDAO(PhongCachDAO phongCachDAO) {
+    public PhongCachServiceImpl(PhongCachDAO phongCachDAO, JwtTokenUtil jwtTokenUtil, AccountService accountService) {
         this.phongCachDAO = phongCachDAO;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.accountService = accountService;
     }
+
     @Override
     public List<PhongCach> findAll(String owner) {
         List<PhongCachNoiThatEntity> phongCachNoiThatEntities = phongCachDAO.findAll(owner);
@@ -55,5 +63,11 @@ public class PhongCachServiceImpl implements PhongCachService {
     @Override
     public PhongCach joinFetchPhongCachUsingId(String owner, int id) {
         return new PhongCach(phongCachDAO.findByIdAndJoinFetch(owner, id), true);
+    }
+    @Override
+    public void copySampleDataFromAdmin(String token) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        Account account = accountService.findByUsername(username);
+        phongCachDAO.copySampleDataFromAdmin(account.getId());
     }
 }

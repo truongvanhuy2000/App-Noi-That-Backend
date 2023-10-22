@@ -4,6 +4,8 @@ import com.huy.backendnoithat.DTO.BangNoiThat.HangMuc;
 import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc.HangMucService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,5 +60,12 @@ public class HangMucController {
                                            @RequestParam(value = "phongCachName") String phongCachName,
                                            @RequestParam(value = "noiThatName") String noiThatName) {
         return hangMucService.searchBy(owner, phongCachName, noiThatName);
+    }
+    @GetMapping("/copySampleData")
+    public ResponseEntity<String> copySampleDataFromAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                                                          @RequestParam(value = "parentId") int parentId) {
+        String token = header.split(" ")[1].trim();
+        hangMucService.copySampleDataFromAdmin(token, parentId);
+        return ResponseEntity.ok("Copied successfully.");
     }
 }

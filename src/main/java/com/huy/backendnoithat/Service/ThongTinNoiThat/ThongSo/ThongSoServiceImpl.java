@@ -1,12 +1,11 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.ThongSo;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.ThongSo.ThongSoDAO;
-import com.huy.backendnoithat.DAO.ThongTinNoiThat.VatLieu.VatLieuDAO;
-import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
+import com.huy.backendnoithat.DTO.AccountManagement.Account;
 import com.huy.backendnoithat.Entity.BangNoiThat.ThongSoEntity;
 import com.huy.backendnoithat.DTO.BangNoiThat.ThongSo;
-import com.huy.backendnoithat.Entity.BangNoiThat.VatLieuEntity;
-import com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu.VatLieuService;
+import com.huy.backendnoithat.Service.Account.AccountService;
+import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +13,13 @@ import java.util.List;
 @Service
 public class ThongSoServiceImpl implements ThongSoService {
     ThongSoDAO thongSoDAO;
-
+    AccountService accountService;
+    JwtTokenUtil jwtTokenUtil;
     @Autowired
-    public ThongSoServiceImpl(ThongSoDAO thongSoDAO) {
+    public ThongSoServiceImpl(ThongSoDAO thongSoDAO, AccountService accountService, JwtTokenUtil jwtTokenUtil) {
         this.thongSoDAO = thongSoDAO;
+        this.accountService = accountService;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
     @Override
     public List<ThongSo> findAll(String owner) {
@@ -52,5 +54,12 @@ public class ThongSoServiceImpl implements ThongSoService {
     @Override
     public List<ThongSo> searchByVatLieu(String owner, int id) {
         return thongSoDAO.searchByVatLieu(owner, id).stream().map(ThongSo::new).toList();
+    }
+
+    @Override
+    public void copySampleDataFromAdmin(String token, int parentId) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        Account account = accountService.findByUsername(username);
+        thongSoDAO.copySampleDataFromAdmin(account.getId(), parentId);
     }
 }

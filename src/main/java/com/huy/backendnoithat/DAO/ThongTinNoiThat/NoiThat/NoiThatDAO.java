@@ -1,6 +1,7 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat;
 
 import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface NoiThatDAO {
     List<NoiThatEntity> searchByPhongCach(String owner, int id);
 
     List<NoiThatEntity> searchBy(String owner, String phongCachName);
+    void copySampleDataFromAdmin(int id, int parentId, String parentName);
 }

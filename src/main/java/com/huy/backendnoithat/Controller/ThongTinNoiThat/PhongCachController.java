@@ -3,6 +3,8 @@ package com.huy.backendnoithat.Controller.ThongTinNoiThat;
 import com.huy.backendnoithat.DTO.BangNoiThat.PhongCach;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.PhongCach.PhongCachService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,5 +50,11 @@ public class PhongCachController {
     @GetMapping("/fetch/{id}")
     public PhongCach joinFetchPhongCachUsingId(@RequestParam(value = "owner") String owner, @PathVariable int id) {
         return phongCachService.joinFetchPhongCachUsingId(owner, id);
+    }
+    @GetMapping("/copySampleData")
+    public ResponseEntity<String> copySampleDataFromAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String header) {
+        String token = header.split(" ")[1].trim();
+        phongCachService.copySampleDataFromAdmin(token);
+        return ResponseEntity.ok("Copied successfully.");
     }
 }

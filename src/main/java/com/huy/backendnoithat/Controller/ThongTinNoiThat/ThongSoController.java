@@ -4,6 +4,8 @@ import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.DTO.BangNoiThat.ThongSo;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.ThongSo.ThongSoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,5 +53,12 @@ public class ThongSoController {
                                            @RequestParam(value = "hangMucName") String hangMucName,
                                            @RequestParam(value = "vatLieuName") String vatLieuName) {
         return null;
+    }
+    @GetMapping("/copySampleData")
+    public ResponseEntity<String> copySampleDataFromAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                                                          @RequestParam(value = "parentId") int parentId) {
+        String token = header.split(" ")[1].trim();
+        thongSoService.copySampleDataFromAdmin(token, parentId);
+        return ResponseEntity.ok("Copied successfully.");
     }
 }

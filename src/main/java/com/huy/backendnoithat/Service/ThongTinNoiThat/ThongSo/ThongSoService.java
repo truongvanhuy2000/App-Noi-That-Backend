@@ -12,4 +12,6 @@ public interface ThongSoService {
     void deleteById(String owner, int id);
     void update(String owner, ThongSo thongSo);
     List<ThongSo> searchByVatLieu(String owner, int id);
+
+    void copySampleDataFromAdmin(String token, int parentId);
 }
