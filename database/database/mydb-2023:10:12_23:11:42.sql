@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.34, for Linux (x86_64)
 --
--- Host: localhost    Database: appnoithat
+-- Host: 103.238.234.22    Database: appnoithat
 -- ------------------------------------------------------
 -- Server version	8.1.0
 
@@ -34,7 +34,7 @@ CREATE TABLE `account` (
   UNIQUE KEY `username` (`username`),
   KEY `info_id` (`info_id`),
   CONSTRAINT `account_ibfk_1` FOREIGN KEY (`info_id`) REFERENCES `accountinformation` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (1,'user','{noop}user',1,1,1,'2023-12-31'),(2,'admin','{noop}admin',1,2,1,'2300-12-31'),(15,'asdsasd','{noop}asd',0,15,0,'2024-12-29'),(16,'dsad','{noop}sad',0,16,0,'2024-12-29'),(17,'sdfsd','{noop}sdf',0,17,0,'2024-12-29'),(27,'kim','{noop}kim',1,27,1,'2024-04-30'),(34,'anhnn','{noop}1234567',1,34,1,'2024-02-11'),(36,'Bossphu123','{noop}bossphu',1,36,1,'2024-05-17');
+INSERT INTO `account` VALUES (1,'user','{noop}user',1,1,1,'2023-12-31'),(2,'admin','{noop}admin',1,2,1,'2300-12-31'),(4,'sa','{noop}ddas',1,4,1,'2023-12-28'),(15,'asdsasd','{noop}asd',0,15,0,'2024-12-29'),(16,'dsad','{noop}sad',0,16,0,'2024-12-29'),(17,'sdfsd','{noop}sdf',0,17,0,'2024-12-29'),(27,'kim','{noop}kim',1,27,1,'2024-04-30'),(30,'thuong11','{noop}123',0,30,0,'2023-10-30'),(31,'adad','{noop}adad',0,31,0,'2023-10-30'),(32,'asdd','{noop}123456',0,32,0,'2024-12-30'),(33,'huyy','{noop}12321',0,33,0,'2024-05-12'),(34,'anhnn','{noop}1234',1,34,1,'2023-11-11');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +62,7 @@ CREATE TABLE `accountinformation` (
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
   `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +71,7 @@ CREATE TABLE `accountinformation` (
 
 LOCK TABLES `accountinformation` WRITE;
 /*!40000 ALTER TABLE `accountinformation` DISABLE KEYS */;
-INSERT INTO `accountinformation` VALUES (1,'John Doe','Male','john.doe@example.com','123 Main St, City','123-456-7890'),(2,'Jane Smith','Female','jane.smith@example.com','456 Elm St, Town','987-654-3210'),(15,'asdsa','Male','dasdas','dsad','sadssa'),(16,'sad','Female','sadasd','asdasd','adsda'),(17,'sdfds','Male','fds','sdfds','sdf'),(27,'kim','Male','kim','kim','000'),(34,NULL,NULL,NULL,NULL,NULL),(36,'Phu','Nam','phu','Phúc Thọ Hà Nội','000000000000');
+INSERT INTO `accountinformation` VALUES (1,'John Doe','Male','john.doe@example.com','123 Main St, City','123-456-7890'),(2,'Jane Smith','Female','jane.smith@example.com','456 Elm St, Town','987-654-3210'),(4,'asdsad','Nam','dsa','asddasd','asd'),(15,'asdsa','Male','dasdas','dsad','sadssa'),(16,'sad','Female','sadasd','asdasd','adsda'),(17,'sdfds','Male','fds','sdfds','sdf'),(27,'kim','Male','kim','kim','000'),(30,'123','Male','123','123','123123'),(31,'adad','Male','adad','adad','adad'),(32,'asdaasdasd','Male','asdasd','asdasd','asassdsa'),(33,'adfads','Male','asdsad','asdasdsaasd','asdasdsad'),(34,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `accountinformation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,7 +176,7 @@ CREATE TABLE `roles` (
   PRIMARY KEY (`id`),
   KEY `account_id` (`account_id`),
   CONSTRAINT `roles_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +185,7 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,1,'ROLE_USER'),(2,2,'ROLE_ADMIN'),(14,15,'ROLE_USER'),(15,16,'ROLE_USER'),(16,17,'ROLE_USER'),(22,27,'ROLE_USER'),(29,34,'ROLE_USER'),(31,36,'ROLE_USER');
+INSERT INTO `roles` VALUES (1,1,'ROLE_USER'),(2,2,'ROLE_ADMIN'),(4,4,'ROLE_USER'),(14,15,'ROLE_USER'),(15,16,'ROLE_USER'),(16,17,'ROLE_USER'),(22,27,'ROLE_USER'),(25,30,'ROLE_USER'),(26,31,'ROLE_USER'),(27,32,'ROLE_USER'),(28,33,'ROLE_USER'),(29,34,'ROLE_USER');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,4 +262,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-19  3:00:01
+-- Dump completed on 2023-10-12 23:11:45

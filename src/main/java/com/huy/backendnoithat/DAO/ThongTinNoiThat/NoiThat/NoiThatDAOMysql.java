@@ -1,8 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat;
 
-import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
-import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
@@ -116,7 +114,7 @@ public class NoiThatDAOMysql implements NoiThatDAO {
     }
 
     @Override
-    public List<NoiThatEntity> searchByParentName(String owner, String phongCachName) {
+    public List<NoiThatEntity> searchBy(String owner, String phongCachName) {
         TypedQuery<NoiThatEntity> query = entityManager.createQuery(
                 "from NoiThatEntity nt " +
                         "where nt.phongCachNoiThatEntity.name = :phongCachName and nt.account.username = :owner " +
@@ -124,5 +122,19 @@ public class NoiThatDAOMysql implements NoiThatDAO {
         query.setParameter("owner", owner);
         query.setParameter("phongCachName", phongCachName);
         return query.getResultList();
+    }
+    @Transactional
+    @Override
+    public void copySampleDataFromAdmin(int id, int parentId, String parentName) {
+        String jpql = "INSERT INTO noithat (name, account_id, phong_cach_id) " +
+                "SELECT nt.name, :id, :parentId " +
+                "FROM noithat nt " +
+                "JOIN phongcachnoithat pc ON pc.id = nt.phong_cach_id " +
+                "WHERE nt.account_id = 27 and pc.name = :parentName";
+        Query query = entityManager.createNativeQuery(jpql);
+        query.setParameter("id", id);
+        query.setParameter("parentId", parentId);
+        query.setParameter("parentName", parentName);
+        query.executeUpdate();
     }
 }

@@ -1,15 +1,13 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu;
 
-import com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc.HangMucDAO;
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.VatLieu.VatLieuDAO;
-import com.huy.backendnoithat.DTO.BangNoiThat.HangMuc;
-import com.huy.backendnoithat.DTO.BangNoiThat.ThongSo;
-import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
-import com.huy.backendnoithat.Entity.BangNoiThat.ThongSoEntity;
+import com.huy.backendnoithat.DTO.AccountManagement.Account;
 import com.huy.backendnoithat.Entity.BangNoiThat.VatLieuEntity;
 import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
+import com.huy.backendnoithat.Service.Account.AccountService;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc.HangMucService;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.ThongSo.ThongSoService;
+import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +16,16 @@ import java.util.List;
 public class VatLieuServiceImpl implements VatLieuService {
     VatLieuDAO vatLieuDAO;
     ThongSoService thongSoService;
+    AccountService accountService;
+    JwtTokenUtil jwtTokenUtil;
     @Autowired
-    public VatLieuServiceImpl(VatLieuDAO vatLieuDAO, ThongSoService thongSoService) {
+    HangMucService hangMucService;
+    @Autowired
+    public VatLieuServiceImpl(VatLieuDAO vatLieuDAO, ThongSoService thongSoService, AccountService accountService, JwtTokenUtil jwtTokenUtil) {
         this.vatLieuDAO = vatLieuDAO;
         this.thongSoService = thongSoService;
+        this.accountService = accountService;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
     @Override
     public List<VatLieu> findAll(String owner) {
@@ -58,5 +62,18 @@ public class VatLieuServiceImpl implements VatLieuService {
     @Override
     public List<VatLieu> searchByHangMuc(String owner, int id) {
         return vatLieuDAO.searchByHangMuc(owner, id).stream().map(item -> new VatLieu(item, true)).toList();
+    }
+
+    @Override
+    public List<VatLieu> searchBy(String owner, String phongCachName, String noiThatName, String hangMucName) {
+        return vatLieuDAO.searchBy(owner, phongCachName, noiThatName, hangMucName).stream().map(item -> new VatLieu(item, true)).toList();
+    }
+
+    @Override
+    public void copySampleDataFromAdmin(String token, int parentId) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        Account account = accountService.findByUsername(username);
+        String parentName = hangMucService.findUsingId(username, parentId).getName();
+        vatLieuDAO.copySampleDataFromAdmin(account.getId(), parentId, parentName);
     }
 }

@@ -100,4 +100,15 @@ public class PhongCachDAOMysql implements PhongCachDAO {
         query.setParameter("id", id);
         return query.getSingleResult();
     }
+
+    @Override
+    @Transactional
+    public void copySampleDataFromAdmin(int id) {
+        String jpql = "INSERT INTO phongcachnoithat (name, account_id) " +
+                "SELECT pc.name, :id FROM phongcachnoithat pc " +
+                "WHERE account_id = 27";
+        Query query = entityManager.createNativeQuery(jpql);
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
 }

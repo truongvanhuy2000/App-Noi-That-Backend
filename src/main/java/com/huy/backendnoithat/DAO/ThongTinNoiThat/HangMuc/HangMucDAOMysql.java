@@ -1,8 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc;
 
 import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
-import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
-import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
@@ -110,5 +108,39 @@ public class HangMucDAOMysql implements HangMucDAO {
         query.setParameter("id", id);
         query.setParameter("owner", owner);
         return query.getResultList();
+    }
+
+    @Override
+    public List<HangMucEntity> searchBy(String owner, String phongCachName, String noiThatName) {
+        TypedQuery<HangMucEntity> query = entityManager.createQuery(
+                "from HangMucEntity pc " +
+                        "where pc.noiThatEntity.name = :noiThatName " +
+                        "and pc.noiThatEntity.phongCachNoiThatEntity.name = :phongCachName " +
+                        "and pc.account.username = :owner " +
+                        "order by pc.id", HangMucEntity.class);
+        query.setParameter("phongCachName", phongCachName);
+        query.setParameter("noiThatName", noiThatName);
+        query.setParameter("owner", owner);
+        return query.getResultList();
+    }
+    @Transactional
+    @Override
+    public void copySampleDataFromAdmin(int id, int parentId, String parentName) {
+        Query query = entityManager.createQuery(
+                "insert into HangMucEntity (name, account, noiThatEntity) " +
+                        ", " +
+                        "(from AccountEntity a where a.username = :owner), " +
+                        "(from NoiThatEntity nt where nt.id = :parentId)");
+
+        String jpql = "INSERT INTO hangmuc (name, account_id, noi_that_id) " +
+                "SELECT hm.name, :id, :parentId" +
+                " FROM hangmuc hm " +
+                "JOIN noithat nt ON nt.id = hm.noi_that_id " +
+                "WHERE hm.account_id = 27 and nt.name = :parentName";
+        Query query = entityManager.createNativeQuery(jpql);
+        query.setParameter("id", id);
+        query.setParameter("parentId", parentId);
+        query.setParameter("parentName", parentName);
+        query.executeUpdate();
     }
 }

@@ -1,12 +1,12 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat.NoiThatDAO;
-import com.huy.backendnoithat.DAO.ThongTinNoiThat.PhongCach.PhongCachDAO;
-import com.huy.backendnoithat.DTO.BangNoiThat.PhongCach;
+import com.huy.backendnoithat.DTO.AccountManagement.Account;
 import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
 import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
-import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
+import com.huy.backendnoithat.Service.Account.AccountService;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.PhongCach.PhongCachService;
+import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +14,15 @@ import java.util.List;
 @Service
 public class NoiThatServiceImpl implements NoiThatService {
     NoiThatDAO noiThatDAO;
+    AccountService accountService;
+    JwtTokenUtil jwtTokenUtil;
     @Autowired
-    public NoiThatServiceImpl(NoiThatDAO noiThatDAO) {
+    PhongCachService phongCachService;
+    @Autowired
+    public NoiThatServiceImpl(NoiThatDAO noiThatDAO, AccountService accountService, JwtTokenUtil jwtTokenUtil) {
         this.noiThatDAO = noiThatDAO;
+        this.accountService = accountService;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
     @Override
     public List<NoiThat> findAll(String owner) {
@@ -64,8 +70,16 @@ public class NoiThatServiceImpl implements NoiThatService {
     }
 
     @Override
-    public List<NoiThat> searchByParentName(String owner, String phongCachName) {
-        return noiThatDAO.searchByParentName(owner, phongCachName).stream()
+    public List<NoiThat> searchBy(String owner, String phongCachName) {
+        return noiThatDAO.searchBy(owner, phongCachName).stream()
                 .map(item -> new NoiThat(item, false)).toList();
+    }
+
+    @Override
+    public void copySampleDataFromAdmin(String token, int parentId) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        Account account = accountService.findByUsername(username);
+        String parentName = phongCachService.findById(username, parentId).getName();
+        noiThatDAO.copySampleDataFromAdmin(account.getId(), parentId, parentName);
     }
 }

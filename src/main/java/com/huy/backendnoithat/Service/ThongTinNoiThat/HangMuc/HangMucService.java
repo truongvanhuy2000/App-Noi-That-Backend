@@ -18,4 +18,8 @@ public interface HangMucService {
     HangMuc joinFetchHangMucUsingId(int id);
 
     List<HangMuc> searchByNoiThat(String owner, int id);
+
+    List<HangMuc> searchBy(String owner, String phongCachName, String noiThatName);
+
+    void copySampleDataFromAdmin(String token, int parentId);
 }

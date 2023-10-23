@@ -1,11 +1,12 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc.HangMucDAO;
-import com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat.NoiThatDAO;
+import com.huy.backendnoithat.DTO.AccountManagement.Account;
 import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
 import com.huy.backendnoithat.DTO.BangNoiThat.HangMuc;
-import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
+import com.huy.backendnoithat.Service.Account.AccountService;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat.NoiThatService;
+import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,15 @@ import java.util.List;
 @Service
 public class HangMucServiceImpl implements HangMucService {
     HangMucDAO hangMucDAO;
+    AccountService accountService;
+    JwtTokenUtil jwtTokenUtil;
     @Autowired
-    public HangMucServiceImpl(HangMucDAO hangMucDAO) {
+    NoiThatService noiThatService;
+    @Autowired
+    public HangMucServiceImpl(HangMucDAO hangMucDAO, AccountService accountService, JwtTokenUtil jwtTokenUtil) {
         this.hangMucDAO = hangMucDAO;
+        this.accountService = accountService;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
     @Override
     public List<HangMuc> findAll(String owner) {
@@ -56,5 +63,19 @@ public class HangMucServiceImpl implements HangMucService {
     @Override
     public List<HangMuc> searchByNoiThat(String owner, int id) {
         return hangMucDAO.searchByNoiThat(owner, id).stream().map(hangMuc -> new HangMuc(hangMuc, false)).toList();
+    }
+
+    @Override
+    public List<HangMuc> searchBy(String owner, String phongCachName, String noiThatName) {
+        return hangMucDAO.searchBy(owner, phongCachName, noiThatName).stream().map(
+                hangMucEntity -> new HangMuc(hangMucEntity, false)).toList();
+    }
+
+    @Override
+    public void copySampleDataFromAdmin(String token, int parentId) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        Account account = accountService.findByUsername(username);
+        String parentName = noiThatService.findUsingId(username, parentId).getName();
+        hangMucDAO.copySampleDataFromAdmin(account.getId(), parentId, parentName);
     }
 }

@@ -1,6 +1,5 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.VatLieu;
 
-import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
 import com.huy.backendnoithat.Entity.BangNoiThat.VatLieuEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -111,5 +110,35 @@ public class VatLieuDAOMysql implements VatLieuDAO {
         query.setParameter("id", id);
         query.setParameter("owner", owner);
         return query.getResultList();
+    }
+
+    @Override
+    public List<VatLieuEntity> searchBy(String owner, String phongCachName, String noiThatName, String hangMucName) {
+        TypedQuery<VatLieuEntity> query = entityManager.createQuery(
+                "from VatLieuEntity pc " +
+                        "left join fetch pc.thongSoEntity " +
+                        "where pc.hangMucEntity.noiThatEntity.name = :noiThatName " +
+                        "and pc.hangMucEntity.noiThatEntity.phongCachNoiThatEntity.name = :phongCachName " +
+                        "and pc.hangMucEntity.name = :hangMucName " +
+                        "and pc.account.username = :owner " +
+                        "order by pc.id", VatLieuEntity.class);
+        query.setParameter("noiThatName", noiThatName);
+        query.setParameter("phongCachName", phongCachName);
+        query.setParameter("hangMucName", hangMucName);
+        query.setParameter("owner", owner);
+        return query.getResultList();
+    }
+
+    @Override
+    public void copySampleDataFromAdmin(int id, int parentId, String parentName) {
+        String jpql = "INSERT INTO vatlieu (name, account_id, hang_muc_id) " +
+                "SELECT hm.name, :id, :parentId" +
+                " FROM vatlieu vl " +
+                "JOIN hangmuc hm ON hm.id = vl.hang_muc_id " +
+                "WHERE vl.account_id = 27 and hm.name = :parentName";
+        Query query = entityManager.createNativeQuery(jpql);
+        query.setParameter("id", id);
+        query.setParameter("parentId", parentId);
+        query.executeUpdate();
     }
 }

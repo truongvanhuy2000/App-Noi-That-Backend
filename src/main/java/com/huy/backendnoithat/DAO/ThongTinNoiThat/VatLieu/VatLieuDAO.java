@@ -14,4 +14,6 @@ public interface VatLieuDAO {
     List<VatLieuEntity> findAllAndJoinFetch(String owner);
     VatLieuEntity findByIdAndJoinFetch(String owner, int id);
     List<VatLieuEntity> searchByHangMuc(String owner, int id);
+    List<VatLieuEntity> searchBy(String owner, String phongCachName, String noiThatName, String hangMucName);
+    void copySampleDataFromAdmin(int id, int parentId, String parentName);
 }

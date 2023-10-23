@@ -1,9 +1,7 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.PhongCach;
 
 import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,4 +14,5 @@ public interface PhongCachDAO{
     void update(String owner, PhongCachNoiThatEntity phongCachNoiThatEntity);
     List<PhongCachNoiThatEntity> findAllAndJoinFetch(String owner);
     PhongCachNoiThatEntity findByIdAndJoinFetch(String owner, int id);
+    void copySampleDataFromAdmin(int id);
 }
