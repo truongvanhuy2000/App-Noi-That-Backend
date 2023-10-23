@@ -3,7 +3,7 @@ version: '3.7'
 services:
   db:
     image: mysql:latest
-    restart: on-failure
+    restart: no
     ports:
       - "3306:3306"
     environment:
