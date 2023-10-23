@@ -125,22 +125,18 @@ public class HangMucDAOMysql implements HangMucDAO {
     }
     @Transactional
     @Override
-    public void copySampleDataFromAdmin(int id, int parentId, String parentName) {
-        Query query = entityManager.createQuery(
-                "insert into HangMucEntity (name, account, noiThatEntity) " +
-                        ", " +
-                        "(from AccountEntity a where a.username = :owner), " +
-                        "(from NoiThatEntity nt where nt.id = :parentId)");
-
+    public void copySampleDataFromAdmin(int id, int parentId, String noithatName, String phongcachName) {
         String jpql = "INSERT INTO hangmuc (name, account_id, noi_that_id) " +
                 "SELECT hm.name, :id, :parentId" +
                 " FROM hangmuc hm " +
                 "JOIN noithat nt ON nt.id = hm.noi_that_id " +
-                "WHERE hm.account_id = 27 and nt.name = :parentName";
+                "JOIN phongcachnoithat pc on nt.phong_cach_id = pc.id " +
+                "WHERE hm.account_id = 27 and nt.name = :noithatName and pc.name = :phongcachName";
         Query query = entityManager.createNativeQuery(jpql);
         query.setParameter("id", id);
         query.setParameter("parentId", parentId);
-        query.setParameter("parentName", parentName);
+        query.setParameter("noithatName", noithatName);
+        query.setParameter("phongcachName", phongcachName);
         query.executeUpdate();
     }
 }

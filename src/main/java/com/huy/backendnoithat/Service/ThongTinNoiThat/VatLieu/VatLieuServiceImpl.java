@@ -1,9 +1,12 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu;
 
+import com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc.HangMucDAO;
+import com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat.NoiThatDAO;
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.VatLieu.VatLieuDAO;
 import com.huy.backendnoithat.DTO.AccountManagement.Account;
-import com.huy.backendnoithat.Entity.BangNoiThat.VatLieuEntity;
 import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
+import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.VatLieuEntity;
 import com.huy.backendnoithat.Service.Account.AccountService;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc.HangMucService;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.ThongSo.ThongSoService;
@@ -20,6 +23,10 @@ public class VatLieuServiceImpl implements VatLieuService {
     JwtTokenUtil jwtTokenUtil;
     @Autowired
     HangMucService hangMucService;
+    @Autowired
+    NoiThatDAO noiThatDAO;
+    @Autowired
+    HangMucDAO hangMucDAO;
     @Autowired
     public VatLieuServiceImpl(VatLieuDAO vatLieuDAO, ThongSoService thongSoService, AccountService accountService, JwtTokenUtil jwtTokenUtil) {
         this.vatLieuDAO = vatLieuDAO;
@@ -73,7 +80,11 @@ public class VatLieuServiceImpl implements VatLieuService {
     public void copySampleDataFromAdmin(String token, int parentId) {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         Account account = accountService.findByUsername(username);
-        String parentName = hangMucService.findUsingId(username, parentId).getName();
-        vatLieuDAO.copySampleDataFromAdmin(account.getId(), parentId, parentName);
+        HangMucEntity hangMucEntity = hangMucDAO.findById(username, parentId);
+        String hangMucName = hangMucEntity.getName();
+        String noiThatName = hangMucEntity.getNoiThatEntity().getName();
+        String phongcachName = hangMucEntity.getNoiThatEntity().getPhongCachNoiThatEntity().getName();
+
+        vatLieuDAO.copySampleDataFromAdmin(account.getId(), parentId, hangMucName, noiThatName, phongcachName);
     }
 }

@@ -129,16 +129,23 @@ public class VatLieuDAOMysql implements VatLieuDAO {
         return query.getResultList();
     }
 
+    @Transactional
     @Override
-    public void copySampleDataFromAdmin(int id, int parentId, String parentName) {
+    public void copySampleDataFromAdmin(int id, int parentId, String hangMucName, String noithatName, String phongcachName) {
         String jpql = "INSERT INTO vatlieu (name, account_id, hang_muc_id) " +
-                "SELECT hm.name, :id, :parentId" +
+                "SELECT vl.name, :id, :parentId" +
                 " FROM vatlieu vl " +
-                "JOIN hangmuc hm ON hm.id = vl.hang_muc_id " +
-                "WHERE vl.account_id = 27 and hm.name = :parentName";
+                "JOIN hangmuc hm on vl.hang_muc_id = hm.id " +
+                "JOIN noithat nt ON nt.id = hm.noi_that_id " +
+                "JOIN phongcachnoithat pc on nt.phong_cach_id = pc.id " +
+                "WHERE hm.account_id = 27 " +
+                "and nt.name = :noithatName and pc.name = :phongcachName and hm.name = :hangMucName";
         Query query = entityManager.createNativeQuery(jpql);
         query.setParameter("id", id);
         query.setParameter("parentId", parentId);
+        query.setParameter("noithatName", noithatName);
+        query.setParameter("phongcachName", phongcachName);
+        query.setParameter("hangMucName", hangMucName);
         query.executeUpdate();
     }
 }

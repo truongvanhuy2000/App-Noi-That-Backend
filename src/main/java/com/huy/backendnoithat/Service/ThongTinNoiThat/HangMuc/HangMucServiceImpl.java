@@ -1,11 +1,12 @@
 package com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc;
 
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc.HangMucDAO;
+import com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat.NoiThatDAO;
 import com.huy.backendnoithat.DTO.AccountManagement.Account;
-import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
 import com.huy.backendnoithat.DTO.BangNoiThat.HangMuc;
+import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
+import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
 import com.huy.backendnoithat.Service.Account.AccountService;
-import com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat.NoiThatService;
 import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class HangMucServiceImpl implements HangMucService {
     AccountService accountService;
     JwtTokenUtil jwtTokenUtil;
     @Autowired
-    NoiThatService noiThatService;
+    NoiThatDAO noiThatDAO;
     @Autowired
     public HangMucServiceImpl(HangMucDAO hangMucDAO, AccountService accountService, JwtTokenUtil jwtTokenUtil) {
         this.hangMucDAO = hangMucDAO;
@@ -75,7 +76,9 @@ public class HangMucServiceImpl implements HangMucService {
     public void copySampleDataFromAdmin(String token, int parentId) {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         Account account = accountService.findByUsername(username);
-        String parentName = noiThatService.findUsingId(username, parentId).getName();
-        hangMucDAO.copySampleDataFromAdmin(account.getId(), parentId, parentName);
+        NoiThatEntity noiThatEntity = noiThatDAO.findById(username, parentId);
+        String noiThatName = noiThatEntity.getName();
+        String phongcachName = noiThatEntity.getPhongCachNoiThatEntity().getName();
+        hangMucDAO.copySampleDataFromAdmin(account.getId(), parentId, noiThatName, phongcachName);
     }
 }
