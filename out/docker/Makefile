@@ -9,3 +9,5 @@ run:
 	sudo docker compose up -d backend
 stop:
 	@sudo docker compose stop
+start:
+    @sudo docker compose start
