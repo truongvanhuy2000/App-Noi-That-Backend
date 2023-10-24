@@ -3,9 +3,9 @@ version: '3.7'
 services:
   db:
     image: mysql:latest
-    restart: no
-    ports:
-      - "3306:3306"
+    restart: unless-stopped
+#    ports:
+#      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: appnoithatTruongVanHuy2000
       MYSQL_DATABASE: appnoithat
@@ -14,14 +14,14 @@ services:
     volumes:
       - "./database:/docker-entrypoint-initdb.d"
       - "/home/appnoithat/mysqlDB:/var/lib/mysql"
-#    healthcheck:
-#      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-#      interval: 120s
-#      timeout: 20s
-#      retries: 10
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 30s
+      timeout: 20s
+      retries: 10
     networks:
       - cat
-    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_520_ci', '--default-authentication-plugin=mysql_native_password']
+    command: --default-authentication-plugin=mysql_native_password
 
   backend:
     image: truongvanhuy2000/appnoithatbackend
@@ -30,6 +30,9 @@ services:
       - "8080:8080"
     networks:
       - cat
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
         DB_HOST: db
 networks:
