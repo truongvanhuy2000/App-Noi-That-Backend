@@ -10,4 +10,4 @@ run:
 stop:
 	@sudo docker compose stop
 start:
-    @sudo docker compose start
+	@sudo docker compose start

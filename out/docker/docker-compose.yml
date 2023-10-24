@@ -12,8 +12,8 @@ services:
       MYSQL_USER: backendnoithat
       MYSQL_PASSWORD: huy2000plvJIN46
     volumes:
-      - "./database:/docker-entrypoint-initdb.d"
-      - "/home/appnoithat/mysqlDB:/var/lib/mysql"
+      - "./database:/docker-entrypoint-initdb.d" # init database
+      - "/home/appnoithat/mysqlDB:/var/lib/mysql" # save data
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       interval: 30s
