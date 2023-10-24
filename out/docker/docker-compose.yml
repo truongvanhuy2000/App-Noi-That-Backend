@@ -7,10 +7,10 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: appnoithatTruongVanHuy2000
       MYSQL_DATABASE: appnoithat
-      MYSQL_USER: truongvanhuy
-      MYSQL_PASSWORD: huy2000
+      MYSQL_USER: backendnoithat
+      MYSQL_PASSWORD: huy2000plvJIN46
     volumes:
       - "./database:/docker-entrypoint-initdb.d"
       - "/home/appnoithat/mysqlDB:/var/lib/mysql"
