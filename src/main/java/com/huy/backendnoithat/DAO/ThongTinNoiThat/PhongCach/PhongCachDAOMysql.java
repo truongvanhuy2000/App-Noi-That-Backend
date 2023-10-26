@@ -111,4 +111,20 @@ public class PhongCachDAOMysql implements PhongCachDAO {
         query.setParameter("id", id);
         query.executeUpdate();
     }
+
+    @Transactional
+    public void exchange(int id1, int id2, String owner) {
+        String jpql = "update phongcachnoithat pc1, phongcachnoithat pc2 " +
+                "JOIN noithat n1 ON n1.phong_cach_id = :id1 " +
+                "JOIN noithat n2 ON n2.phong_cach_id = :id2 " +
+                "set pc1.name = pc2.name, " +
+                "n1.phong_cach_id = :id2, " +
+                "pc2.name = pc1.name, " +
+                "n2.phong_cach_id = :id1 " +
+                "where pc1.id = :id1 and pc2.id = :id2";
+        Query query = entityManager.createNativeQuery(jpql);
+        query.setParameter("id1", id1);
+        query.setParameter("id2", id2);
+        query.executeUpdate();
+    }
 }

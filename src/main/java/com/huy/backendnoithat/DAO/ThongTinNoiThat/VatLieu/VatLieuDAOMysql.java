@@ -148,4 +148,19 @@ public class VatLieuDAOMysql implements VatLieuDAO {
         query.setParameter("hangMucName", hangMucName);
         query.executeUpdate();
     }
+    @Transactional
+    public void exchange(int id1, int id2, String owner) {
+        String jpql = "update appnoithat.vatlieu pc1, appnoithat.vatlieu pc2 " +
+                "JOIN appnoithat.thongso n1 ON n1.vatlieu_id = :id1 " +
+                "JOIN appnoithat.thongso n2 ON n2.vatlieu_id = :id2 " +
+                "set pc1.name = pc2.name, " +
+                "n1.vatlieu_id = :id2, " +
+                "pc2.name = pc1.name, " +
+                "n2.vatlieu_id = :id1 " +
+                "where pc1.id = :id1 and pc2.id = :id2";
+        Query query = entityManager.createNativeQuery(jpql);
+        query.setParameter("id1", id1);
+        query.setParameter("id2", id2);
+        query.executeUpdate();
+    }
 }
