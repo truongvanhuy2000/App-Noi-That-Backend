@@ -137,19 +137,26 @@ public class NoiThatDAOMysql implements NoiThatDAO {
         query.setParameter("parentName", parentName);
         query.executeUpdate();
     }
+
+    @Override
     @Transactional
-    public void exchange(int id1, int id2, String owner) {
+    public void swap(int accountId, int id1, int id2) {
         String jpql = "update noithat pc1, noithat pc2 " +
-                "JOIN appnoithat.hangmuc n1 ON n1.noi_that_id = :id1 " +
-                "JOIN appnoithat.hangmuc n2 ON n2.noi_that_id = :id2 " +
+                "LEFT JOIN appnoithat.hangmuc n1 ON n1.noi_that_id = :id1 " +
+                "LEFT JOIN appnoithat.hangmuc n2 ON n2.noi_that_id = :id2 " +
                 "set pc1.name = pc2.name, " +
-                "n1.noi_that_id = :id2, " +
                 "pc2.name = pc1.name, " +
+                "n1.noi_that_id = :id2, " +
                 "n2.noi_that_id = :id1 " +
                 "where pc1.id = :id1 and pc2.id = :id2";
         Query query = entityManager.createNativeQuery(jpql);
         query.setParameter("id1", id1);
         query.setParameter("id2", id2);
         query.executeUpdate();
+    }
+
+    @Transactional
+    public void exchange(int id1, int id2, String owner) {
+
     }
 }

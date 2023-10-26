@@ -23,4 +23,6 @@ public interface NoiThatService {
     List<NoiThat> searchBy(String owner, String phongCachName);
 
     void copySampleDataFromAdmin(String token, int parentId);
+
+    void swap(String token, int id1, int id2);
 }

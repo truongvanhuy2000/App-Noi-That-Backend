@@ -139,14 +139,16 @@ public class HangMucDAOMysql implements HangMucDAO {
         query.setParameter("phongcachName", phongcachName);
         query.executeUpdate();
     }
+
+    @Override
     @Transactional
-    public void exchange(int id1, int id2, String owner) {
+    public void swap(int accountId, int id1, int id2) {
         String jpql = "update appnoithat.hangmuc pc1, appnoithat.hangmuc pc2 " +
-                "JOIN appnoithat.vatlieu n1 ON n1.hang_muc_id = :id1 " +
-                "JOIN appnoithat.vatlieu n2 ON n2.hang_muc_id = :id2 " +
+                "LEFT JOIN appnoithat.vatlieu n1 ON n1.hang_muc_id = :id1 " +
+                "LEFT JOIN appnoithat.vatlieu n2 ON n2.hang_muc_id = :id2 " +
                 "set pc1.name = pc2.name, " +
-                "n1.hang_muc_id = :id2, " +
                 "pc2.name = pc1.name, " +
+                "n1.hang_muc_id = :id2, " +
                 "n2.hang_muc_id = :id1 " +
                 "where pc1.id = :id1 and pc2.id = :id2";
         Query query = entityManager.createNativeQuery(jpql);
@@ -154,4 +156,6 @@ public class HangMucDAOMysql implements HangMucDAO {
         query.setParameter("id2", id2);
         query.executeUpdate();
     }
+
+
 }

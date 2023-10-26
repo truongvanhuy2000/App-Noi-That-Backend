@@ -19,4 +19,6 @@ public interface NoiThatDAO {
 
     List<NoiThatEntity> searchBy(String owner, String phongCachName);
     void copySampleDataFromAdmin(int id, int parentId, String parentName);
+
+    void swap(int id, int id1, int id2);
 }

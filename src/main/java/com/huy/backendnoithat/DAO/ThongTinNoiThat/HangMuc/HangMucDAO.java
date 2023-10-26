@@ -17,4 +17,6 @@ public interface HangMucDAO {
 
     List<HangMucEntity> searchBy(String owner, String phongCachName, String noiThatName);
     void copySampleDataFromAdmin(int id, int parentId, String noithatName, String phongcachName);
+
+    void swap(int id, int id1, int id2);
 }

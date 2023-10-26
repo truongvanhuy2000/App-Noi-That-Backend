@@ -22,4 +22,6 @@ public interface HangMucService {
     List<HangMuc> searchBy(String owner, String phongCachName, String noiThatName);
 
     void copySampleDataFromAdmin(String token, int parentId);
+
+    void swap(String token, int id1, int id2);
 }

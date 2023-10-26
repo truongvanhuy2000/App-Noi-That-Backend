@@ -66,4 +66,11 @@ public class NoiThatController {
         noiThatService.copySampleDataFromAdmin(token, parentId);
         return ResponseEntity.ok("Copied successfully.");
     }
+    @GetMapping("/swap")
+    public void swap(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                     @RequestParam(value = "id1") int id1,
+                     @RequestParam(value = "id2") int id2) {
+        String token = header.split(" ")[1].trim();
+        noiThatService.swap(token, id1, id2);
+    }
 }

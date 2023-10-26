@@ -18,4 +18,6 @@ public interface VatLieuService {
     List<VatLieu> searchBy(String owner, String phongCachName, String noiThatName, String hangMucName);
 
     void copySampleDataFromAdmin(String token, int parentId);
+
+    void swap(String token, int id1, int id2);
 }

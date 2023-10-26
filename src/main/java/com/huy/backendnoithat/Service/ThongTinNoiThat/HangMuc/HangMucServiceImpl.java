@@ -81,4 +81,11 @@ public class HangMucServiceImpl implements HangMucService {
         String phongcachName = noiThatEntity.getPhongCachNoiThatEntity().getName();
         hangMucDAO.copySampleDataFromAdmin(account.getId(), parentId, noiThatName, phongcachName);
     }
+
+    @Override
+    public void swap(String token, int id1, int id2) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        Account account = accountService.findByUsername(username);
+        hangMucDAO.swap(account.getId(), id1, id2);
+    }
 }

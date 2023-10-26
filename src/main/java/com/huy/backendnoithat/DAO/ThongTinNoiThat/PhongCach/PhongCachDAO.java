@@ -15,4 +15,6 @@ public interface PhongCachDAO{
     List<PhongCachNoiThatEntity> findAllAndJoinFetch(String owner);
     PhongCachNoiThatEntity findByIdAndJoinFetch(String owner, int id);
     void copySampleDataFromAdmin(int id);
+
+    void swap(int id, int id1, int id2);
 }

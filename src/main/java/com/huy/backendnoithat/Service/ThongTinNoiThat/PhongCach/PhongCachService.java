@@ -16,4 +16,6 @@ public interface PhongCachService {
     PhongCach joinFetchPhongCachUsingId(String owner, int id);
 
     void copySampleDataFromAdmin(String token);
+
+    void swap(String token, int id1, int id2);
 }

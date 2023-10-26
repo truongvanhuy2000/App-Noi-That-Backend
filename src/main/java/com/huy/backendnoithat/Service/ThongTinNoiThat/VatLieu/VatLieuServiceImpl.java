@@ -87,4 +87,11 @@ public class VatLieuServiceImpl implements VatLieuService {
 
         vatLieuDAO.copySampleDataFromAdmin(account.getId(), parentId, hangMucName, noiThatName, phongcachName);
     }
+
+    @Override
+    public void swap(String token, int id1, int id2) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        Account account = accountService.findByUsername(username);
+        vatLieuDAO.swap(account.getId(), id1, id2);
+    }
 }

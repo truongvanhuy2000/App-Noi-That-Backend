@@ -70,4 +70,11 @@ public class PhongCachServiceImpl implements PhongCachService {
         Account account = accountService.findByUsername(username);
         phongCachDAO.copySampleDataFromAdmin(account.getId());
     }
+
+    @Override
+    public void swap(String token, int id1, int id2) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        Account account = accountService.findByUsername(username);
+        phongCachDAO.swap(account.getId(), id1, id2);
+    }
 }

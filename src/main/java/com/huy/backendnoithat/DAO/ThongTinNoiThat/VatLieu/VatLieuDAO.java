@@ -16,4 +16,6 @@ public interface VatLieuDAO {
     List<VatLieuEntity> searchByHangMuc(String owner, int id);
     List<VatLieuEntity> searchBy(String owner, String phongCachName, String noiThatName, String hangMucName);
     public void copySampleDataFromAdmin(int id, int parentId, String hangMucName, String noithatName, String phongcachName);
+
+    void swap(int id, int id1, int id2);
 }
