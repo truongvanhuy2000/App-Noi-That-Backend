@@ -29,10 +29,10 @@ public class VatLieuDAOMysql implements VatLieuDAO {
     @Override
     public VatLieuEntity findById(String owner, int id) {
         TypedQuery<VatLieuEntity> query = entityManager.createQuery(
-                "from VatLieuEntity pc " +
+                "from VatLieuEntity vl " +
                         "left join fetch vl.thongSoEntity " +
-                        "where pc.account.username = :owner " +
-                        "and pc.id = :id", VatLieuEntity.class);
+                        "where vl.account.username = :owner " +
+                        "and vl.id = :id", VatLieuEntity.class);
         query.setParameter("owner", owner);
         query.setParameter("id", id);
         return query.getSingleResult();

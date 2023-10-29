@@ -114,16 +114,27 @@ public class ThongSoDAOMysql implements ThongSoDAO {
         query.setParameter("owner", owner);
         return query.getResultList();
     }
-
+    @Transactional
     @Override
-    public void copySampleDataFromAdmin(int id, int parentId) {
-//        String jpql = "INSERT INTO thongso (dai, rong, cao, don_vi, don_gia, account_id) " +
-//                "SELECT name, :id, :parentId FROM thongso " +
-//                "WHERE account_id = 27";
-//        Query query = entityManager.createNativeQuery(jpql);
-//        query.setParameter("id", id);
-//        query.setParameter("parentId", parentId);
-//        query.executeUpdate();
+    public void copySampleDataFromAdmin(int accountId, int parentId, String vatLieuName,
+                                        String hangMucName, String noithatName, String phongcachName) {
+        String jpql = "INSERT INTO thongso (dai, rong, cao, don_vi, don_gia, account_id, vatlieu_id) " +
+                "SELECT ts.dai, ts.rong, ts.cao, ts.don_vi, ts.don_gia, :accountId, :parentId" +
+                " FROM thongso ts " +
+                "JOIN vatlieu vl on ts.vatlieu_id = vl.id " +
+                "JOIN hangmuc hm on vl.hang_muc_id = hm.id " +
+                "JOIN noithat nt ON nt.id = hm.noi_that_id " +
+                "JOIN phongcachnoithat pc on nt.phong_cach_id = pc.id " +
+                "WHERE hm.account_id = 27 " +
+                "and nt.name = :noithatName and pc.name = :phongcachName and hm.name = :hangMucName and vl.name = :vatLieuName";
+        Query query = entityManager.createNativeQuery(jpql);
+        query.setParameter("accountId", accountId);
+        query.setParameter("parentId", parentId);
+        query.setParameter("noithatName", noithatName);
+        query.setParameter("phongcachName", phongcachName);
+        query.setParameter("hangMucName", hangMucName);
+        query.setParameter("vatLieuName", vatLieuName);
+        query.executeUpdate();
     }
 }
 

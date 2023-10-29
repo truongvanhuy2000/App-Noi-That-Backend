@@ -14,5 +14,6 @@ public interface ThongSoDAO {
     List<ThongSoEntity> findAllAndJoinFetch();
     ThongSoEntity findByIdAndJoinFetch(int id);
     List<ThongSoEntity> searchByVatLieu(String owner, int id);
-    void copySampleDataFromAdmin(int id, int parentId);
+    void copySampleDataFromAdmin(int accountId, int parentId, String vatLieuName,
+                                 String hangMucName, String noithatName, String phongcachName);
 }
