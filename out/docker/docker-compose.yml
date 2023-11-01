@@ -4,16 +4,16 @@ services:
   db:
     image: mysql:latest
     restart: unless-stopped
-#    ports:
-#      - "3306:3306"
+    ports:
+      - "127.0.0.1:3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: appnoithatTruongVanHuy2000
       MYSQL_DATABASE: appnoithat
       MYSQL_USER: backendnoithat
       MYSQL_PASSWORD: huy2000plvJIN46
     volumes:
-      - "./database:/docker-entrypoint-initdb.d" # init database
-      - "/home/appnoithat/mysqlDB:/var/lib/mysql" # save data
+      - "./database:/docker-entrypoint-initdb.d"
+      - "/home/appnoithat/mysqlDB:/var/lib/mysql"
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       interval: 30s
@@ -33,7 +33,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    environment:
-        DB_HOST: db
+    env_file:
+      - "backend.env"
 networks:
   cat:
