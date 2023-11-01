@@ -33,7 +33,7 @@ public class AccountController {
         accountService.save(Account);
         return ResponseEntity.ok("Saved successfully.");
     }
-    @PutMapping("")
+    @PutMapping("/{id}")
     public ResponseEntity<String> update(@RequestBody Account Account) {
         accountService.update(Account);
         return ResponseEntity.ok("Updated successfully.");
