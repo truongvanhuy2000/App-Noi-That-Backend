@@ -24,5 +24,7 @@ public interface NoiThatService {
 
     void copySampleDataFromAdmin(String token, int parentId);
 
+    void copySampleDataFromAdmin(int accountId, int parentId, String parentName);
+
     void swap(String token, int id1, int id2);
 }

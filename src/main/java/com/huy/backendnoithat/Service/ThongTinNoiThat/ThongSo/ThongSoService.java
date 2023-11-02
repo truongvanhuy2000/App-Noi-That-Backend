@@ -14,4 +14,7 @@ public interface ThongSoService {
     List<ThongSo> searchByVatLieu(String owner, int id);
 
     void copySampleDataFromAdmin(String token, int parentId);
+
+    void copySampleDataFromAdmin(int destinationId, int parentId, String vatLieuName,
+                                 String hangMucName, String noiThatName, String phongCachName);
 }

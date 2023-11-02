@@ -5,5 +5,5 @@ import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
 import java.util.List;
 
 public interface BangNoiThatDAO {
-    List<PhongCachNoiThatEntity> fetchAll();
+    List<PhongCachNoiThatEntity> sampleAll();
 }

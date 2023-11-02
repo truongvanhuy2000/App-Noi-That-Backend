@@ -23,5 +23,7 @@ public interface HangMucService {
 
     void copySampleDataFromAdmin(String token, int parentId);
 
+    void copySampleDataFromAdmin(int destinationId, int parentId, String noiThatName, String phongCachName);
+
     void swap(String token, int id1, int id2);
 }

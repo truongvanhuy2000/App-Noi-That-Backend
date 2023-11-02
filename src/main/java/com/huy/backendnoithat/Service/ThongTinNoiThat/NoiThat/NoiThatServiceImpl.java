@@ -80,7 +80,11 @@ public class NoiThatServiceImpl implements NoiThatService {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         Account account = accountService.findByUsername(username);
         String parentName = phongCachService.findById(username, parentId).getName();
-        noiThatDAO.copySampleDataFromAdmin(account.getId(), parentId, parentName);
+        copySampleDataFromAdmin(account.getId(), parentId, parentName);
+    }
+    @Override
+    public void copySampleDataFromAdmin(int accountId, int parentId, String parentName) {
+        noiThatDAO.copySampleDataFromAdmin(accountId, parentId, parentName);
     }
 
     @Override

@@ -79,7 +79,11 @@ public class HangMucServiceImpl implements HangMucService {
         NoiThatEntity noiThatEntity = noiThatDAO.findById(username, parentId);
         String noiThatName = noiThatEntity.getName();
         String phongcachName = noiThatEntity.getPhongCachNoiThatEntity().getName();
-        hangMucDAO.copySampleDataFromAdmin(account.getId(), parentId, noiThatName, phongcachName);
+        copySampleDataFromAdmin(account.getId(), parentId, noiThatName, phongcachName);
+    }
+    @Override
+    public void copySampleDataFromAdmin(int destinationId, int parentId, String noiThatName, String phongCachName) {
+        hangMucDAO.copySampleDataFromAdmin(destinationId, parentId, noiThatName, phongCachName);
     }
 
     @Override

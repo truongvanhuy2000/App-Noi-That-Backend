@@ -17,5 +17,7 @@ public interface PhongCachService {
 
     void copySampleDataFromAdmin(String token);
 
+    void copySampleDataFromAdmin(int accountId);
+
     void swap(String token, int id1, int id2);
 }

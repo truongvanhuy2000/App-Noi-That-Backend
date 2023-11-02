@@ -19,5 +19,8 @@ public interface VatLieuService {
 
     void copySampleDataFromAdmin(String token, int parentId);
 
+    void copySampleDataFromAdmin(int destinationId, int parentId, String hangMucName,
+                                 String noiThatName, String phongCachName);
+
     void swap(String token, int id1, int id2);
 }

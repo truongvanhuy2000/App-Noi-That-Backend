@@ -85,7 +85,12 @@ public class VatLieuServiceImpl implements VatLieuService {
         String noiThatName = hangMucEntity.getNoiThatEntity().getName();
         String phongcachName = hangMucEntity.getNoiThatEntity().getPhongCachNoiThatEntity().getName();
 
-        vatLieuDAO.copySampleDataFromAdmin(account.getId(), parentId, hangMucName, noiThatName, phongcachName);
+        copySampleDataFromAdmin(account.getId(), parentId, hangMucName, noiThatName, phongcachName);
+    }
+    @Override
+    public void copySampleDataFromAdmin(int destinationId, int parentId, String hangMucName,
+                                        String noiThatName, String phongCachName) {
+        vatLieuDAO.copySampleDataFromAdmin(destinationId, parentId, hangMucName, noiThatName, phongCachName);
     }
 
     @Override

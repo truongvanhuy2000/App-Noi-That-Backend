@@ -3,9 +3,8 @@ package com.huy.backendnoithat.Service.ThongTinNoiThat.ThongSo;
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.ThongSo.ThongSoDAO;
 import com.huy.backendnoithat.DAO.ThongTinNoiThat.VatLieu.VatLieuDAO;
 import com.huy.backendnoithat.DTO.AccountManagement.Account;
-import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
-import com.huy.backendnoithat.Entity.BangNoiThat.ThongSoEntity;
 import com.huy.backendnoithat.DTO.BangNoiThat.ThongSo;
+import com.huy.backendnoithat.Entity.BangNoiThat.ThongSoEntity;
 import com.huy.backendnoithat.Entity.BangNoiThat.VatLieuEntity;
 import com.huy.backendnoithat.Service.Account.AccountService;
 import com.huy.backendnoithat.Utils.JwtTokenUtil;
@@ -71,6 +70,11 @@ public class ThongSoServiceImpl implements ThongSoService {
         String hangMucName = vatLieuEntity.getHangMucEntity().getName();
         String noiThatName = vatLieuEntity.getHangMucEntity().getNoiThatEntity().getName();
         String phongcachName = vatLieuEntity.getHangMucEntity().getNoiThatEntity().getPhongCachNoiThatEntity().getName();
-        thongSoDAO.copySampleDataFromAdmin(account.getId(), parentId, vatLieuName, hangMucName, noiThatName, phongcachName);
+        copySampleDataFromAdmin(account.getId(), parentId, vatLieuName, hangMucName, noiThatName, phongcachName);
+    }
+    @Override
+    public void copySampleDataFromAdmin(int destinationId, int parentId, String vatLieuName,
+                                        String hangMucName, String noiThatName, String phongCachName) {
+        thongSoDAO.copySampleDataFromAdmin(destinationId, parentId, vatLieuName, hangMucName, noiThatName, phongCachName);
     }
 }
