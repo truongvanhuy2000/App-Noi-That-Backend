@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat;
 
+import com.huy.backendnoithat.Constant.AccountConstant;
 import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -130,11 +131,12 @@ public class NoiThatDAOMysql implements NoiThatDAO {
                 "SELECT nt.name, :id, :parentId " +
                 "FROM noithat nt " +
                 "JOIN phongcachnoithat pc ON pc.id = nt.phong_cach_id " +
-                "WHERE nt.account_id = 27 and pc.name = :parentName";
+                "WHERE nt.account_id = :adminId and pc.name = :parentName";
         Query query = entityManager.createNativeQuery(jpql);
         query.setParameter("id", id);
         query.setParameter("parentId", parentId);
         query.setParameter("parentName", parentName);
+        query.setParameter("adminId", AccountConstant.ADMIN_ID);
         query.executeUpdate();
     }
 

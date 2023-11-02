@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.PhongCach;
 
+import com.huy.backendnoithat.Constant.AccountConstant;
 import com.huy.backendnoithat.Entity.BangNoiThat.PhongCachNoiThatEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -106,9 +107,10 @@ public class PhongCachDAOMysql implements PhongCachDAO {
     public void copySampleDataFromAdmin(int id) {
         String jpql = "INSERT INTO phongcachnoithat (name, account_id) " +
                 "SELECT pc.name, :id FROM phongcachnoithat pc " +
-                "WHERE account_id = 27";
+                "WHERE account_id = :adminId";
         Query query = entityManager.createNativeQuery(jpql);
         query.setParameter("id", id);
+        query.setParameter("adminId", AccountConstant.ADMIN_ID);
         query.executeUpdate();
     }
 

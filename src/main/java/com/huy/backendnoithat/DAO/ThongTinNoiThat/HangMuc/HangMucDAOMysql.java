@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.HangMuc;
 
+import com.huy.backendnoithat.Constant.AccountConstant;
 import com.huy.backendnoithat.Entity.BangNoiThat.HangMucEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -131,12 +132,13 @@ public class HangMucDAOMysql implements HangMucDAO {
                 " FROM hangmuc hm " +
                 "JOIN noithat nt ON nt.id = hm.noi_that_id " +
                 "JOIN phongcachnoithat pc on nt.phong_cach_id = pc.id " +
-                "WHERE hm.account_id = 27 and nt.name = :noithatName and pc.name = :phongcachName";
+                "WHERE hm.account_id = :adminId and nt.name = :noithatName and pc.name = :phongcachName";
         Query query = entityManager.createNativeQuery(jpql);
         query.setParameter("id", id);
         query.setParameter("parentId", parentId);
         query.setParameter("noithatName", noithatName);
         query.setParameter("phongcachName", phongcachName);
+        query.setParameter("adminId", AccountConstant.ADMIN_ID);
         query.executeUpdate();
     }
 
