@@ -6,11 +6,8 @@ services:
     restart: unless-stopped
     ports:
       - "127.0.0.1:3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: appnoithatTruongVanHuy2000
-      MYSQL_DATABASE: appnoithat
-      MYSQL_USER: backendnoithat
-      MYSQL_PASSWORD: huy2000plvJIN46
+    env_file:
+      - "./Env/mysql.env"
     volumes:
       - "./database:/docker-entrypoint-initdb.d"
       - "/home/appnoithat/mysqlDB:/var/lib/mysql"
@@ -34,6 +31,19 @@ services:
       db:
         condition: service_healthy
     env_file:
-      - "backend.env"
+      - "./Env/backend.env"
+
+  phpmyadmin:
+    image : phpmyadmin:latest
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    env_file:
+      - "./Env/phpmyadmin.env"
+    networks:
+      - cat
+    depends_on:
+      db:
+        condition: service_healthy
 networks:
   cat:
