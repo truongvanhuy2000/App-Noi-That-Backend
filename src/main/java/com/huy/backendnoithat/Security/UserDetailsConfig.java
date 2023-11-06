@@ -13,14 +13,14 @@ public class UserDetailsConfig {
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
         jdbcUserDetailsManager.setUsersByUsernameQuery(
-                "SELECT username, password, active FROM account WHERE username=?"
+                "SELECT username, password, active FROM account WHERE username=? "
         );
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
                 "SELECT account.username, roles.role " +
                         "FROM account " +
                         "INNER JOIN roles " +
                         "ON account.id=roles.account_id " +
-                        "WHERE account.active=true " +
+                        "WHERE account.active=true and account.enabled=true " +
                         "AND account.username=?"
         );
         return jdbcUserDetailsManager;

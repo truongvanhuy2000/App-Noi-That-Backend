@@ -1,22 +1,31 @@
 package com.huy.backendnoithat.Utils;
 
+import com.huy.backendnoithat.DTO.AccountManagement.Account;
+import com.huy.backendnoithat.Exception.AccountExpiredException;
+import com.huy.backendnoithat.Exception.AccountIsDisabledException;
+import com.huy.backendnoithat.Exception.InvalidJwtTokenException;
+import com.huy.backendnoithat.Service.Account.AccountService;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.Claims;
-
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.function.Function;
 
 @Component
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class JwtTokenUtil implements Serializable {
     private static final long serialVersionUID = -2550185165626007488L;
     public static final long JWT_TOKEN_VALIDITY = 24L * 60 * 60 * 1000 * 30;
     @Value("${jwt.secret}")
     private String SECRET_KEY;
+    private final AccountService accountService;
     public String generateAccessToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
@@ -51,10 +60,20 @@ public class JwtTokenUtil implements Serializable {
         return expiration.before(new Date());
     }
     public boolean validateToken(String token) {
-        try {
-            return !isTokenExpired(token);
-        } catch (Exception ex) {
-            return false;
+        return !isTokenExpired(token) && validateAccount(token);
+    }
+    public boolean validateAccount(String token) {
+        String tokenUsername = getUsernameFromToken(token);
+        Account account = accountService.findByUsername(tokenUsername);
+        if (account == null) {
+            throw new InvalidJwtTokenException("Invalid token");
         }
+        if (!account.isEnabled() || !account.isActive()) {
+            throw new AccountIsDisabledException("Account is disabled");
+        }
+        if (account.getExpiredDate() == null || account.getExpiredDate().isBefore(LocalDate.now())) {
+            throw new AccountExpiredException("Account is expired");
+        }
+        return true;
     }
 }

@@ -14,11 +14,14 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableWebSecurity()
 public class AppNoiThatSecurityConfig {
     private final JwtTokenFilter jwtTokenFilter;
+    private final ExceptionHandlerFilter exceptionHandlerFilter;
     @Autowired
-    public AppNoiThatSecurityConfig(JwtTokenFilter jwtTokenFilter) {
+    public AppNoiThatSecurityConfig(JwtTokenFilter jwtTokenFilter, ExceptionHandlerFilter exceptionHandlerFilter) {
         this.jwtTokenFilter = jwtTokenFilter;
+        this.exceptionHandlerFilter = exceptionHandlerFilter;
     }
 
     @Bean
@@ -36,8 +39,8 @@ public class AppNoiThatSecurityConfig {
                         .anyRequest().authenticated())
                         .logout(logout -> logout
                                 .deleteCookies("JSESSIONID"));
-
         httpSecurity.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(exceptionHandlerFilter, JwtTokenFilter.class);
         return httpSecurity.build();
     }
     @Bean

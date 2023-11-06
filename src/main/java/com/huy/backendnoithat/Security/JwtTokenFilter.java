@@ -1,6 +1,7 @@
 package com.huy.backendnoithat.Security;
 
-import com.huy.backendnoithat.DTO.AccountManagement.Account;
+import com.huy.backendnoithat.Exception.AccountExpiredException;
+import com.huy.backendnoithat.Exception.AccountIsDisabledException;
 import com.huy.backendnoithat.Service.Account.AccountService;
 import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
@@ -34,11 +35,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain)
+            throws ServletException, IOException, AccountIsDisabledException, AccountExpiredException {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.split(" ")[1].trim();
-            if (jwtTokenUtil.validateToken(token) && isUserEnabled(jwtTokenUtil.getUsernameFromToken(token))) {
+            if (jwtTokenUtil.validateToken(token)) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(jwtTokenUtil.getUsernameFromToken(token));
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
@@ -51,10 +53,5 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
-    }
-
-    private boolean isUserEnabled(String username) {
-        Account account = accountService.findByUsername(username);
-        return account != null && account.isEnabled();
     }
 }
