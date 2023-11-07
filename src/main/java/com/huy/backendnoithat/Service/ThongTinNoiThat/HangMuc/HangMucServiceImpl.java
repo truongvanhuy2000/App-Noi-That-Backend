@@ -17,13 +17,13 @@ public class HangMucServiceImpl implements HangMucService {
     HangMucDAO hangMucDAO;
     AccountService accountService;
     JwtTokenUtil jwtTokenUtil;
-    @Autowired
     NoiThatDAO noiThatDAO;
     @Autowired
-    public HangMucServiceImpl(HangMucDAO hangMucDAO, AccountService accountService, JwtTokenUtil jwtTokenUtil) {
+    public HangMucServiceImpl(HangMucDAO hangMucDAO, AccountService accountService, JwtTokenUtil jwtTokenUtil, NoiThatDAO noiThatDAO) {
         this.hangMucDAO = hangMucDAO;
         this.accountService = accountService;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.noiThatDAO = noiThatDAO;
     }
     @Override
     public List<HangMuc> findAll(String owner) {

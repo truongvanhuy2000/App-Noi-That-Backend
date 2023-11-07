@@ -4,6 +4,8 @@ import com.huy.backendnoithat.DTO.BangNoiThat.HangMuc;
 import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.DTO.BangNoiThat.PhongCach;
 import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
+import com.huy.backendnoithat.DTO.Event.NoiThatUpdate;
+import com.huy.backendnoithat.Event.NoiThatUpdateHandler;
 import com.huy.backendnoithat.Service.Account.AccountService;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.HangMuc.HangMucService;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.NoiThat.NoiThatService;
@@ -12,24 +14,27 @@ import com.huy.backendnoithat.Service.ThongTinNoiThat.ThongSo.ThongSoService;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu.VatLieuService;
 import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
 @Service
 public class BangNoiThatServiceImpl implements BangNoiThatService{
-    private PhongCachService phongCachService;
-    private NoiThatService noiThatService;
-    private HangMucService hangMucService;
-    private VatLieuService vatLieuService;
-    private ThongSoService thongSoService;
+    private final PhongCachService phongCachService;
+    private final NoiThatService noiThatService;
+    private final HangMucService hangMucService;
+    private final VatLieuService vatLieuService;
+    private final ThongSoService thongSoService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AccountService accountService;
+    private final NoiThatUpdateHandler noiThatUpdateHandler;
     @Autowired
     public BangNoiThatServiceImpl(PhongCachService phongCachService, NoiThatService noiThatService,
                                   HangMucService hangMucService, VatLieuService vatLieuService,
                                   ThongSoService thongSoService, JwtTokenUtil jwtTokenUtil,
-                                  AccountService accountService) {
+                                  AccountService accountService, NoiThatUpdateHandler noiThatUpdateHandler) {
         this.phongCachService = phongCachService;
         this.noiThatService = noiThatService;
         this.hangMucService = hangMucService;
@@ -37,6 +42,7 @@ public class BangNoiThatServiceImpl implements BangNoiThatService{
         this.thongSoService = thongSoService;
         this.jwtTokenUtil = jwtTokenUtil;
         this.accountService = accountService;
+        this.noiThatUpdateHandler = noiThatUpdateHandler;
     }
 
     @Override
@@ -45,6 +51,7 @@ public class BangNoiThatServiceImpl implements BangNoiThatService{
         int accountId = accountService.findByUsername(username).getId();
         samplePhongCach(username, accountId);
     }
+
     private void samplePhongCach(String username, int accountId) {
         phongCachService.copySampleDataFromAdmin(accountId);
         List<PhongCach> phongCachList = phongCachService.findAll(username);
@@ -79,5 +86,17 @@ public class BangNoiThatServiceImpl implements BangNoiThatService{
         thongSoService.copySampleDataFromAdmin(accountId, vatLieu.getId(), vatLieu.getName(),
                 hangMuc.getName(), noiThat.getName(), phongCach.getName());
     }
+
+    @Override
+    public Flux<ServerSentEvent<NoiThatUpdate>> getDBModificationEvent(String token) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return Flux.create(sink -> noiThatUpdateHandler.register(username, sink::next)).map(
+                noiThatUpdate -> ServerSentEvent.<NoiThatUpdate>builder()
+                        .event("noithat-update")
+                        .data((NoiThatUpdate) noiThatUpdate)
+                        .build()
+        );
+    }
+
 }
 
