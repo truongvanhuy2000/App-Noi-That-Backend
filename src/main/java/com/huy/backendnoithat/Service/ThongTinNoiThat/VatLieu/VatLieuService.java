@@ -6,16 +6,16 @@ import java.util.List;
 
 public interface VatLieuService {
     // Vat Lieu
-    List<VatLieu> findAll(String owner);
-    VatLieu findUsingId(String owner, int id);
-    VatLieu findUsingName(String owner, String name);
-    void save(String owner, VatLieu vatLieu, int parentId);
-    void deleteById(String owner, int id);
-    void update(String owner, VatLieu vatLieu);
+    List<VatLieu> findAll(String token);
+    VatLieu findUsingId(String token, int id);
+    VatLieu findUsingName(String token, String name);
+    void save(String token, VatLieu vatLieu, int parentId);
+    void deleteById(String token, int id);
+    void update(String token, VatLieu vatLieu);
     List<VatLieu> joinFetchVatLieu();
-    List<VatLieu> searchByHangMuc(String owner, int id);
+    List<VatLieu> searchByHangMuc(String token, int id);
 
-    List<VatLieu> searchBy(String owner, String phongCachName, String noiThatName, String hangMucName);
+    List<VatLieu> searchBy(String token, String phongCachName, String noiThatName, String hangMucName);
 
     void copySampleDataFromAdmin(String token, int parentId);
 

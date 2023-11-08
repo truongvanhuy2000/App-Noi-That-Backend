@@ -15,8 +15,7 @@ import java.util.List;
 @Service
 public class ThongSoServiceImpl implements ThongSoService {
     ThongSoDAO thongSoDAO;
-    final
-    VatLieuDAO vatLieuDAO;
+    final VatLieuDAO vatLieuDAO;
     AccountService accountService;
     JwtTokenUtil jwtTokenUtil;
     @Autowired
@@ -27,38 +26,45 @@ public class ThongSoServiceImpl implements ThongSoService {
         this.vatLieuDAO = vatLieuDAO;
     }
     @Override
-    public List<ThongSo> findAll(String owner) {
-        return thongSoDAO.findAll(owner).stream().map(ThongSo::new).toList();
+    public List<ThongSo> findAll(String token) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return thongSoDAO.findAll(username).stream().map(ThongSo::new).toList();
     }
     @Override
-    public ThongSo findUsingId(String owner, int id) {
-        return new ThongSo(thongSoDAO.findById(owner, id));
-    }
-
-    @Override
-    public ThongSo findUsingName(String owner, String name) {
-        return new ThongSo(thongSoDAO.findUsingName(owner, name));
+    public ThongSo findUsingId(String token, int id) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return new ThongSo(thongSoDAO.findById(username, id));
     }
 
     @Override
-    public void save(String owner, ThongSo thongSo, int parentId) {
+    public ThongSo findUsingName(String token, String name) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return new ThongSo(thongSoDAO.findUsingName(username, name));
+    }
+
+    @Override
+    public void save(String token, ThongSo thongSo, int parentId) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
         ThongSoEntity thongSoEntity = new ThongSoEntity(thongSo);
-        thongSoDAO.save(owner, thongSoEntity, parentId);
+        thongSoDAO.save(username, thongSoEntity, parentId);
     }
 
     @Override
-    public void deleteById(String owner, int id) {
-        thongSoDAO.deleteById(owner, id);
+    public void deleteById(String token, int id) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        thongSoDAO.deleteById(username, id);
     }
 
     @Override
-    public void update(String owner, ThongSo thongSo) {
-        thongSoDAO.update(owner, new ThongSoEntity(thongSo));
+    public void update(String token, ThongSo thongSo) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        thongSoDAO.update(username, new ThongSoEntity(thongSo));
     }
 
     @Override
-    public List<ThongSo> searchByVatLieu(String owner, int id) {
-        return thongSoDAO.searchByVatLieu(owner, id).stream().map(ThongSo::new).toList();
+    public List<ThongSo> searchByVatLieu(String token, int id) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return thongSoDAO.searchByVatLieu(username, id).stream().map(ThongSo::new).toList();
     }
 
     @Override

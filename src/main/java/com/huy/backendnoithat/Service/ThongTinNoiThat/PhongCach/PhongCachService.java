@@ -6,18 +6,15 @@ import java.util.List;
 
 public interface PhongCachService {
     // Phong Cach Noi That
-    List<PhongCach> findAll(String owner);
-    PhongCach findById(String owner, int id);
-    PhongCach findUsingName(String owner, String name);
-    void save(String owner, PhongCach phongCach);
-    void deleteById(String owner, int id);
-    void update(String owner, PhongCach phongCach);
-    List<PhongCach> joinFetchPhongCach(String owner);
-    PhongCach joinFetchPhongCachUsingId(String owner, int id);
-
+    List<PhongCach> findAll(String token);
+    PhongCach findById(String token, int id);
+    PhongCach findUsingName(String token, String name);
+    void save(String token, PhongCach phongCach);
+    void deleteById(String token, int id);
+    void update(String token, PhongCach phongCach);
+    List<PhongCach> joinFetchPhongCach(String token);
+    PhongCach joinFetchPhongCachUsingId(String token, int id);
     void copySampleDataFromAdmin(String token);
-
     void copySampleDataFromAdmin(int accountId);
-
     void swap(String token, int id1, int id2);
 }

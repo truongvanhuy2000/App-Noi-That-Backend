@@ -76,4 +76,7 @@ public class JwtTokenUtil implements Serializable {
         }
         return true;
     }
+    public static String getTokenFromHeader(String header) {
+        return header.split(" ")[1].trim();
+    }
 }

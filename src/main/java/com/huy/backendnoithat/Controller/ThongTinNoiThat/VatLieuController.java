@@ -1,8 +1,9 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiThat;
 
-import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
+import com.huy.backendnoithat.AOP.DBModifyEvent;
 import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.VatLieu.VatLieuService;
+import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -19,52 +20,80 @@ public class VatLieuController {
         this.vatLieuService = vatLieuService;
     }
     @GetMapping("")
-    public List<VatLieu> findAll(@RequestParam(value = "owner") String owner) {
-        return vatLieuService.findAll(owner);
+    public List<VatLieu> findAll(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                                 @RequestParam(value = "owner", required = false) String owner) {
+        String token = JwtTokenUtil.getTokenFromHeader(header);
+        return vatLieuService.findAll(token);
     }
     @GetMapping("/search")
-    public VatLieu findUsingName(@RequestParam(value = "owner") String owner, @RequestParam(value = "name") String name) {
-        return vatLieuService.findUsingName(owner, name);
+    public VatLieu findUsingName(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                                 @RequestParam(value = "owner", required = false) String owner,
+                                 @RequestParam(value = "name") String name) {
+        String token = JwtTokenUtil.getTokenFromHeader(header);
+        return vatLieuService.findUsingName(token, name);
     }
     @GetMapping("/{id}")
-    public VatLieu findById(@RequestParam(value = "owner") String owner, @PathVariable int id) {
-        return vatLieuService.findUsingId(owner, id);
+    public VatLieu findById(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                            @RequestParam(value = "owner", required = false) String owner,
+                            @PathVariable int id) {
+        String token = JwtTokenUtil.getTokenFromHeader(header);
+        return vatLieuService.findUsingId(token, id);
     }
     @DeleteMapping("/{id}")
-    public void deleteById(@RequestParam(value = "owner") String owner, @PathVariable int id) {
-        vatLieuService.deleteById(owner, id);
+    @DBModifyEvent("VatLieu")
+    public void deleteById(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                           @RequestParam(value = "owner", required = false) String owner,
+                           @PathVariable int id) {
+        String token = JwtTokenUtil.getTokenFromHeader(header);
+        vatLieuService.deleteById(token, id);
     }
     @PutMapping("")
-    public void update(@RequestParam(value = "owner") String owner, @RequestBody VatLieu vatLieu) {
-        vatLieuService.update(owner, vatLieu);
+    @DBModifyEvent("VatLieu")
+    public void update(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                       @RequestParam(value = "owner", required = false) String owner,
+                       @RequestBody VatLieu vatLieu) {
+        String token = JwtTokenUtil.getTokenFromHeader(header);
+        vatLieuService.update(token, vatLieu);
     }
     @PostMapping("")
-    public void save(@RequestParam(value = "owner") String owner, @RequestBody VatLieu vatLieu, @RequestParam("parentId") int parentId) {
-        vatLieuService.save(owner, vatLieu, parentId);
+    @DBModifyEvent("VatLieu")
+    public void save(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                     @RequestParam(value = "owner", required = false) String owner,
+                     @RequestBody VatLieu vatLieu,
+                     @RequestParam("parentId") int parentId) {
+        String token = JwtTokenUtil.getTokenFromHeader(header);
+        vatLieuService.save(token, vatLieu, parentId);
     }
     @GetMapping("/searchByHangMuc/{id}")
-    public List<VatLieu> searchByHangMuc(@RequestParam(value = "owner") String owner, @PathVariable int id) {
-        return vatLieuService.searchByHangMuc(owner, id);
+    public List<VatLieu> searchByHangMuc(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                                         @RequestParam(value = "owner", required = false) String owner,
+                                         @PathVariable int id) {
+        String token = JwtTokenUtil.getTokenFromHeader(header);
+        return vatLieuService.searchByHangMuc(token, id);
     }
     @GetMapping("/searchBy")
-    public List<VatLieu> searchBy(@RequestParam(value = "owner") String owner,
-                                           @RequestParam(value = "phongCachName") String phongCachName,
-                                           @RequestParam(value = "noiThatName") String noiThatName,
-                                           @RequestParam(value = "hangMucName") String hangMucName) {
-        return vatLieuService.searchBy(owner, phongCachName, noiThatName, hangMucName);
+    public List<VatLieu> searchBy(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                                  @RequestParam(value = "owner", required = false) String owner,
+                                  @RequestParam(value = "phongCachName") String phongCachName,
+                                  @RequestParam(value = "noiThatName") String noiThatName,
+                                  @RequestParam(value = "hangMucName") String hangMucName) {
+        String token = JwtTokenUtil.getTokenFromHeader(header);
+        return vatLieuService.searchBy(token, phongCachName, noiThatName, hangMucName);
     }
     @GetMapping("/copySampleData")
+    @DBModifyEvent("VatLieu")
     public ResponseEntity<String> copySampleDataFromAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                                                           @RequestParam(value = "parentId") int parentId) {
-        String token = header.split(" ")[1].trim();
+        String token = JwtTokenUtil.getTokenFromHeader(header);
         vatLieuService.copySampleDataFromAdmin(token, parentId);
         return ResponseEntity.ok("Copied successfully.");
     }
     @GetMapping("/swap")
+    @DBModifyEvent("VatLieu")
     public void swap(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                      @RequestParam(value = "id1") int id1,
                      @RequestParam(value = "id2") int id2) {
-        String token = header.split(" ")[1].trim();
+        String token = JwtTokenUtil.getTokenFromHeader(header);
         vatLieuService.swap(token, id1, id2);
     }
 }

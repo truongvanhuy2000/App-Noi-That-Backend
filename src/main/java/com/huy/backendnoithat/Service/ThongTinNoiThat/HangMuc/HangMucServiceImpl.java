@@ -26,29 +26,35 @@ public class HangMucServiceImpl implements HangMucService {
         this.noiThatDAO = noiThatDAO;
     }
     @Override
-    public List<HangMuc> findAll(String owner) {
-        return hangMucDAO.findAll(owner).stream().map(hangMuc -> new HangMuc(hangMuc, false)).toList();
+    public List<HangMuc> findAll(String token) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return hangMucDAO.findAll(username).stream().map(hangMuc -> new HangMuc(hangMuc, false)).toList();
     }
     @Override
-    public HangMuc findUsingId(String owner, int id) {
-        return new HangMuc(hangMucDAO.findById(owner, id), false);
+    public HangMuc findUsingId(String token, int id) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return new HangMuc(hangMucDAO.findById(username, id), false);
     }
     @Override
-    public HangMuc findUsingName(String owner, String name) {
-        return new HangMuc(hangMucDAO.findUsingName(owner, name), false);
+    public HangMuc findUsingName(String token, String name) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return new HangMuc(hangMucDAO.findUsingName(username, name), false);
     }
     @Override
-    public void save(String owner, HangMuc hangMuc, int parentId) {
+    public void save(String token, HangMuc hangMuc, int parentId) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
         HangMucEntity hangMucEntity = new HangMucEntity(hangMuc);
-        hangMucDAO.save(owner, hangMucEntity, parentId);
+        hangMucDAO.save(username, hangMucEntity, parentId);
     }
     @Override
-    public void deleteById(String owner, int id) {
-        hangMucDAO.deleteById(owner, id);
+    public void deleteById(String token, int id) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        hangMucDAO.deleteById(username, id);
     }
     @Override
-    public void update(String owner, HangMuc hangMuc) {
-        hangMucDAO.update(owner, new HangMucEntity(hangMuc));
+    public void update(String token, HangMuc hangMuc) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        hangMucDAO.update(username, new HangMucEntity(hangMuc));
     }
 
     @Override
@@ -62,13 +68,15 @@ public class HangMucServiceImpl implements HangMucService {
     }
 
     @Override
-    public List<HangMuc> searchByNoiThat(String owner, int id) {
-        return hangMucDAO.searchByNoiThat(owner, id).stream().map(hangMuc -> new HangMuc(hangMuc, false)).toList();
+    public List<HangMuc> searchByNoiThat(String token, int id) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return hangMucDAO.searchByNoiThat(username, id).stream().map(hangMuc -> new HangMuc(hangMuc, false)).toList();
     }
 
     @Override
-    public List<HangMuc> searchBy(String owner, String phongCachName, String noiThatName) {
-        return hangMucDAO.searchBy(owner, phongCachName, noiThatName).stream().map(
+    public List<HangMuc> searchBy(String token, String phongCachName, String noiThatName) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return hangMucDAO.searchBy(username, phongCachName, noiThatName).stream().map(
                 hangMucEntity -> new HangMuc(hangMucEntity, false)).toList();
     }
 

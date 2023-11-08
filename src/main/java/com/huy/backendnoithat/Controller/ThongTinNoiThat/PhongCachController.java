@@ -1,7 +1,9 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiThat;
 
+import com.huy.backendnoithat.AOP.DBModifyEvent;
 import com.huy.backendnoithat.DTO.BangNoiThat.PhongCach;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.PhongCach.PhongCachService;
+import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -18,50 +20,73 @@ public class PhongCachController {
         this.phongCachService = phongCachService;
     }
     @GetMapping("")
-    public List<PhongCach> findAll(@RequestParam(value = "owner") String owner) {
-        return phongCachService.findAll(owner);
+    public List<PhongCach> findAll(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                                   @RequestParam(value = "owner", required = false) String owner) {
+        String token = JwtTokenUtil.getTokenFromHeader(header);
+        return phongCachService.findAll(token);
     }
     @GetMapping("/{id}")
-    public PhongCach findById(@RequestParam(value = "owner") String owner, @PathVariable int id) {
-        return phongCachService.findById(owner, id);
+    public PhongCach findById(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                              @RequestParam(value = "owner", required = false) String owner, @PathVariable int id) {
+        String token = JwtTokenUtil.getTokenFromHeader(header);
+        return phongCachService.findById(token, id);
     }
     @GetMapping("/search")
-    public PhongCach findUsingName(@RequestParam(value = "owner") String owner, @RequestParam(value = "name") String name) {
-        return phongCachService.findUsingName(owner, name);
+    public PhongCach findUsingName(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                                   @RequestParam(value = "owner", required = false) String owner,
+                                   @RequestParam(value = "name") String name) {
+        String token = JwtTokenUtil.getTokenFromHeader(header);
+        return phongCachService.findUsingName(token, name);
     }
     @PostMapping("")
-    public void save(@RequestParam(value = "owner") String owner, @RequestBody PhongCach phongCach) {
-        phongCachService.save(owner, phongCach);
+    @DBModifyEvent("PhongCach")
+    public void save(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                     @RequestParam(value = "owner", required = false) String owner, @RequestBody PhongCach phongCach) {
+        String token = JwtTokenUtil.getTokenFromHeader(header);
+        phongCachService.save(token, phongCach);
     }
     @DeleteMapping("/{id}")
-    public void deleteById(@RequestParam(value = "owner") String owner, @PathVariable int id) {
-        phongCachService.deleteById(owner, id);
+    @DBModifyEvent("PhongCach")
+    public void deleteById(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                           @RequestParam(value = "owner", required = false) String owner, @PathVariable int id) {
+        String token = JwtTokenUtil.getTokenFromHeader(header);
+        phongCachService.deleteById(token, id);
     }
     @PutMapping("")
-    public void update(@RequestParam(value = "owner") String owner, @RequestBody PhongCach phongCach) {
-        phongCachService.update(owner, phongCach);
+    @DBModifyEvent("PhongCach")
+    public void update(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                       @RequestParam(value = "owner", required = false) String owner, @RequestBody PhongCach phongCach) {
+        String token = JwtTokenUtil.getTokenFromHeader(header);
+        phongCachService.update(token, phongCach);
     }
 
     // Don't use this API yet
-    @GetMapping("/fetch")
-    public List<PhongCach> joinFetchPhongCach(@RequestParam(value = "owner") String owner) {
-        return phongCachService.joinFetchPhongCach(owner);
-    }
-    @GetMapping("/fetch/{id}")
-    public PhongCach joinFetchPhongCachUsingId(@RequestParam(value = "owner") String owner, @PathVariable int id) {
-        return phongCachService.joinFetchPhongCachUsingId(owner, id);
-    }
+//    @GetMapping("/fetch")
+//    public List<PhongCach> joinFetchPhongCach(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+//                                              @RequestParam(value = "owner", required = false) String owner) {
+//        String token = JwtTokenUtil.getTokenFromHeader(header);
+//        return phongCachService.joinFetchPhongCach(token);
+//    }
+//    @GetMapping("/fetch/{id}")
+//    public PhongCach joinFetchPhongCachUsingId(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+//                                               @RequestParam(value = "owner", required = false) String owner,
+//                                               @PathVariable int id) {
+//        String token = JwtTokenUtil.getTokenFromHeader(header);
+//        return phongCachService.joinFetchPhongCachUsingId(token, id);
+//    }
     @GetMapping("/copySampleData")
+    @DBModifyEvent("PhongCach")
     public ResponseEntity<String> copySampleDataFromAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String header) {
-        String token = header.split(" ")[1].trim();
+        String token = JwtTokenUtil.getTokenFromHeader(header);
         phongCachService.copySampleDataFromAdmin(token);
         return ResponseEntity.ok("Copied successfully.");
     }
     @GetMapping("/swap")
+    @DBModifyEvent("PhongCach")
     public void swap(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                      @RequestParam(value = "id1") int id1,
                      @RequestParam(value = "id2") int id2) {
-        String token = header.split(" ")[1].trim();
+        String token = JwtTokenUtil.getTokenFromHeader(header);
         phongCachService.swap(token, id1, id2);
     }
 }

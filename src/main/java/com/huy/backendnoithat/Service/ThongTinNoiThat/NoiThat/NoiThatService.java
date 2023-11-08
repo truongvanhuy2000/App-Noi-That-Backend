@@ -7,20 +7,20 @@ import java.util.List;
 public interface NoiThatService {
 
     // Noi that
-    List<NoiThat> findAll(String owner);
-    NoiThat findUsingId(String owner, int id);
-    NoiThat findUsingName(String owner, String name);
-    void save(String owner, NoiThat noiThat, int parentId);
-    void deleteById(String owner, int id);
-    void update(String owner, NoiThat noiThat);
+    List<NoiThat> findAll(String token);
+    NoiThat findUsingId(String token, int id);
+    NoiThat findUsingName(String token, String name);
+    void save(String token, NoiThat noiThat, int parentId);
+    void deleteById(String token, int id);
+    void update(String token, NoiThat noiThat);
 
     List<NoiThat> joinFetchNoiThat();
 
     NoiThat joinFetchNoiThatUsingId(int id);
 
-    List<NoiThat> searchByPhongCach(String owner, int id);
+    List<NoiThat> searchByPhongCach(String token, int id);
 
-    List<NoiThat> searchBy(String owner, String phongCachName);
+    List<NoiThat> searchBy(String token, String phongCachName);
 
     void copySampleDataFromAdmin(String token, int parentId);
 

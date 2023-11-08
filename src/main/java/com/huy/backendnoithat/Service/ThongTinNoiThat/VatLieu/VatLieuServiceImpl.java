@@ -21,43 +21,50 @@ public class VatLieuServiceImpl implements VatLieuService {
     ThongSoService thongSoService;
     AccountService accountService;
     JwtTokenUtil jwtTokenUtil;
+    final HangMucService hangMucService;
+    final NoiThatDAO noiThatDAO;
+    final HangMucDAO hangMucDAO;
     @Autowired
-    HangMucService hangMucService;
-    @Autowired
-    NoiThatDAO noiThatDAO;
-    @Autowired
-    HangMucDAO hangMucDAO;
-    @Autowired
-    public VatLieuServiceImpl(VatLieuDAO vatLieuDAO, ThongSoService thongSoService, AccountService accountService, JwtTokenUtil jwtTokenUtil) {
+    public VatLieuServiceImpl(VatLieuDAO vatLieuDAO, ThongSoService thongSoService, AccountService accountService, 
+                              JwtTokenUtil jwtTokenUtil, HangMucService hangMucService, NoiThatDAO noiThatDAO, HangMucDAO hangMucDAO) {
         this.vatLieuDAO = vatLieuDAO;
         this.thongSoService = thongSoService;
         this.accountService = accountService;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.hangMucService = hangMucService;
+        this.noiThatDAO = noiThatDAO;
+        this.hangMucDAO = hangMucDAO;
     }
     @Override
-    public List<VatLieu> findAll(String owner) {
-        return vatLieuDAO.findAll(owner).stream().map(item -> new VatLieu(item, true)).toList();
+    public List<VatLieu> findAll(String token) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return vatLieuDAO.findAll(username).stream().map(item -> new VatLieu(item, true)).toList();
     }
     @Override
-    public VatLieu findUsingId(String owner, int id) {
-        return new VatLieu(vatLieuDAO.findById(owner, id), true);
+    public VatLieu findUsingId(String token, int id) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return new VatLieu(vatLieuDAO.findById(username, id), true);
     }
     @Override
-    public VatLieu findUsingName(String owner, String name) {
-        return new VatLieu(vatLieuDAO.findUsingName(owner, name), true);
+    public VatLieu findUsingName(String token, String name) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return new VatLieu(vatLieuDAO.findUsingName(username, name), true);
     }
     @Override
-    public void save(String owner, VatLieu vatLieu, int parentId) {
+    public void save(String token, VatLieu vatLieu, int parentId) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
         VatLieuEntity vatLieuEntity = new VatLieuEntity(vatLieu);
-        vatLieuDAO.save(owner, vatLieuEntity, parentId);
+        vatLieuDAO.save(username, vatLieuEntity, parentId);
     }
     @Override
-    public void deleteById(String owner, int id) {
-        vatLieuDAO.deleteById(owner, id);
+    public void deleteById(String token, int id) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        vatLieuDAO.deleteById(username, id);
     }
     @Override
-    public void update(String owner, VatLieu vatLieu) {
-        vatLieuDAO.update(owner, new VatLieuEntity(vatLieu));
+    public void update(String token, VatLieu vatLieu) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        vatLieuDAO.update(username, new VatLieuEntity(vatLieu));
     }
 
     @Override
@@ -67,13 +74,17 @@ public class VatLieuServiceImpl implements VatLieuService {
     }
 
     @Override
-    public List<VatLieu> searchByHangMuc(String owner, int id) {
-        return vatLieuDAO.searchByHangMuc(owner, id).stream().map(item -> new VatLieu(item, true)).toList();
+    public List<VatLieu> searchByHangMuc(String token, int id) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return vatLieuDAO.searchByHangMuc(username, id)
+                .stream().map(item -> new VatLieu(item, true)).toList();
     }
 
     @Override
-    public List<VatLieu> searchBy(String owner, String phongCachName, String noiThatName, String hangMucName) {
-        return vatLieuDAO.searchBy(owner, phongCachName, noiThatName, hangMucName).stream().map(item -> new VatLieu(item, true)).toList();
+    public List<VatLieu> searchBy(String token, String phongCachName, String noiThatName, String hangMucName) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return vatLieuDAO.searchBy(username, phongCachName, noiThatName, hangMucName)
+                .stream().map(item -> new VatLieu(item, true)).toList();
     }
 
     @Override

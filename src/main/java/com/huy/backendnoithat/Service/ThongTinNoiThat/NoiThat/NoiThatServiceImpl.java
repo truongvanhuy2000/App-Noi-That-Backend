@@ -16,41 +16,48 @@ public class NoiThatServiceImpl implements NoiThatService {
     NoiThatDAO noiThatDAO;
     AccountService accountService;
     JwtTokenUtil jwtTokenUtil;
-    @Autowired
+    final
     PhongCachService phongCachService;
     @Autowired
-    public NoiThatServiceImpl(NoiThatDAO noiThatDAO, AccountService accountService, JwtTokenUtil jwtTokenUtil) {
+    public NoiThatServiceImpl(NoiThatDAO noiThatDAO, AccountService accountService, JwtTokenUtil jwtTokenUtil, PhongCachService phongCachService) {
         this.noiThatDAO = noiThatDAO;
         this.accountService = accountService;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.phongCachService = phongCachService;
     }
     @Override
-    public List<NoiThat> findAll(String owner) {
-        return noiThatDAO.findAll(owner).stream()
+    public List<NoiThat> findAll(String token) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return noiThatDAO.findAll(username).stream()
                 .map(item -> new NoiThat(item, false)).toList();
     }
     @Override
-    public NoiThat findUsingId(String owner, int id) {
-        NoiThatEntity noiThatEntity = noiThatDAO.findById(owner, id);
+    public NoiThat findUsingId(String token, int id) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        NoiThatEntity noiThatEntity = noiThatDAO.findById(username, id);
         return new NoiThat(noiThatEntity, false);
     }
     @Override
-    public NoiThat findUsingName(String owner, String name) {
-        NoiThatEntity noiThatEntity = noiThatDAO.findUsingName(owner, name);
+    public NoiThat findUsingName(String token, String name) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        NoiThatEntity noiThatEntity = noiThatDAO.findUsingName(username, name);
         return new NoiThat(noiThatEntity, false);
     }
     @Override
-    public void save(String owner, NoiThat noiThat, int parentId) {
+    public void save(String token, NoiThat noiThat, int parentId) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
         NoiThatEntity noiThatEntity = new NoiThatEntity(noiThat);
-        noiThatDAO.save(owner, noiThatEntity, parentId);
+        noiThatDAO.save(username, noiThatEntity, parentId);
     }
     @Override
-    public void deleteById(String owner, int id) {
-        noiThatDAO.deleteById(owner, id);
+    public void deleteById(String token, int id) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        noiThatDAO.deleteById(username, id);
     }
     @Override
-    public void update(String owner, NoiThat noiThat) {
-        noiThatDAO.update(owner, new NoiThatEntity(noiThat));
+    public void update(String token, NoiThat noiThat) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        noiThatDAO.update(username, new NoiThatEntity(noiThat));
     }
     @Override
     public List<NoiThat> joinFetchNoiThat() {
@@ -64,14 +71,16 @@ public class NoiThatServiceImpl implements NoiThatService {
     }
 
     @Override
-    public List<NoiThat> searchByPhongCach(String owner, int id) {
-        return noiThatDAO.searchByPhongCach(owner, id).stream()
+    public List<NoiThat> searchByPhongCach(String token, int id) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return noiThatDAO.searchByPhongCach(username, id).stream()
                 .map(item -> new NoiThat(item, false)).toList();
     }
 
     @Override
-    public List<NoiThat> searchBy(String owner, String phongCachName) {
-        return noiThatDAO.searchBy(owner, phongCachName).stream()
+    public List<NoiThat> searchBy(String token, String phongCachName) {
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return noiThatDAO.searchBy(username, phongCachName).stream()
                 .map(item -> new NoiThat(item, false)).toList();
     }
 

@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.Controller.ThongTinNoiThat;
 
+import com.huy.backendnoithat.AOP.DBModifyEvent;
 import com.huy.backendnoithat.DTO.Event.NoiThatUpdate;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.BangNoiThatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class BangNoiThatController {
     public BangNoiThatController(BangNoiThatService bangNoiThatService) {
         this.bangNoiThatService = bangNoiThatService;
     }
+    @DBModifyEvent("BangNoiThat")
     @GetMapping("/sampleAll")
     public void sampleAll(@RequestHeader(HttpHeaders.AUTHORIZATION) String header) {
         String token = header.split(" ")[1].trim();
