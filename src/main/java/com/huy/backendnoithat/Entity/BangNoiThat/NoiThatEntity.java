@@ -3,8 +3,10 @@ package com.huy.backendnoithat.Entity.BangNoiThat;
 import com.huy.backendnoithat.DTO.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.Entity.Account.AccountEntity;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.Cascade;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;

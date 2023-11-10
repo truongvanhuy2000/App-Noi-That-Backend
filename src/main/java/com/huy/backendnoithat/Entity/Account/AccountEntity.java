@@ -2,7 +2,9 @@ package com.huy.backendnoithat.Entity.Account;
 
 import com.huy.backendnoithat.DTO.AccountManagement.Account;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.util.List;
@@ -38,12 +40,7 @@ public class AccountEntity {
     public AccountEntity(Account account) {
         this.id = account.getId();
         this.username = account.getUsername();
-        if (account.getPassword().contains("{noop}")) {
-            this.password = account.getPassword();
-        }
-        else {
-            this.password = "{noop}" + account.getPassword();
-        }
+        this.password = account.getPassword();
         this.active = account.isActive();
         this.enabled = account.isEnabled();
         this.roleEntity = account.getRoles().stream().map(item -> new RoleEntity(0, this, item)).toList();

@@ -3,6 +3,7 @@ package com.huy.backendnoithat.Controller.ThongTinNoiThat;
 import com.huy.backendnoithat.AOP.DBModifyEvent;
 import com.huy.backendnoithat.DTO.Event.NoiThatUpdate;
 import com.huy.backendnoithat.Service.ThongTinNoiThat.BangNoiThatService;
+import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -24,7 +25,7 @@ public class BangNoiThatController {
     @DBModifyEvent("BangNoiThat")
     @GetMapping("/sampleAll")
     public void sampleAll(@RequestHeader(HttpHeaders.AUTHORIZATION) String header) {
-        String token = header.split(" ")[1].trim();
+        String token = JwtTokenUtil.getTokenFromHeader(header);
         bangNoiThatService.sampleAll(token);
     }
     @GetMapping(path="/event/DBModification", produces = MediaType.TEXT_EVENT_STREAM_VALUE)

@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.DAO.Account;
 
+import com.huy.backendnoithat.DTO.AccountManagement.AccountInformation;
 import com.huy.backendnoithat.Entity.Account.AccountEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -55,7 +56,9 @@ public class AccountDAOMysql implements AccountDAO{
     @Transactional
     public void update(AccountEntity accountEntity) {
         Query query = entityManager.createQuery(
-                "UPDATE AccountEntity acc SET acc.username = :username, acc.password = :password, acc.expiredDate = :date WHERE acc.id = :id");
+                "UPDATE AccountEntity acc " +
+                        "SET acc.username = :username, acc.password = :password, acc.expiredDate = :date " +
+                        "WHERE acc.id = :id");
         query.setParameter("username", accountEntity.getUsername());
         query.setParameter("password", accountEntity.getPassword());
         query.setParameter("id", accountEntity.getId());
@@ -86,14 +89,52 @@ public class AccountDAOMysql implements AccountDAO{
     }
     @Override
     public List<AccountEntity> findAllNotEnabled() {
-        TypedQuery<AccountEntity> query = entityManager.createQuery("from AccountEntity where enabled = false", AccountEntity.class);
+        TypedQuery<AccountEntity> query = entityManager.createQuery(
+                "from AccountEntity " +
+                        "where enabled = false", AccountEntity.class);
         return query.getResultList();
     }
     @Override
     public List<AccountEntity> findAllEnabled() {
-        TypedQuery<AccountEntity> query = entityManager.createQuery("from AccountEntity where enabled = true", AccountEntity.class);
+        TypedQuery<AccountEntity> query = entityManager.createQuery(
+                "from AccountEntity where enabled = true", AccountEntity.class);
         return query.getResultList();
     }
+
+    @Override
+    @Transactional
+    public void changePassword(String username, String newPassword) {
+        Query query = entityManager.createNativeQuery("update appnoithat.account " +
+                "set password = :newPassword " +
+                "where username = :username");
+        query.setParameter("username", username);
+        query.setParameter("newPassword", newPassword);
+        if (query.executeUpdate() == 0) {
+            throw new RuntimeException("wrong password");
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateInfo(String username, AccountInformation accountInformation) {
+        Query query = entityManager.createNativeQuery("update appnoithat.account " +
+                "JOIN appnoithat.accountinformation a ON a.id = account.info_id " +
+                "SET a.name = :fullName, " +
+                "a.email = :email, " +
+                "a.phone = :phone, " +
+                "a.gender = :gender, " +
+                "a.address = :address " +
+                "WHERE account.username = :username");
+
+        query.setParameter("username", username);
+        query.setParameter("fullName", accountInformation.getName());
+        query.setParameter("email", accountInformation.getEmail());
+        query.setParameter("phone", accountInformation.getPhone());
+        query.setParameter("address", accountInformation.getAddress());
+        query.setParameter("gender", accountInformation.getGender());
+        query.executeUpdate();
+    }
+
     @Transactional
     @Override
     public void enableAccount(int id) {

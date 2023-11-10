@@ -1,7 +1,6 @@
 package com.huy.backendnoithat.Event;
 
 import com.huy.backendnoithat.DTO.Event.NoiThatUpdate;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -13,8 +12,9 @@ public class NoiThatUpdateHandler {
     public synchronized void register(String username, Consumer<NoiThatUpdate> listener) {
         listeners.put(username, listener);
     }
-    @AfterReturning()
     public synchronized void publish(String username, NoiThatUpdate event) {
-        listeners.get(username).accept(event);
+        if (listeners.containsKey(username)) {
+            listeners.get(username).accept(event);
+        }
     }
 }

@@ -32,12 +32,8 @@ public class Account {
     public Account(AccountEntity accountEntity) {
         this.id = accountEntity.getId();
         this.username = accountEntity.getUsername();
-        if (accountEntity.getPassword().contains("{noop}")) {
-            this.password = accountEntity.getPassword().replace("{noop}", "");
-        }
-        else {
-            this.password = accountEntity.getPassword();
-        }
+        // We don't transfer password to client
+        this.password = "";
         this.active = accountEntity.isActive();
         this.enabled = accountEntity.isEnabled();
         this.roles = accountEntity.getRoleEntity().stream().map(RoleEntity::getRole).toList();

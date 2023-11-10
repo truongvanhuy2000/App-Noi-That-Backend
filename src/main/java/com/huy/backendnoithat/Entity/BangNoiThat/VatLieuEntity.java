@@ -3,7 +3,10 @@ package com.huy.backendnoithat.Entity.BangNoiThat;
 import com.huy.backendnoithat.DTO.BangNoiThat.VatLieu;
 import com.huy.backendnoithat.Entity.Account.AccountEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Table(name = "vatlieu")
 @Entity

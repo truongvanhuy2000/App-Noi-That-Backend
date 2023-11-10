@@ -5,7 +5,6 @@ import com.huy.backendnoithat.Entity.Account.AccountInformationEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Value;
 
 @Data
 @AllArgsConstructor

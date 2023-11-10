@@ -35,8 +35,7 @@ public class DatabaseModificationAspect {
                 if (!(header instanceof String)) {
                     throw new RuntimeException("RequestHeader must be String");
                 }
-                String username = jwtTokenUtil.getUsernameFromToken(
-                        JwtTokenUtil.getTokenFromHeader((String) header));
+                String username = jwtTokenUtil.getUsernameFromToken(JwtTokenUtil.getTokenFromHeader((String) header));
                 createUpdateEvent(username, DBModifyEvent.value());
                 break;
             }

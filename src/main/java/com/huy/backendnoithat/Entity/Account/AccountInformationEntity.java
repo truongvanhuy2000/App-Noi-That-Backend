@@ -2,7 +2,9 @@ package com.huy.backendnoithat.Entity.Account;
 
 import com.huy.backendnoithat.DTO.AccountManagement.AccountInformation;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "accountinformation")

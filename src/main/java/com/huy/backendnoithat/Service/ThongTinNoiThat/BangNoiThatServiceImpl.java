@@ -49,39 +49,39 @@ public class BangNoiThatServiceImpl implements BangNoiThatService{
     public void sampleAll(String token) {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         int accountId = accountService.findByUsername(username).getId();
-        samplePhongCach(username, accountId);
+        samplePhongCach(token, accountId);
     }
 
-    private void samplePhongCach(String username, int accountId) {
+    private void samplePhongCach(String token, int accountId) {
         phongCachService.copySampleDataFromAdmin(accountId);
-        List<PhongCach> phongCachList = phongCachService.findAll(username);
+        List<PhongCach> phongCachList = phongCachService.findAll(token);
         for (PhongCach phongCach : phongCachList) {
-            sampleNoiThat(username, accountId, phongCach);
+            sampleNoiThat(token, accountId, phongCach);
         }
     }
-    private void sampleNoiThat(String username, int accountId, PhongCach phongCach) {
+    private void sampleNoiThat(String token, int accountId, PhongCach phongCach) {
         noiThatService.copySampleDataFromAdmin(accountId, phongCach.getId(),phongCach.getName());
-        List<NoiThat> noiThatList = noiThatService.searchByPhongCach(username, phongCach.getId());
+        List<NoiThat> noiThatList = noiThatService.searchByPhongCach(token, phongCach.getId());
         for (NoiThat noiThat : noiThatList) {
-            sampleHangMuc(username, accountId, noiThat, phongCach);
+            sampleHangMuc(token, accountId, noiThat, phongCach);
         }
     }
-    private void sampleHangMuc(String username, int accountId, NoiThat noiThat, PhongCach phongCach) {
+    private void sampleHangMuc(String token, int accountId, NoiThat noiThat, PhongCach phongCach) {
         hangMucService.copySampleDataFromAdmin(accountId, noiThat.getId(), noiThat.getName(), phongCach.getName());
-        List<HangMuc> hangMucList = hangMucService.searchByNoiThat(username, noiThat.getId());
+        List<HangMuc> hangMucList = hangMucService.searchByNoiThat(token, noiThat.getId());
         for (HangMuc hangMuc : hangMucList) {
-            sampleVatLieu(username, accountId, hangMuc, noiThat, phongCach);
+            sampleVatLieu(token, accountId, hangMuc, noiThat, phongCach);
         }
     }
-    private void sampleVatLieu(String username, int accountId, HangMuc hangMuc, NoiThat noiThat, PhongCach phongCach) {
+    private void sampleVatLieu(String token, int accountId, HangMuc hangMuc, NoiThat noiThat, PhongCach phongCach) {
         vatLieuService.copySampleDataFromAdmin(accountId, hangMuc.getId(), hangMuc.getName(),
                 noiThat.getName(), phongCach.getName());
-        List<VatLieu> vatLieuList = vatLieuService.searchByHangMuc(username, hangMuc.getId());
+        List<VatLieu> vatLieuList = vatLieuService.searchByHangMuc(token, hangMuc.getId());
         for (VatLieu vatLieu : vatLieuList) {
-            sampleThongSo(username, accountId, vatLieu, hangMuc, noiThat, phongCach);
+            sampleThongSo(token, accountId, vatLieu, hangMuc, noiThat, phongCach);
         }
     }
-    private void sampleThongSo(String username, int accountId, VatLieu vatLieu,
+    private void sampleThongSo(String token, int accountId, VatLieu vatLieu,
                                HangMuc hangMuc, NoiThat noiThat, PhongCach phongCach) {
         thongSoService.copySampleDataFromAdmin(accountId, vatLieu.getId(), vatLieu.getName(),
                 hangMuc.getName(), noiThat.getName(), phongCach.getName());

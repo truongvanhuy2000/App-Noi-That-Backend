@@ -1,7 +1,6 @@
 package com.huy.backendnoithat.DAO.ThongTinNoiThat.NoiThat;
 
 import com.huy.backendnoithat.Entity.BangNoiThat.NoiThatEntity;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
