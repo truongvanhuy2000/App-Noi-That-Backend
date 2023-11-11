@@ -54,16 +54,21 @@ public class AccountDAOMysql implements AccountDAO{
     }
     @Override
     @Transactional
-    public void update(AccountEntity accountEntity) {
+    public int update(AccountEntity accountEntity) {
         Query query = entityManager.createQuery(
                 "UPDATE AccountEntity acc " +
-                        "SET acc.username = :username, acc.password = :password, acc.expiredDate = :date " +
+                        "SET acc.username = " +
+                        "case when :username is not null and :username != '' then :username else acc.username end, " +
+                        "acc.password = " +
+                        "case when :password is not null and :password != '' then :password else acc.password end, " +
+                        "acc.expiredDate = " +
+                        "case when :date is not null then :date else acc.expiredDate end " +
                         "WHERE acc.id = :id");
         query.setParameter("username", accountEntity.getUsername());
         query.setParameter("password", accountEntity.getPassword());
         query.setParameter("id", accountEntity.getId());
         query.setParameter("date", accountEntity.getExpiredDate());
-        query.executeUpdate();
+        return query.executeUpdate();
     }
     @Override
     @Transactional
@@ -73,19 +78,19 @@ public class AccountDAOMysql implements AccountDAO{
     }
     @Override
     @Transactional
-    public void activateAccount(int id) {
+    public int activateAccount(int id) {
         Query query = entityManager.createQuery(
                 "UPDATE AccountEntity acc SET acc.active = true WHERE acc.id = :id");
         query.setParameter("id", id);
-        query.executeUpdate();
+        return query.executeUpdate();
     }
     @Override
     @Transactional
-    public void deactivateAccount(int id) {
+    public int deactivateAccount(int id) {
         Query query = entityManager.createQuery(
                 "UPDATE AccountEntity acc SET acc.active = false WHERE acc.id = :id");
         query.setParameter("id", id);
-        query.executeUpdate();
+        return query.executeUpdate();
     }
     @Override
     public List<AccountEntity> findAllNotEnabled() {
@@ -103,20 +108,18 @@ public class AccountDAOMysql implements AccountDAO{
 
     @Override
     @Transactional
-    public void changePassword(String username, String newPassword) {
+    public int changePassword(String username, String newPassword) {
         Query query = entityManager.createNativeQuery("update appnoithat.account " +
                 "set password = :newPassword " +
                 "where username = :username");
         query.setParameter("username", username);
         query.setParameter("newPassword", newPassword);
-        if (query.executeUpdate() == 0) {
-            throw new RuntimeException("wrong password");
-        }
+        return query.executeUpdate();
     }
 
     @Override
     @Transactional
-    public void updateInfo(String username, AccountInformation accountInformation) {
+    public int updateInfo(String username, AccountInformation accountInformation) {
         Query query = entityManager.createNativeQuery("update appnoithat.account " +
                 "JOIN appnoithat.accountinformation a ON a.id = account.info_id " +
                 "SET a.name = :fullName, " +
@@ -132,24 +135,25 @@ public class AccountDAOMysql implements AccountDAO{
         query.setParameter("phone", accountInformation.getPhone());
         query.setParameter("address", accountInformation.getAddress());
         query.setParameter("gender", accountInformation.getGender());
-        query.executeUpdate();
+
+        return query.executeUpdate();
     }
 
     @Transactional
     @Override
-    public void enableAccount(int id) {
+    public int enableAccount(int id) {
         Query query = entityManager.createQuery(
                 "UPDATE AccountEntity acc SET acc.enabled = true WHERE acc.id = :id");
         query.setParameter("id", id);
-        query.executeUpdate();
+        return query.executeUpdate();
     }
     @Transactional
     @Override
-    public void disableAccount(int id) {
+    public int disableAccount(int id) {
         Query query = entityManager.createQuery(
                 "UPDATE AccountEntity acc SET acc.enabled = false WHERE acc.id = :id");
         query.setParameter("id", id);
-        query.executeUpdate();
+        return query.executeUpdate();
     }
 
 

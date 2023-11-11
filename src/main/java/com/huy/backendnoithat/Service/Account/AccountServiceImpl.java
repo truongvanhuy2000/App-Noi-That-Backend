@@ -41,8 +41,12 @@ public class AccountServiceImpl implements AccountService {
     }
     @Override
     public void update(Account Account) {
-        Account.setPassword(passwordEncoder.encode(Account.getPassword()));
-        accountDAO.update(new AccountEntity(Account));
+        if (Account.getPassword() != null && !Account.getPassword().isEmpty()) {
+            Account.setPassword(passwordEncoder.encode(Account.getPassword()));
+        }
+        if (accountDAO.update(new AccountEntity(Account)) == 0) {
+            throw new RuntimeException("Update account failed");
+        }
     }
     @Override
     public void deleteById(int id) {
@@ -50,11 +54,15 @@ public class AccountServiceImpl implements AccountService {
     }
     @Override
     public void activateAccount(int id) {
-        accountDAO.activateAccount(id);
+        if (accountDAO.activateAccount(id) == 0) {
+            throw new RuntimeException("Activate account failed");
+        }
     }
     @Override
     public void deactivateAccount(int id) {
-        accountDAO.deactivateAccount(id);
+        if (accountDAO.deactivateAccount(id) == 0) {
+            throw new RuntimeException("Deactivate account failed");
+        }
     }
 
     @Override
@@ -64,12 +72,16 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void enableAccount(int id) {
-        accountDAO.enableAccount(id);
+        if (accountDAO.enableAccount(id) == 0) {
+            throw new RuntimeException("Enable account failed");
+        }
     }
 
     @Override
     public void disableAccount(int id) {
-        accountDAO.disableAccount(id);
+        if (accountDAO.disableAccount(id) == 0) {
+            throw new RuntimeException("Disable account failed");
+        }
     }
 
     @Override
@@ -83,11 +95,15 @@ public class AccountServiceImpl implements AccountService {
         if (!passwordEncoder.matches(oldPassword, currentPassword)) {
             throw new RuntimeException("Old password is not match");
         }
-        accountDAO.changePassword(username, passwordEncoder.encode(newPassword));
+        if (accountDAO.changePassword(username, passwordEncoder.encode(newPassword)) == 0) {
+            throw new RuntimeException("Change password failed");
+        }
     }
 
     @Override
     public void updateInfo(String username, AccountInformation accountInformation) {
-        accountDAO.updateInfo(username, accountInformation);
+        if (accountDAO.updateInfo(username, accountInformation) == 0) {
+            throw new RuntimeException("Update information failed");
+        }
     }
 }

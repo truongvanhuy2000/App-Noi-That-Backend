@@ -10,15 +10,15 @@ public interface AccountDAO {
     AccountEntity findById(int id);
     AccountEntity findByUsername(String username);
     void save(AccountEntity accountEntity);
-    void update(AccountEntity accountEntity);
+    int update(AccountEntity accountEntity);
     void deleteById(int id);
-    void activateAccount(int id);
-    void deactivateAccount(int id);
+    int activateAccount(int id);
+    int deactivateAccount(int id);
     List<AccountEntity> findAllNotEnabled();
-    void enableAccount(int id);
-    void disableAccount(int id);
+    int enableAccount(int id);
+    int disableAccount(int id);
     List<AccountEntity> findAllEnabled();
-    void changePassword(String username, String newPassword);
+    int changePassword(String username, String newPassword);
 
-    void updateInfo(String username, AccountInformation accountInformation);
+    int updateInfo(String username, AccountInformation accountInformation);
 }
