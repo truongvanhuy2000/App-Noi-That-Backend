@@ -25,11 +25,10 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2   
     
-    - name: Build with Maven
     - run: mvn -B package -DskipTests --file pom.xml
-    - name: Publish
     - run: mkdir staging && cp target/*jar-with-dependencies.jar staging
-    - uses: actions/upload-artifact@v1
+    - name: Publish
+      uses: actions/upload-artifact@v1
       with:
         name: Package
         path: staging
