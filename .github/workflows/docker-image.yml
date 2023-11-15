@@ -65,8 +65,9 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/appnoithatbackend:latest
 
-  deploy:
+  sshAndDeploy:
     runs-on: ubuntu-latest
+    needs: [buildAndPush]
     timeout-minutes: 5
     steps:
     - name: Run makefile script
