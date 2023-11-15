@@ -64,3 +64,18 @@ jobs:
         file: out/docker/backend/Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/appnoithatbackend:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Run makefile script
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.HOSTNAME }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.HOSTPORT }}
+        command_timeout: 30m
+        script: | 
+          cd /home/appnoithat/appnoithatbackend/out/docker && make start 
