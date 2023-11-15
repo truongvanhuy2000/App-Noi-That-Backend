@@ -29,6 +29,6 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        file: ../../out/docker/backend/Dockerfile
+        file: out/docker/backend/Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/appnoithatbackend:latest
