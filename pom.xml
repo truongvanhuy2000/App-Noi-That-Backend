@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.huy</groupId>
 	<artifactId>backendNoithat</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>backendNoithat</name>
 	<description>backendNoithat</description>
 	<properties>
