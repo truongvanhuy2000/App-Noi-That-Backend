@@ -1,5 +1,8 @@
 package com.huy.backendnoithat.Service.Account;
 
+import com.huy.backendnoithat.DTO.TokenResponse;
+
 public interface LoginService {
-    String login(String username, String password);
+    TokenResponse login(String username, String password);
+    TokenResponse refreshToken(String refreshToken);
 }

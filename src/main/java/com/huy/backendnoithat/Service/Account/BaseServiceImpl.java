@@ -2,21 +2,20 @@ package com.huy.backendnoithat.Service.Account;
 
 import com.huy.backendnoithat.DTO.AccountManagement.Account;
 import com.huy.backendnoithat.DTO.AccountManagement.AccountInformation;
+import com.huy.backendnoithat.DTO.TokenResponse;
 import com.huy.backendnoithat.Utils.JwtTokenUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class BaseServiceImpl implements BaseService{
     private final AccountService accountService;
     private final JwtTokenUtil jwtTokenUtil;
-    @Autowired
-    public BaseServiceImpl(AccountService accountService, JwtTokenUtil jwtTokenUtil) {
-        this.accountService = accountService;
-        this.jwtTokenUtil = jwtTokenUtil;
-    }
+
 
     @Override
     public Account getAccountInformation(String token) {
@@ -42,4 +41,5 @@ public class BaseServiceImpl implements BaseService{
         String username = jwtTokenUtil.getUsernameFromToken(token);
         accountService.updateInfo(username, accountInformation);
     }
+
 }

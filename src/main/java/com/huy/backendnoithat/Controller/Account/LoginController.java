@@ -1,12 +1,12 @@
 package com.huy.backendnoithat.Controller.Account;
 
+import com.huy.backendnoithat.DTO.TokenResponse;
 import com.huy.backendnoithat.Service.Account.LoginService;
+import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -19,10 +19,17 @@ public class LoginController {
         this.loginService = loginService;
     }
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<TokenResponse> login(@RequestBody Map<String, String> requestBody) {
         String username = requestBody.get("username");
         String password = requestBody.get("password");
-        String token = loginService.login(username, password);
+        TokenResponse token = loginService.login(username, password);
         return ResponseEntity.ok(token);
     }
+    @PostMapping("/refreshToken")
+    public ResponseEntity<TokenResponse> refreshToken(@RequestBody Map<String, String> requestBody) {
+        String refreshToken = requestBody.get("refreshToken");
+        TokenResponse tokenResponse = loginService.refreshToken(refreshToken);
+        return ResponseEntity.ok(tokenResponse);
+    }
+
 }

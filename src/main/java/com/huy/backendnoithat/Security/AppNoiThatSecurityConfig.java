@@ -37,6 +37,7 @@ public class AppNoiThatSecurityConfig {
                         .requestMatchers("/api/accounts/**").hasRole("ADMIN")
                         .requestMatchers("/api/login").permitAll()
                         .requestMatchers("/api/logout").permitAll()
+                        .requestMatchers("api/refreshToken").permitAll()
                         .requestMatchers("/api/register/**").permitAll()
                         .anyRequest().authenticated())
                         .logout(logout -> logout.deleteCookies("JSESSIONID"));

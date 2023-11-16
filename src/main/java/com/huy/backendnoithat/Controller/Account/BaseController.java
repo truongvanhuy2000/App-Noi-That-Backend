@@ -2,6 +2,7 @@ package com.huy.backendnoithat.Controller.Account;
 
 import com.huy.backendnoithat.DTO.AccountManagement.Account;
 import com.huy.backendnoithat.DTO.AccountManagement.AccountInformation;
+import com.huy.backendnoithat.DTO.TokenResponse;
 import com.huy.backendnoithat.Service.Account.BaseService;
 import com.huy.backendnoithat.Utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class BaseController {
                                          @RequestBody AccountInformation AccountInfo) {
         String token = JwtTokenUtil.getTokenFromHeader(header);;
         baseService.updateInfo(token, AccountInfo);
-        return ResponseEntity.ok("Updated successfully.");
+        return ResponseEntity.ok("Updated successfully");
     }
 
 }
