@@ -45,7 +45,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public TokenResponse refreshToken(String refreshToken) {
-        if (!jwtTokenUtil.validateRefreshToken(refreshToken)) {
+        if (!jwtTokenUtil.validateToken(refreshToken)) {
             throw new IllegalArgumentException("Invalid refresh token");
         }
         String username = jwtTokenUtil.getUsernameFromToken(refreshToken);

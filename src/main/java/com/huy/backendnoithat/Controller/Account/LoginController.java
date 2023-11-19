@@ -18,14 +18,14 @@ public class LoginController {
     public LoginController(LoginService loginService) {
         this.loginService = loginService;
     }
-    @PostMapping("/login")
+    @PostMapping(value = "/login", produces = "application/json")
     public ResponseEntity<TokenResponse> login(@RequestBody Map<String, String> requestBody) {
         String username = requestBody.get("username");
         String password = requestBody.get("password");
         TokenResponse token = loginService.login(username, password);
         return ResponseEntity.ok(token);
     }
-    @PostMapping("/refreshToken")
+    @PostMapping(value = "/refreshToken", produces = "application/json")
     public ResponseEntity<TokenResponse> refreshToken(@RequestBody Map<String, String> requestBody) {
         String refreshToken = requestBody.get("refreshToken");
         TokenResponse tokenResponse = loginService.refreshToken(refreshToken);

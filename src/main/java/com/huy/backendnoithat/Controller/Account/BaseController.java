@@ -27,7 +27,7 @@ public class BaseController {
     @GetMapping("/info")
     public Account info(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                         @RequestParam(name="username", required = false) String username) {
-        String token = header.split(" ")[1].trim();
+        String token = JwtTokenUtil.getTokenFromHeader(header);
         return baseService.getAccountInformation(token);
     }
     @PutMapping("/changePassword")

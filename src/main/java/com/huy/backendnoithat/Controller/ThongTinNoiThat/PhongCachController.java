@@ -20,6 +20,7 @@ public class PhongCachController {
         this.phongCachService = phongCachService;
     }
     @GetMapping("")
+    @CrossOrigin
     public List<PhongCach> findAll(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                                    @RequestParam(value = "owner", required = false) String owner) {
         String token = JwtTokenUtil.getTokenFromHeader(header);

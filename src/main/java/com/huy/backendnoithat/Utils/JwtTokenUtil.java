@@ -46,7 +46,6 @@ public class JwtTokenUtil implements Serializable {
         return Jwts.builder()
                 .setIssuer("appnoithat")
                 .setSubject(username)
-                .setAudience(password)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_VALIDITY * 1000))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
@@ -73,32 +72,15 @@ public class JwtTokenUtil implements Serializable {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
     public boolean isTokenExpired(String token) {
-        Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
+        try {
+            Date expiration = getExpirationDateFromToken(token);
+            return expiration.before(new Date());
+        } catch (Exception e) {
+            return true;
+        }
     }
     public boolean validateToken(String token) {
         return !isTokenExpired(token) && validateAccount(token);
-    }
-    public boolean validateRefreshToken(String token) {
-        if (isTokenExpired(token)) {
-            throw new InvalidJwtTokenException("Invalid token");
-        }
-        String tokenUsername = getUsernameFromToken(token);
-        String tokenPassword = getClaimFromToken(token, Claims::getAudience);
-        AccountEntity account = accountDAO.findByUsername(tokenUsername);
-        if (account == null) {
-            throw new InvalidJwtTokenException("Invalid token");
-        }
-        if (!account.isEnabled() || !account.isActive()) {
-            throw new AccountIsDisabledException("Account is disabled");
-        }
-        if (account.getExpiredDate() == null || account.getExpiredDate().toLocalDate().isBefore(LocalDate.now())) {
-            throw new AccountExpiredException("Account is expired");
-        }
-        if(!passwordEncoder.matches(tokenPassword, account.getPassword())) {
-            throw new InvalidJwtTokenException("Invalid token");
-        }
-        return true;
     }
     public boolean validateAccount(String token) {
         String tokenUsername = getUsernameFromToken(token);
