@@ -1,14 +1,11 @@
 package com.huy.backendnoithat.Utils;
 
 import com.huy.backendnoithat.DAO.Account.AccountDAO;
-import com.huy.backendnoithat.DTO.AccountManagement.Account;
 import com.huy.backendnoithat.Entity.Account.AccountEntity;
 import com.huy.backendnoithat.Exception.AccountExpiredException;
 import com.huy.backendnoithat.Exception.AccountIsDisabledException;
 import com.huy.backendnoithat.Exception.InvalidJwtTokenException;
-import com.huy.backendnoithat.Service.Account.AccountService;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +24,8 @@ import java.util.function.Function;
 public class JwtTokenUtil implements Serializable {
     private static final long serialVersionUID = -2550185165626007488L;
 //    public static final long JWT_TOKEN_VALIDITY = 24L * 60 * 60 * 1000;
-    public static final long JWT_TOKEN_VALIDITY = 60;
-    public static final long JWT_REFRESH_TOKEN_VALIDITY = 24L * 60 * 60 * 30;
+    public static final long JWT_TOKEN_VALIDITY = 30;
+    public static final long JWT_REFRESH_TOKEN_VALIDITY = 60;
     @Value("${jwt.secret}")
     private String SECRET_KEY;
     private final AccountDAO accountDAO;
