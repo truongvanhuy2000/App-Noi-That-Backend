@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApplicationInfo {
+public class ApplicationInfoEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class ApplicationInfo {
     private String changeLog;
     @Column(name = "date")
     private LocalDate updateDate;
-    public ApplicationInfo(ApplicationInfoDTO applicationInfoDTO) {
+    public ApplicationInfoEntity(ApplicationInfoDTO applicationInfoDTO) {
         id = applicationInfoDTO.getId();
         version = applicationInfoDTO.getVersion();
         changeLog = applicationInfoDTO.getChangeLog();

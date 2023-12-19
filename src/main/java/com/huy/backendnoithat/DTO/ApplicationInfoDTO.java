@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.DTO;
 
-import com.huy.backendnoithat.Entity.ApplicationInfo;
+import com.huy.backendnoithat.Entity.ApplicationInfoEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +17,10 @@ public class ApplicationInfoDTO {
     private String version;
     private String changeLog;
     private LocalDate updateDate;
-    public ApplicationInfoDTO(ApplicationInfo applicationInfo) {
-        id = applicationInfo.getId();
-        version = applicationInfo.getVersion();
-        changeLog = applicationInfo.getChangeLog();
-        updateDate = applicationInfo.getUpdateDate();
+    public ApplicationInfoDTO(ApplicationInfoEntity applicationInfoEntity) {
+        id = applicationInfoEntity.getId();
+        version = applicationInfoEntity.getVersion();
+        changeLog = applicationInfoEntity.getChangeLog();
+        updateDate = applicationInfoEntity.getUpdateDate();
     }
 }
