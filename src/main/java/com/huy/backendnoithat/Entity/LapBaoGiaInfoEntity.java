@@ -2,10 +2,7 @@ package com.huy.backendnoithat.Entity;
 
 import com.huy.backendnoithat.Entity.Account.AccountEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "lap_bao_gia_info")
@@ -13,6 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class LapBaoGiaInfoEntity {
     @Id
     @Column(name = "id")

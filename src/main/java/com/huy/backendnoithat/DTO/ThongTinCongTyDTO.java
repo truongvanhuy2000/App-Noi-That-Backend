@@ -1,12 +1,14 @@
 package com.huy.backendnoithat.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 import java.io.InputStream;
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Data
 public class ThongTinCongTyDTO {
-    @JsonProperty("id")
-    private int id;
     @JsonProperty("tenCongTy")
     private String tenCongTy;
     @JsonProperty("diaChiVanPhong")

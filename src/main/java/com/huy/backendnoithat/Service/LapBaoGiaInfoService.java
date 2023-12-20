@@ -6,7 +6,8 @@ import com.huy.backendnoithat.DTO.ThongTinCongTyDTO;
 public interface LapBaoGiaInfoService {
     LapBaoGiaInfoDTO getLapBaoGiaInfo(String token);
 
-    LapBaoGiaInfoDTO saveLapBaoGiaInfo(String token, LapBaoGiaInfoDTO lapBaoGiaInfoDTO);
 
-    LapBaoGiaInfoDTO saveThongTinCongTY(String token, ThongTinCongTyDTO thongTinCongTyDTO);
+    void saveNoteArea(String token, String noteArea);
+    void saveThongTinCongTy(String token, ThongTinCongTyDTO thongTinCongTyDTO);
+
 }

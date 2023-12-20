@@ -3,6 +3,7 @@ package com.huy.backendnoithat.Entity.Account;
 import com.huy.backendnoithat.DTO.AccountManagement.Account;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class AccountEntity {
     @Id @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

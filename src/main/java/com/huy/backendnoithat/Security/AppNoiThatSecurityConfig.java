@@ -1,5 +1,7 @@
 package com.huy.backendnoithat.Security;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,15 +19,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity()
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AppNoiThatSecurityConfig {
-    private final JwtTokenFilter jwtTokenFilter;
-    private final ExceptionHandlerFilter exceptionHandlerFilter;
-    @Autowired
-    public AppNoiThatSecurityConfig(JwtTokenFilter jwtTokenFilter, ExceptionHandlerFilter exceptionHandlerFilter) {
-        this.jwtTokenFilter = jwtTokenFilter;
-        this.exceptionHandlerFilter = exceptionHandlerFilter;
-    }
-
+    @NonNull
+    private JwtTokenFilter jwtTokenFilter;
+    @NonNull
+    private ExceptionHandlerFilter exceptionHandlerFilter;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.sessionManagement(sessionManagement -> sessionManagement
