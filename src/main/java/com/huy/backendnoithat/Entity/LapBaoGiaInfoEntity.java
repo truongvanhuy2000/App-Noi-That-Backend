@@ -4,6 +4,8 @@ import com.huy.backendnoithat.Entity.Account.AccountEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "lap_bao_gia_info")
 @Getter
@@ -30,6 +32,8 @@ public class LapBaoGiaInfoEntity {
     private String logoPath;
     @Column(name="note", length = 1000)
     private String note;
+    @Column(name="modified_date")
+    private Date modifiedDate;
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     @OneToOne(fetch = FetchType.LAZY)
     private AccountEntity account;
