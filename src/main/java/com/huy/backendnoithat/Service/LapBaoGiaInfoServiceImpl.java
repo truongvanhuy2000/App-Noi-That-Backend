@@ -74,7 +74,9 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
         File file = new File(Paths.get(LOGO_PATH, fileName).toString());
         if (!file.exists()) {
             try {
-                Files.createDirectory(file.getParentFile().toPath());
+                if (!file.getParentFile().exists()) {
+                    Files.createDirectory(file.getParentFile().toPath());
+                }
                 Files.createFile(file.toPath());
             } catch (IOException e) {
                 throw new RuntimeException(e);
