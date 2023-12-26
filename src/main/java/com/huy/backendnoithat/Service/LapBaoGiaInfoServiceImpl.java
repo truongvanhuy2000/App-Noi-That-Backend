@@ -57,10 +57,8 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
         if (fileName == null) {
             return null;
         }
-        try {
-            return new FileInputStream(Paths.get(LOGO_PATH, fileName).toString()).readAllBytes();
-        } catch (FileNotFoundException e) {
-            return null;
+        try (InputStream file = new FileInputStream(Paths.get(LOGO_PATH, fileName).toString())) {
+            return file.readAllBytes();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -110,6 +108,10 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
     @Override
     public void saveThongTinCongTy(String token, ThongTinCongTyDTO thongTinCongTyDTO) {
         String username = jwtTokenUtil.getUsernameFromToken(token);
+        LapBaoGiaInfoEntity existingInfo = lapBaoGiaInfoDAO.findByUsername(username);
+        if (existingInfo != null && existingInfo.getLogoPath() != null) {
+            deleteExistingLogo(existingInfo.getLogoPath());
+        }
         LapBaoGiaInfoEntity lapBaoGiaInfoEntity = LapBaoGiaInfoEntity.builder()
                 .tenCongTy(thongTinCongTyDTO.getTenCongTy())
                 .diaChiVanPhong(thongTinCongTyDTO.getDiaChiVanPhong())
@@ -119,7 +121,6 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
                 .modifiedDate(thongTinCongTyDTO.getCreatedDate())
                 .logoPath(saveLogo(thongTinCongTyDTO.getLogo()))
                 .build();
-        LapBaoGiaInfoEntity existingInfo = lapBaoGiaInfoDAO.findByUsername(username);
         if (existingInfo == null) {
             Account account = accountService.findByUsername(username);
             lapBaoGiaInfoEntity.setAccount(AccountEntity.builder().id(account.getId()).build());
@@ -130,7 +131,15 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
         }
         lapBaoGiaInfoDAO.save(lapBaoGiaInfoEntity);
     }
-
+    private void deleteExistingLogo(String fileName) {
+        if (fileName == null) {
+            return;
+        }
+        File file = new File(Paths.get(LOGO_PATH, fileName).toString());
+        if (file.exists()) {
+            file.delete();
+        }
+    }
     @Override
     public boolean checkInfoModification(String token, Date date) {
         String username = jwtTokenUtil.getUsernameFromToken(token);
