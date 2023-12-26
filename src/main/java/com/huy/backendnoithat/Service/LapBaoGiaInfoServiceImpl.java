@@ -69,20 +69,12 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
             return null;
         }
         String fileName = "company_logo" + UUID.randomUUID() + System.currentTimeMillis() + ".png";
-        File file = new File(Paths.get(LOGO_PATH, fileName).toString());
-        if (!file.exists()) {
-            try {
-                Files.createFile(file.toPath());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        try (OutputStream outputStream = new FileOutputStream(Paths.get(LOGO_PATH, fileName).toString())) {
-            outputStream.write(logo);
-            return fileName;
+        try (FileOutputStream out = new FileOutputStream(Paths.get(LOGO_PATH, fileName).toAbsolutePath().toString())) {
+            out.write(logo);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return fileName;
     }
 
     @Override
