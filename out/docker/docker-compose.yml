@@ -7,7 +7,7 @@ services:
     ports:
       - "127.0.0.1:3306:3306"
     env_file:
-      - "Env/mysql.env"
+      - "env/mysql.env"
     volumes:
       - "./database:/docker-entrypoint-initdb.d"
       - "/home/appnoithat/mysqlDB:/var/lib/mysql"
@@ -30,8 +30,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - "/home/huy/companylogo:/companylogo"
     env_file:
-      - "Env/backend.env"
+      - "env/backend.env"
 
   phpmyadmin:
     image : phpmyadmin:latest
@@ -39,7 +41,7 @@ services:
     ports:
       - "8081:80"
     env_file:
-      - "Env/phpmyadmin.env"
+      - "env/phpmyadmin.env"
     networks:
       - cat
     depends_on:
