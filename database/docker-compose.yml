@@ -3,6 +3,7 @@ version: '3.1'
 services:
   db:
     image: mysql:latest
+    container_name: appnoithat_dev_db
     restart: unless-stopped
     ports:
       - "3307:3306"
@@ -21,17 +22,5 @@ services:
       retries: 10
     networks:
       - cat
-#  backend:
-#    image: truongvanhuy2000/appnoithatbackend
-#    restart: always
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      db:
-#        condition: service_healthy
-#    networks:
-#      - cat
-#    environment:
-#        DB_HOST: db
 networks:
   cat:

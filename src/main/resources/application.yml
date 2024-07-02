@@ -1,0 +1,28 @@
+jwt:
+    secret: ${JWT_SECRET}
+logging:
+    level:
+        org:
+            hibernate:
+                SQL: INFO
+            springframework:
+                security: DEBUG
+                security.web.FilterChainProxy: DEBUG
+        root: info
+logo:
+    path: ${LOGO_PATH}
+pricingModel:
+    path: ${PRICING_MODEL_PATH}
+server:
+    port: ${BE_PORT}
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: ${DB_PASSWORD}
+        url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+        username: ${DB_USERNAME}
+    jpa:
+        hibernate:
+            ddl-auto: update
+    main:
+        banner-mode: 'off'
