@@ -1,28 +1,34 @@
 jwt:
-    secret: ${JWT_SECRET}
+  secret: ${JWT_SECRET}
 logging:
-    level:
-        org:
-            hibernate:
-                SQL: INFO
-            springframework:
-                security: DEBUG
-                security.web.FilterChainProxy: DEBUG
-        root: info
+  level:
+    org:
+      hibernate:
+        SQL: INFO
+      springframework:
+        security: DEBUG
+        security.web.FilterChainProxy: DEBUG
+    root: info
 logo:
-    path: ${LOGO_PATH}
+  path: ${LOGO_PATH}
 pricingModel:
-    path: ${PRICING_MODEL_PATH}
+  path: ${PRICING_MODEL_PATH}
 server:
-    port: ${BE_PORT}
+  port: ${BE_PORT}
 spring:
-    datasource:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        password: ${DB_PASSWORD}
-        url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-        username: ${DB_USERNAME}
-    jpa:
-        hibernate:
-            ddl-auto: update
-    main:
-        banner-mode: 'off'
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: ${DB_PASSWORD}
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+  jpa:
+    hibernate:
+      ddl-auto: update
+  main:
+    banner-mode: 'off'
+
+aws:
+  sts:
+    external-id: ${AWS_STS_EXTERNAL_ID}
+  s3:
+    role-arn: 'arn:aws:iam::179218842168:role/Appnoithat-S3-access'

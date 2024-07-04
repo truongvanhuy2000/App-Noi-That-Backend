@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-public class STSService {
+public class S3Service {
 
 }
