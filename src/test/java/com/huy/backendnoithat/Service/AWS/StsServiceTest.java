@@ -6,9 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import software.amazon.awssdk.services.sts.model.Credentials;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class StsServiceTest {
@@ -24,6 +21,6 @@ class StsServiceTest {
 
     @Test
     void basicCredentialGet() {
-        Assertions.assertDoesNotThrow(() -> stsService.assumeRole());
+        Assertions.assertDoesNotThrow(() -> stsService.assumeS3AccessRole());
     }
 }

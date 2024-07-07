@@ -33,3 +33,6 @@ build/
 .vscode/
 *.env
 /database/database/data/
+/.run/Template JUnit.run.xml
+/.run/
+/.mvn/

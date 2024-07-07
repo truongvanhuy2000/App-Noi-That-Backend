@@ -32,3 +32,6 @@ aws:
     external-id: ${AWS_STS_EXTERNAL_ID}
   s3:
     role-arn: 'arn:aws:iam::179218842168:role/Appnoithat-S3-access'
+    credential-duration: 6
+    bucket-name: 'app-noi-that-user-file'
+    multipart-size-MB: 5
