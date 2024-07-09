@@ -41,11 +41,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             String token = header.split(" ")[1].trim();
             if (jwtTokenUtil.validateToken(token)) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(jwtTokenUtil.getUsernameFromToken(token));
+                if (userDetails == null) {
+                    throw new RuntimeException("Account's not exist");
+                }
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails == null ? List.of() :
-                                userDetails.getAuthorities()
+                        userDetails.getUsername(), "password", userDetails.getAuthorities()
                 );
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
