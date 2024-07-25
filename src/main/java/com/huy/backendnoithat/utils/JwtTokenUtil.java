@@ -17,6 +17,9 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 @Component
@@ -35,6 +38,7 @@ public class JwtTokenUtil implements Serializable {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuer("appnoithat")
+                .setId(UUID.randomUUID().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
@@ -45,6 +49,7 @@ public class JwtTokenUtil implements Serializable {
         return Jwts.builder()
                 .setIssuer("appnoithat")
                 .setSubject(username)
+                .setId(UUID.randomUUID().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_VALIDITY * 1000))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)

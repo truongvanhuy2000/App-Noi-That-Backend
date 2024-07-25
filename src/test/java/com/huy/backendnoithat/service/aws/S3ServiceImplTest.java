@@ -13,7 +13,6 @@ import software.amazon.awssdk.services.s3.model.ListObjectsResponse;
 
 import java.io.*;
 import java.nio.ByteBuffer;
-import java.nio.file.Paths;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
@@ -21,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
-class S3ServiceTest {
+class S3ServiceImplTest {
     @Autowired
     S3Service s3Service;
     String currentDir = System.getProperty("user.dir");
