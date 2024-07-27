@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Date;
 import java.util.List;
@@ -27,6 +29,17 @@ public class AccountEntity {
     private String password;
     @Column(name = "active")
     private boolean active;
+    @Column(name = "enabled")
+    private boolean enabled;
+    @Column(name = "expire_date")
+    private Date expiredDate;
+
+    @CreationTimestamp
+    @Column(name = "created_date")
+    private Date createdDate;
+    @UpdateTimestamp
+    @Column(name = "updated_date")
+    private Date updatedDate;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "info_id", referencedColumnName = "id")
@@ -35,11 +48,6 @@ public class AccountEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountEntity", fetch = FetchType.LAZY)
     private List<RoleEntity> roleEntity;
 
-    @Column(name = "enabled")
-    private boolean enabled;
-
-    @Column(name = "expire_date")
-    private Date expiredDate;
 
     public AccountEntity(Account account) {
         this.id = account.getId();

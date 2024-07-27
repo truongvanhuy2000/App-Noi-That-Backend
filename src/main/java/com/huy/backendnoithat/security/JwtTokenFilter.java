@@ -4,7 +4,7 @@ import com.huy.backendnoithat.exception.AccountExpiredException;
 import com.huy.backendnoithat.exception.AccountIsDisabledException;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.service.account.AccountService;
-import com.huy.backendnoithat.utils.JwtTokenUtil;
+import com.huy.backendnoithat.service.general.JwtTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class JwtTokenFilter extends OncePerRequestFilter {
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenService jwtTokenService;
     private final AccountService accountService;
 
     @Override
@@ -36,8 +36,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.split(" ")[1].trim();
-            if (jwtTokenUtil.validateToken(token)) {
-                Account account = accountService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
+            if (jwtTokenService.verifyAccessToken(token)) {
+                Account account = accountService.findByUsername(jwtTokenService.getUsernameFromToken(token).orElseThrow());
                 if (account == null) {
                     throw new RuntimeException("Account's not exist");
                 }
