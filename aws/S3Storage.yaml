@@ -1,3 +1,26 @@
 Resources:
-  HelloBucket:
+  ANTBucket:
     Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: app-noi-that-file
+
+  S3ANTPolicy:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: s3-appnoithat-policy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - "s3:ReplicateObject"
+              - "s3:PutObject"
+              - "s3:GetObject"
+              - "s3:ListBucket"
+              - "s3:DeleteObject"
+              - "s3:GetObjectVersion"
+            Resource:
+              - !Sub "${ANTBucket.Arn}"
+              - !Sub "${ANTBucket.Arn}/*"
+
