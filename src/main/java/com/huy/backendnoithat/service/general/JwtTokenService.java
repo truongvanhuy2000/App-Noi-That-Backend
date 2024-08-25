@@ -2,6 +2,7 @@ package com.huy.backendnoithat.service.general;
 
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 
+import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,4 +18,5 @@ public interface JwtTokenService {
     String generateRefreshToken(Account account, UUID tokenID);
 
     Optional<UUID> getTokenIdFromToken(String token);
+    Optional<Date> getExpirationDateFromToken(String token);
 }

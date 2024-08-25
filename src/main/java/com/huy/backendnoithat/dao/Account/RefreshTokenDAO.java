@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface RefreshTokenDAO extends JpaRepository<RefreshTokenEntity, Long> {
     @Query(value = "SELECT rt FROM RefreshTokenEntity rt " +
-            "join RefreshTokenEntity.accountEntity acc WHERE acc.username = :username")
+            "JOIN rt.accountEntity acc WHERE acc.username = :username")
     List<RefreshTokenEntity> findAllByUsername(String username);
 }

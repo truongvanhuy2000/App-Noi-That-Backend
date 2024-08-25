@@ -1,8 +1,8 @@
 package com.huy.backendnoithat.service.general.impl;
 
 import com.huy.backendnoithat.dao.ApplicationInfoDAO;
-import com.huy.backendnoithat.model.dto.ApplicationInfoDTO;
 import com.huy.backendnoithat.entity.ApplicationInfoEntity;
+import com.huy.backendnoithat.model.dto.ApplicationInfoDTO;
 import com.huy.backendnoithat.service.general.ApplicationInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

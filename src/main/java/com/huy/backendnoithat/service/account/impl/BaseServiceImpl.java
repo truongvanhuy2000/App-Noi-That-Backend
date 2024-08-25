@@ -4,6 +4,7 @@ import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.AccountManagement.AccountInformation;
 import com.huy.backendnoithat.service.account.AccountService;
 import com.huy.backendnoithat.service.account.BaseService;
+import com.huy.backendnoithat.service.general.JwtTokenService;
 import com.huy.backendnoithat.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,12 @@ import java.util.Map;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class BaseServiceImpl implements BaseService {
     private final AccountService accountService;
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenService jwtTokenService;
 
 
     @Override
     public Account getAccountInformation(String token) {
-        String username = jwtTokenUtil.getUsernameFromToken(token);
+        String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         Account account = accountService.findByUsername(username);
         account.setPassword("");
         return account;
@@ -28,7 +29,7 @@ public class BaseServiceImpl implements BaseService {
 
     @Override
     public void changePassword(String token, Map<String, String> requestBody) {
-        String username = jwtTokenUtil.getUsernameFromToken(token);
+        String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         String oldPassword = requestBody.get("oldPassword");
         String newPassword = requestBody.get("newPassword");
         if (oldPassword == null || newPassword == null) {
@@ -39,7 +40,7 @@ public class BaseServiceImpl implements BaseService {
 
     @Override
     public void updateInfo(String token, AccountInformation accountInformation) {
-        String username = jwtTokenUtil.getUsernameFromToken(token);
+        String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         accountService.updateInfo(username, accountInformation);
     }
 

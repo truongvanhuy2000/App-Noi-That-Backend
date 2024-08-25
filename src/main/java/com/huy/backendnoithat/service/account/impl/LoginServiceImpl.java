@@ -39,10 +39,14 @@ public class LoginServiceImpl implements LoginService {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UUID refreshTokenID = UUID.randomUUID();
-        TokenResponse tokenResponse = new TokenResponse();
-        tokenResponse.setRefreshToken(jwtTokenService.generateRefreshToken(account, refreshTokenID));
-        tokenResponse.setToken(jwtTokenService.generateAccessToken(account.getUsername(), refreshTokenID));
-        return tokenResponse;
+        String refreshToken = jwtTokenService.generateRefreshToken(account, refreshTokenID);
+        String accessToken = jwtTokenService.generateAccessToken(account.getUsername(), refreshTokenID);
+        return TokenResponse.builder()
+                .refreshToken(refreshToken)
+                .accessToken(accessToken)
+                .accessTokenExpiration(jwtTokenService.getExpirationDateFromToken(accessToken).orElseThrow())
+                .refreshTokenExpiration(jwtTokenService.getExpirationDateFromToken(refreshToken).orElseThrow())
+                .build();
     }
 
     @Override
@@ -52,9 +56,12 @@ public class LoginServiceImpl implements LoginService {
         }
         String username = jwtTokenService.getUsernameFromToken(refreshToken).orElseThrow();
         UUID refreshTokenID = jwtTokenService.getTokenIdFromToken(refreshToken).orElseThrow();
-        TokenResponse tokenResponse = new TokenResponse();
-        tokenResponse.setToken(jwtTokenService.generateAccessToken(username, refreshTokenID));
-        tokenResponse.setRefreshToken(refreshToken);
-        return tokenResponse;
+        String accessToken = jwtTokenService.generateAccessToken(username, refreshTokenID);
+        return TokenResponse.builder()
+                .refreshToken(refreshToken)
+                .accessToken(accessToken)
+                .accessTokenExpiration(jwtTokenService.getExpirationDateFromToken(accessToken).orElseThrow())
+                .refreshTokenExpiration(jwtTokenService.getExpirationDateFromToken(refreshToken).orElseThrow())
+                .build();
     }
 }

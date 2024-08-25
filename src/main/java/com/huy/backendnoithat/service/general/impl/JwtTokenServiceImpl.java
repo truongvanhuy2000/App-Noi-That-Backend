@@ -17,6 +17,7 @@ import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.PlainJWT;
 import com.nimbusds.jwt.SignedJWT;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     @Override
-    public String generateAccessToken(String username, UUID refreshTokenID) {
+    public String generateAccessToken(@NonNull String username, @NonNull UUID refreshTokenID) {
         Date expirationDate = new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY_MILLIS);
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .issuer("app_noi_that_backend")
@@ -60,50 +61,23 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     @Override
-    public String generateRefreshToken(Account account) {
+    public String generateRefreshToken(@NonNull Account account) {
         UUID tokenId = UUID.randomUUID();
         return generateRefreshToken(account, tokenId);
     }
 
     @Override
-    public void revokeRefreshToken(String username) {
+    public void revokeRefreshToken(@NonNull String username) {
         List<RefreshTokenEntity> refreshTokenEntityList = refreshTokenDAO.findAllByUsername(username);
         refreshTokenEntityList.forEach(item -> {
             item.setValid(false);
             createNewInvalidationEntry(item.getTokenId());
         });
-        refreshTokenDAO.saveAllAndFlush(refreshTokenEntityList);
-    }
-
-    /**
-     * @param tokenID
-     * This expirationDate mean that the amount of time this token will exist inside this map,
-     * so that during this time, any access token that associate with this token will be prematurely invalidated
-     */
-    private void createNewInvalidationEntry(String tokenID) {
-        Date expirationDate = new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY_MILLIS);
-        revokedRefreshTokenMap.put(tokenID, expirationDate);
-    }
-
-    /**
-     * @param tokenID
-     * We will use this to check if the access token is prematurely invalidated
-     * @return
-     */
-    private boolean verifyWithAssociatedRefreshToken(String tokenID) {
-        // If this map doesn't co
-        if (!revokedRefreshTokenMap.containsKey(tokenID)) {
-            return true;
-        }
-        Date expirationDate = revokedRefreshTokenMap.get(tokenID);
-        if (expirationDate.before(new Date())) {
-            revokedRefreshTokenMap.remove(tokenID);
-        }
-        return false;
+        refreshTokenDAO.saveAll(refreshTokenEntityList);
     }
 
     @Override
-    public String generateRefreshToken(Account account, UUID tokenID) {
+    public String generateRefreshToken(@NonNull Account account, @NonNull UUID tokenID) {
         Date expirationDate = new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_VALIDITY_MILLIS);
         String tokenId = tokenID.toString();
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
@@ -126,13 +100,71 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     @Override
-    public Optional<UUID> getTokenIdFromToken(String token) {
+    public Optional<UUID> getTokenIdFromToken(@NonNull String token) {
         try {
-            PlainJWT plainJWT = PlainJWT.parse(token);
-            return Optional.of(UUID.fromString(plainJWT.getJWTClaimsSet().getJWTID()));
+            SignedJWT signedJWT = SignedJWT.parse(token);
+            return Optional.of(UUID.fromString(signedJWT.getJWTClaimsSet().getJWTID()));
         } catch (ParseException e) {
             log.error("Error", e);
             return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Date> getExpirationDateFromToken(String token) {
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(token);
+            return Optional.of(signedJWT.getJWTClaimsSet().getExpirationTime());
+        } catch (ParseException e) {
+            log.error("Error", e);
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public boolean verifyAccessToken(@NonNull String token) {
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(token);
+            JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
+            if (!jwtClaimsSet.getStringClaim(TOKEN_TYPE).equals(TokenType.ACCESS_TOKEN.toString())) {
+                log.info("not access token");
+                return false;
+            }
+            if (!verifyWithAssociatedRefreshToken(jwtClaimsSet.getStringClaim(REFRESH_TOKEN_ID))) {
+                log.info("prematurely invalidated");
+                return false;
+            }
+            return verifyJWT(signedJWT);
+        } catch (ParseException | JOSEException e) {
+            log.error(e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public Optional<String> getUsernameFromToken(@NonNull String token) {
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(token);
+            return Optional.of(signedJWT.getJWTClaimsSet().getSubject());
+        } catch (ParseException e) {
+            log.error("Error", e);
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public boolean verifyRefreshToken(@NonNull String refreshToken) {
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(refreshToken);
+            JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
+            if (!jwtClaimsSet.getStringClaim(TOKEN_TYPE).equals(TokenType.REFRESH_TOKEN.toString())) {
+                log.info("not refresh token");
+                return false;
+            }
+            return verifyJWT(signedJWT);
+        } catch (ParseException | JOSEException e) {
+            log.error(e.getMessage());
+            return false;
         }
     }
 
@@ -147,49 +179,6 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         } catch (JOSEException e) {
             log.error(e.getMessage());
             throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public boolean verifyAccessToken(String token) {
-        try {
-            SignedJWT signedJWT = SignedJWT.parse(token);
-            JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
-            if (!jwtClaimsSet.getClaim(TOKEN_TYPE).equals(TokenType.ACCESS_TOKEN)) {
-                log.info("not access token");
-                return false;
-            }
-            return verifyJWT(signedJWT);
-        } catch (ParseException | JOSEException e) {
-            log.error(e.getMessage());
-            return false;
-        }
-    }
-
-    @Override
-    public Optional<String> getUsernameFromToken(String token) {
-        try {
-            PlainJWT plainJWT = PlainJWT.parse(token);
-            return Optional.of(plainJWT.getJWTClaimsSet().getSubject());
-        } catch (ParseException e) {
-            log.error("Error", e);
-            return Optional.empty();
-        }
-    }
-
-    @Override
-    public boolean verifyRefreshToken(String refreshToken) {
-        try {
-            SignedJWT signedJWT = SignedJWT.parse(refreshToken);
-            JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
-            if (!jwtClaimsSet.getClaim(TOKEN_TYPE).equals(TokenType.REFRESH_TOKEN)) {
-                log.info("not refresh token");
-                return false;
-            }
-            return verifyJWT(signedJWT);
-        } catch (ParseException | JOSEException e) {
-            log.error(e.getMessage());
-            return false;
         }
     }
 
@@ -208,17 +197,13 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     private JWSHeader createJWSHeader(JWK jwk) {
-        return new JWSHeader.Builder(JWSAlgorithm.ES256K)
+        return new JWSHeader.Builder(JWSAlgorithm.ES256)
                 .type(JOSEObjectType.JWT)
                 .jwk(jwk.toPublicJWK())
                 .build();
     }
 
-    private ECKey generateSignature(Date signatureExpiration) throws JOSEException {
-        if (signatureExpiration == null) {
-            log.error("expiration must not be null");
-            throw new IllegalArgumentException();
-        }
+    private ECKey generateSignature(@NonNull Date signatureExpiration) throws JOSEException {
         return new ECKeyGenerator(Curve.P_256)
                 .keyID(UUID.randomUUID().toString())
                 .expirationTime(signatureExpiration)
@@ -228,12 +213,44 @@ public class JwtTokenServiceImpl implements JwtTokenService {
                 .generate();
     }
 
-    public boolean isTokenExpired(JWT token) {
+    private boolean isTokenExpired(JWT token) {
         try {
             Date expiration = token.getJWTClaimsSet().getExpirationTime();
             return expiration.before(new Date());
         } catch (Exception e) {
             return true;
+        }
+    }
+
+    /**
+     * @param tokenID This expirationDate mean that the amount of time this token will exist inside this map,
+     *                so that during this time, any access token that associate with this token will be prematurely invalidated
+     */
+    private void createNewInvalidationEntry(String tokenID) {
+        Date expirationDate = new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY_MILLIS);
+        revokedRefreshTokenMap.put(tokenID, expirationDate);
+    }
+
+    /**
+     * @param tokenID We will use this to check if the access token is prematurely invalidated
+     * @return
+     */
+    private boolean verifyWithAssociatedRefreshToken(String tokenID) {
+        // If this map doesn't contain this tokenID then maybe the access token is still valid
+        if (!revokedRefreshTokenMap.containsKey(tokenID)) {
+            return true;
+        }
+        removeIfExpiredRefreshTokenEntry(tokenID);
+        return false;
+    }
+
+    private void removeIfExpiredRefreshTokenEntry(String tokenID) {
+        if (revokedRefreshTokenMap.containsKey(tokenID)) {
+            // TODO: Implement better strategy to remove the token from map
+            Date expirationDate = revokedRefreshTokenMap.get(tokenID);
+            if (expirationDate.before(new Date())) {
+                revokedRefreshTokenMap.remove(tokenID);
+            }
         }
     }
 }

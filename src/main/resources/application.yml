@@ -1,13 +1,5 @@
-jwt:
-  secret: ${JWT_SECRET}
 logging:
   level:
-    org:
-#      hibernate:
-#        SQL: INFO
-#      springframework:
-#        security: DEBUG
-#        security.web.FilterChainProxy: DEBUG
     root: info
 logo:
   path: ${LOGO_PATH}

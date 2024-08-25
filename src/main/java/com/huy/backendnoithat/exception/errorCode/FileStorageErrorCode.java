@@ -1,9 +1,6 @@
 package com.huy.backendnoithat.exception.errorCode;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-import java.io.File;
 
 @AllArgsConstructor
 public enum FileStorageErrorCode {

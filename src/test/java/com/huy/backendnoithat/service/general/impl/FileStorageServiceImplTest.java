@@ -6,9 +6,10 @@ import com.huy.backendnoithat.exception.FileStorageException;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.SavedFileDTO;
 import com.huy.backendnoithat.service.aws.S3Service;
-import com.huy.backendnoithat.service.general.FileStorageService;
 import jakarta.servlet.ServletOutputStream;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -23,7 +24,6 @@ import org.springframework.util.unit.DataSize;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
-import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -31,10 +31,9 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.verify;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)

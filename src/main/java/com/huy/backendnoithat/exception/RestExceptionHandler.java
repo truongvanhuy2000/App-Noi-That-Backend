@@ -3,6 +3,7 @@ package com.huy.backendnoithat.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -17,8 +18,7 @@ public class RestExceptionHandler {
         errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
         errorResponse.setMessage(exception.getMessage());
         errorResponse.setTimeStamp(System.currentTimeMillis());
-        log.error("Error", exception.getCause());
-        exception.printStackTrace();
+        log.error("Error", exception);
         return new ResponseEntity<>(errorResponse, org.springframework.http.HttpStatus.NOT_FOUND);
     }
 
@@ -28,8 +28,7 @@ public class RestExceptionHandler {
         errorResponse.setStatus(HttpStatus.CONFLICT.value());
         errorResponse.setMessage("Username already exists.");
         errorResponse.setTimeStamp(System.currentTimeMillis());
-        log.error("Error", exception.getCause());
-        exception.printStackTrace();
+        log.error("Error", exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
@@ -39,8 +38,7 @@ public class RestExceptionHandler {
         errorResponse.setStatus(HttpStatus.FORBIDDEN.value());
         errorResponse.setMessage("Account is disabled.");
         errorResponse.setTimeStamp(System.currentTimeMillis());
-        log.error("Error", exception.getCause());
-        exception.printStackTrace();
+        log.error("Error", exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
@@ -50,8 +48,7 @@ public class RestExceptionHandler {
         errorResponse.setStatus(HttpStatus.FORBIDDEN.value());
         errorResponse.setMessage("Account is expired.");
         errorResponse.setTimeStamp(System.currentTimeMillis());
-        log.error("Error", exception.getCause());
-        exception.printStackTrace();
+        log.error("Error", exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
@@ -61,8 +58,7 @@ public class RestExceptionHandler {
         errorResponse.setStatus(HttpStatus.FORBIDDEN.value());
         errorResponse.setMessage("Invalid token.");
         errorResponse.setTimeStamp(System.currentTimeMillis());
-        log.error("Error", exception.getCause());
-        exception.printStackTrace();
+        log.error("Error", exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
@@ -74,9 +70,13 @@ public class RestExceptionHandler {
                 .message(exception.getMessage())
                 .errorCode(exception.getFileStorageErrorCode().errorCode)
                 .build();
-        log.error("Error", exception.getCause());
-        exception.printStackTrace();
+        log.error("Error", exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(AuthenticationServiceException exception) {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
@@ -85,8 +85,7 @@ public class RestExceptionHandler {
         errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
         errorResponse.setMessage(exception.getMessage());
         errorResponse.setTimeStamp(System.currentTimeMillis());
-        log.error("Error", exception.getCause());
-        exception.printStackTrace();
+        log.error("Error", exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 

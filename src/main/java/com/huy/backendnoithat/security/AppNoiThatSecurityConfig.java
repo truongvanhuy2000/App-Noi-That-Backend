@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,13 +34,10 @@ import java.util.List;
 @EnableMethodSecurity
 @Slf4j
 public class AppNoiThatSecurityConfig {
-    @NonNull
-    private JwtTokenFilter jwtTokenFilter;
-    @NonNull
-    private ExceptionHandlerFilter exceptionHandlerFilter;
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity,
+                                           JwtTokenFilter jwtTokenFilter,
+                                           ExceptionHandlerFilter exceptionHandlerFilter) throws Exception {
         httpSecurity.sessionManagement(sessionManagement -> sessionManagement
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         httpSecurity.cors(Customizer.withDefaults())
@@ -78,7 +75,7 @@ public class AppNoiThatSecurityConfig {
                 }
                 AccountEntity account = accountDAO.findByUsername(username);
                 if (!isPasswordMatch(password, account.getPassword())) {
-                    return null;
+                    throw new AuthenticationServiceException("Can't authenticate this account");
                 }
                 List<SimpleGrantedAuthority> authorities = account.getRoleEntity().stream().map(
                         element -> new SimpleGrantedAuthority(element.getRole())).toList();

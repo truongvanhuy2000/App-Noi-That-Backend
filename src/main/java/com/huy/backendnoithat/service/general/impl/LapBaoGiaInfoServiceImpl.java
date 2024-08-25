@@ -1,15 +1,15 @@
 package com.huy.backendnoithat.service.general.impl;
 
-import com.huy.backendnoithat.service.general.LapBaoGiaInfoService;
-import com.huy.backendnoithat.utils.JwtTokenUtil;
 import com.huy.backendnoithat.dao.LapBaoGiaInfoDAO;
-import com.huy.backendnoithat.model.dto.AccountManagement.Account;
-import com.huy.backendnoithat.model.dto.LapBaoGiaInfoDTO;
-import com.huy.backendnoithat.model.dto.ThongTinCongTyDTO;
 import com.huy.backendnoithat.entity.Account.AccountEntity;
 import com.huy.backendnoithat.entity.LapBaoGiaInfoEntity;
 import com.huy.backendnoithat.exception.NotFoundException;
+import com.huy.backendnoithat.model.dto.AccountManagement.Account;
+import com.huy.backendnoithat.model.dto.LapBaoGiaInfoDTO;
+import com.huy.backendnoithat.model.dto.ThongTinCongTyDTO;
 import com.huy.backendnoithat.service.account.AccountService;
+import com.huy.backendnoithat.service.general.JwtTokenService;
+import com.huy.backendnoithat.service.general.LapBaoGiaInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,14 +24,14 @@ import java.util.UUID;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
     private final LapBaoGiaInfoDAO lapBaoGiaInfoDAO;
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenService jwtTokenService;
     private final AccountService accountService;
     @Value("${logo.path}")
     private String LOGO_PATH;
 
     @Override
     public LapBaoGiaInfoDTO getLapBaoGiaInfo(String token) {
-        String username = jwtTokenUtil.getUsernameFromToken(token);
+        String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         LapBaoGiaInfoEntity lapBaoGiaInfoEntity = lapBaoGiaInfoDAO.findByUsername(username);
         if (lapBaoGiaInfoEntity == null) {
             throw new NotFoundException("Không tìm thấy thông tin");
@@ -75,7 +75,7 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
 
     @Override
     public void saveNoteArea(String token, String noteArea) {
-        String username = jwtTokenUtil.getUsernameFromToken(token);
+        String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         LapBaoGiaInfoEntity lapBaoGiaInfoEntity = lapBaoGiaInfoDAO.findByUsername(username);
         if (lapBaoGiaInfoEntity == null) {
             Account account = accountService.findByUsername(username);
@@ -92,7 +92,7 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
 
     @Override
     public void saveThongTinCongTy(String token, ThongTinCongTyDTO thongTinCongTyDTO) {
-        String username = jwtTokenUtil.getUsernameFromToken(token);
+        String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         LapBaoGiaInfoEntity existingInfo = lapBaoGiaInfoDAO.findByUsername(username);
         if (existingInfo != null && existingInfo.getLogoPath() != null) {
             deleteExistingLogo(existingInfo.getLogoPath());
@@ -129,7 +129,7 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
 
     @Override
     public boolean checkInfoModification(String token, Date date) {
-        String username = jwtTokenUtil.getUsernameFromToken(token);
+        String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         LapBaoGiaInfoEntity lapBaoGiaInfoEntity = lapBaoGiaInfoDAO.findByUsername(username);
         if (lapBaoGiaInfoEntity == null) {
             return true;
@@ -139,7 +139,7 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
 
     @Override
     public ThongTinCongTyDTO getThongTinCongTy(String token) {
-        String username = jwtTokenUtil.getUsernameFromToken(token);
+        String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         LapBaoGiaInfoEntity lapBaoGiaInfoEntity = lapBaoGiaInfoDAO.findByUsername(username);
         if (lapBaoGiaInfoEntity == null) {
             throw new NotFoundException("Không tìm thấy thông tin");
@@ -157,7 +157,7 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
 
     @Override
     public String getNoteArea(String token) {
-        String username = jwtTokenUtil.getUsernameFromToken(token);
+        String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         LapBaoGiaInfoEntity lapBaoGiaInfoEntity = lapBaoGiaInfoDAO.findByUsername(username);
         if (lapBaoGiaInfoEntity == null) {
             throw new NotFoundException("Không tìm thấy thông tin");

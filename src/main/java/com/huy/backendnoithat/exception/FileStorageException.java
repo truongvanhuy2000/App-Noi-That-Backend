@@ -1,7 +1,6 @@
 package com.huy.backendnoithat.exception;
 
 import com.huy.backendnoithat.exception.errorCode.FileStorageErrorCode;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter

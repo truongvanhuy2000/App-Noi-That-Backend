@@ -8,7 +8,6 @@ import com.huy.backendnoithat.exception.errorCode.FileStorageErrorCode;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.SavedFileDTO;
 import com.huy.backendnoithat.model.enums.StorageType;
-import com.huy.backendnoithat.service.account.AccountService;
 import com.huy.backendnoithat.service.aws.S3Service;
 import com.huy.backendnoithat.service.general.FileStorageService;
 import jakarta.servlet.ServletOutputStream;
@@ -103,6 +102,7 @@ public class FileStorageServiceImpl implements FileStorageService {
         }
         String key = String.format("%s/%s/%s", account.getUsername(), "nt", savedFile.getPhysicalName());
         s3Service.deleteObject(key);
+        fileStorageDAO.delete(savedFile);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.entity.BangNoiThat;
 
-import com.huy.backendnoithat.model.dto.BangNoiThat.VatLieu;
 import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.model.dto.BangNoiThat.VatLieu;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

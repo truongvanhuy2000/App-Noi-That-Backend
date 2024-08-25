@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 
@@ -21,7 +20,7 @@ public class RefreshTokenEntity {
     private Long id;
     @Column(name = "token_id", nullable = false, unique = true)
     private String tokenId;
-    @Column(name = "is_valid", nullable = false, unique = true)
+    @Column(name = "is_valid")
     private boolean isValid;
 
     @CreationTimestamp

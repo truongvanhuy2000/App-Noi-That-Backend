@@ -1,10 +1,11 @@
 package com.huy.backendnoithat.service.account.impl;
 
 import com.huy.backendnoithat.dao.Account.AccountDAO;
+import com.huy.backendnoithat.entity.Account.AccountEntity;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.AccountManagement.AccountInformation;
-import com.huy.backendnoithat.entity.Account.AccountEntity;
 import com.huy.backendnoithat.service.account.AccountService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,16 +14,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service(value = "defaultAccountService")
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class AccountServiceImpl implements AccountService {
-    AccountDAO accountDAO;
-    final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public AccountServiceImpl(@Qualifier("mysqlAccountDAO") AccountDAO accountDAO,
-                              PasswordEncoder passwordEncoder) {
-        this.accountDAO = accountDAO;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final AccountDAO accountDAO;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<Account> findAll() {

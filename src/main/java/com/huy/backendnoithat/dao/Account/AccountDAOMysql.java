@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.dao.Account;
 
-import com.huy.backendnoithat.model.dto.AccountManagement.AccountInformation;
 import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.model.dto.AccountManagement.AccountInformation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
