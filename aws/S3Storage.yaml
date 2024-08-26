@@ -1,14 +1,39 @@
+Parameters:
+  Environment:
+    Description: Choose environment
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - test
+      - prod
+
 Resources:
   ANTBucket:
     Type: 'AWS::S3::Bucket'
-    DeletionPolicy: Retain
+    # DeletionPolicy: Retain
     Properties:
-      BucketName: app-noi-that-file
+      BucketName: !Sub "${Environment}-${AWS::Region}-app-noi-that-file"
+
+  ANTS3Access:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub "${ANTBackendUser.Arn}"
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                sts:ExternalId: dc59106b-07b1-4703-8a07-f313bcc267a8
+      RoleName: !Sub "${Environment}-${AWS::Region}-Appnoithat-S3-access"
 
   S3ANTPolicy:
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: s3-appnoithat-policy
+      PolicyName: !Sub "${Environment}-${AWS::Region}-s3-appnoithat-policy"
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -23,4 +48,24 @@ Resources:
             Resource:
               - !Sub "${ANTBucket.Arn}"
               - !Sub "${ANTBucket.Arn}/*"
+      Roles:
+        - !Ref ANTS3Access
 
+  StsANTS3Policy:
+    Type: 'AWS::IAM::UserPolicy'
+    Properties:
+      PolicyName: !Sub "${Environment}-${AWS::Region}-STS-appnoithat-S3"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - "sts:AssumeRole"
+            Resource:
+              - !Sub "${ANTS3Access.Arn}"
+      UserName: !Ref ANTBackendUser
+
+  ANTBackendUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Sub "${Environment}-${AWS::Region}-app-noi-that-backend"
