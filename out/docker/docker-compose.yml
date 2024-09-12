@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   db:
     image: mysql:latest
@@ -9,8 +7,8 @@ services:
     env_file:
       - "env/mysql.env"
     volumes:
-      - "./database:/docker-entrypoint-initdb.d"
-      - "/home/appnoithat/mysqlDB:/var/lib/mysql"
+      - "./database/init:/docker-entrypoint-initdb.d"
+      - "./database/data:/var/lib/mysql"
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       interval: 30s
@@ -18,10 +16,11 @@ services:
       retries: 10
     networks:
       - cat
-    command: --default-authentication-plugin=mysql_native_password
 
   backend:
-    image: truongvanhuy2000/appnoithatbackend
+#    image: truongvanhuy2000/appnoithatbackend
+    build:
+      context: ./backend
     restart: always
     ports:
       - "8080:8080"
@@ -35,17 +34,17 @@ services:
     env_file:
       - "env/backend.env"
 
-  phpmyadmin:
-    image : phpmyadmin:latest
-    restart: unless-stopped
-    ports:
-      - "8081:80"
-    env_file:
-      - "env/phpmyadmin.env"
-    networks:
-      - cat
-    depends_on:
-      db:
-        condition: service_healthy
+#  phpmyadmin:
+#    image : phpmyadmin:latest
+#    restart: unless-stopped
+#    ports:
+#      - "8081:80"
+#    env_file:
+#      - "env/phpmyadmin.env"
+#    networks:
+#      - cat
+#    depends_on:
+#      db:
+#        condition: service_healthy
 networks:
   cat:

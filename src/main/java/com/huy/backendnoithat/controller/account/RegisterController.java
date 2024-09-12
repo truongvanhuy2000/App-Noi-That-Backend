@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class RegisterController {
-    RegisterService registerService;
+    private final RegisterService registerService;
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody Account Account) {

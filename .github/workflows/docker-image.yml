@@ -65,18 +65,18 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/appnoithatbackend:latest
 
-  sshAndDeploy:
-    runs-on: ubuntu-latest
-    needs: [buildAndPush]
-    timeout-minutes: 5
-    steps:
-    - name: Run makefile script
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{ secrets.HOSTNAME }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.HOSTPORT }}
-        command_timeout: 30m
-        script: | 
-          cd /home/appnoithat/appnoithatbackend/out/docker && make start 
+#  sshAndDeploy:
+#    runs-on: ubuntu-latest
+#    needs: [buildAndPush]
+#    timeout-minutes: 5
+#    steps:
+#    - name: Run makefile script
+#      uses: appleboy/ssh-action@v0.1.10
+#      with:
+#        host: ${{ secrets.HOSTNAME }}
+#        username: ${{ secrets.USERNAME }}
+#        key: ${{ secrets.SSH_PRIVATE_KEY }}
+#        port: ${{ secrets.HOSTPORT }}
+#        command_timeout: 30m
+#        script: |
+#          cd /home/appnoithat/appnoithatbackend/out/docker && make start

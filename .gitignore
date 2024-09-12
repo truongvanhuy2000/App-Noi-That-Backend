@@ -36,3 +36,4 @@ build/
 /.run/Template JUnit.run.xml
 /.run/
 /.mvn/
+/out/docker/database/data/

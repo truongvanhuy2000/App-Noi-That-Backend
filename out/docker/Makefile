@@ -7,3 +7,6 @@ stop:
 start:
 	@sudo docker pull truongvanhuy2000/appnoithatbackend && \
 	sudo docker compose up -d
+
+start-local:
+	sudo docker compose up --build
