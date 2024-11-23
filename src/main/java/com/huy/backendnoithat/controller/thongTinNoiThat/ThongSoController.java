@@ -1,6 +1,5 @@
 package com.huy.backendnoithat.controller.thongTinNoiThat;
 
-import com.huy.backendnoithat.aop.DBModifyEvent;
 import com.huy.backendnoithat.model.dto.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.model.dto.BangNoiThat.ThongSo;
 import com.huy.backendnoithat.service.thongTinNoiThat.ThongSoService;
@@ -43,7 +42,6 @@ public class ThongSoController {
     }
 
     @DeleteMapping("/{id}")
-    @DBModifyEvent("ThongSo")
     public void deleteById(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                            @RequestParam(value = "owner", required = false) String owner,
                            @PathVariable int id) {
@@ -52,7 +50,6 @@ public class ThongSoController {
     }
 
     @PostMapping("")
-    @DBModifyEvent("ThongSo")
     public void save(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                      @RequestParam(value = "owner", required = false) String owner,
                      @RequestBody ThongSo thongSo, @RequestParam("parentId") int parentId) {
@@ -61,7 +58,6 @@ public class ThongSoController {
     }
 
     @PutMapping("")
-    @DBModifyEvent("ThongSo")
     public void update(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                        @RequestParam(value = "owner", required = false) String owner,
                        @RequestBody ThongSo thongSo) {
@@ -87,7 +83,6 @@ public class ThongSoController {
     }
 
     @GetMapping("/copySampleData")
-    @DBModifyEvent("ThongSo")
     public ResponseEntity<String> copySampleDataFromAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                                                           @RequestParam(value = "parentId") int parentId) {
         String token = JwtTokenUtil.getTokenFromHeader(header);

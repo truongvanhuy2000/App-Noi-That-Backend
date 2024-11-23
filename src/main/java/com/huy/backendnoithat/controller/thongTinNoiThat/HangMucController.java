@@ -1,6 +1,5 @@
 package com.huy.backendnoithat.controller.thongTinNoiThat;
 
-import com.huy.backendnoithat.aop.DBModifyEvent;
 import com.huy.backendnoithat.model.dto.BangNoiThat.HangMuc;
 import com.huy.backendnoithat.service.thongTinNoiThat.HangMucService;
 import com.huy.backendnoithat.utils.JwtTokenUtil;
@@ -41,7 +40,6 @@ public class HangMucController {
     }
 
     @DeleteMapping("/{id}")
-    @DBModifyEvent("HangMuc")
     public void deleteById(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                            @RequestParam(value = "owner", required = false) String owner, @PathVariable int id) {
         String token = JwtTokenUtil.getTokenFromHeader(header);
@@ -49,7 +47,6 @@ public class HangMucController {
     }
 
     @PutMapping("")
-    @DBModifyEvent("HangMuc")
     public void update(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                        @RequestParam(value = "owner", required = false) String owner, @RequestBody HangMuc hangMuc) {
         String token = JwtTokenUtil.getTokenFromHeader(header);
@@ -57,7 +54,6 @@ public class HangMucController {
     }
 
     @PostMapping("")
-    @DBModifyEvent("HangMuc")
     public void save(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                      @RequestParam(value = "owner", required = false) String owner,
                      @RequestBody HangMuc hangMuc,
@@ -100,7 +96,6 @@ public class HangMucController {
     }
 
     @GetMapping("/copySampleData")
-    @DBModifyEvent("HangMuc")
     public ResponseEntity<String> copySampleDataFromAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                                                           @RequestParam(value = "parentId") int parentId) {
         String token = JwtTokenUtil.getTokenFromHeader(header);
@@ -109,7 +104,6 @@ public class HangMucController {
     }
 
     @GetMapping("/swap")
-    @DBModifyEvent("HangMuc")
     public void swap(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                      @RequestParam(value = "id1") int id1,
                      @RequestParam(value = "id2") int id2) {

@@ -5,7 +5,6 @@ import com.huy.backendnoithat.model.dto.AccountManagement.AccountInformation;
 import com.huy.backendnoithat.service.account.AccountService;
 import com.huy.backendnoithat.service.account.BaseService;
 import com.huy.backendnoithat.service.general.JwtTokenService;
-import com.huy.backendnoithat.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

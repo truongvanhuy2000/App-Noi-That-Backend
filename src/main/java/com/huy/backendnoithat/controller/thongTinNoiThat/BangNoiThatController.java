@@ -1,6 +1,5 @@
 package com.huy.backendnoithat.controller.thongTinNoiThat;
 
-import com.huy.backendnoithat.aop.DBModifyEvent;
 import com.huy.backendnoithat.model.dto.Event.NoiThatUpdate;
 import com.huy.backendnoithat.service.thongTinNoiThat.BangNoiThatService;
 import com.huy.backendnoithat.utils.JwtTokenUtil;
@@ -21,7 +20,6 @@ import reactor.core.publisher.Flux;
 public class BangNoiThatController {
     private final BangNoiThatService bangNoiThatService;
 
-    @DBModifyEvent("BangNoiThat")
     @GetMapping("/sampleAll")
     public void sampleAll(@RequestHeader(HttpHeaders.AUTHORIZATION) String header) {
         String token = JwtTokenUtil.getTokenFromHeader(header);

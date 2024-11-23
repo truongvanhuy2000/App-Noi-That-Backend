@@ -1,6 +1,5 @@
 package com.huy.backendnoithat.controller.thongTinNoiThat;
 
-import com.huy.backendnoithat.aop.DBModifyEvent;
 import com.huy.backendnoithat.model.dto.BangNoiThat.VatLieu;
 import com.huy.backendnoithat.service.thongTinNoiThat.VatLieuService;
 import com.huy.backendnoithat.utils.JwtTokenUtil;
@@ -42,7 +41,6 @@ public class VatLieuController {
     }
 
     @DeleteMapping("/{id}")
-    @DBModifyEvent("VatLieu")
     public void deleteById(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                            @RequestParam(value = "owner", required = false) String owner,
                            @PathVariable int id) {
@@ -51,7 +49,6 @@ public class VatLieuController {
     }
 
     @PutMapping("")
-    @DBModifyEvent("VatLieu")
     public void update(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                        @RequestParam(value = "owner", required = false) String owner,
                        @RequestBody VatLieu vatLieu) {
@@ -60,7 +57,6 @@ public class VatLieuController {
     }
 
     @PostMapping("")
-    @DBModifyEvent("VatLieu")
     public void save(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                      @RequestParam(value = "owner", required = false) String owner,
                      @RequestBody VatLieu vatLieu,
@@ -88,7 +84,6 @@ public class VatLieuController {
     }
 
     @GetMapping("/copySampleData")
-    @DBModifyEvent("VatLieu")
     public ResponseEntity<String> copySampleDataFromAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                                                           @RequestParam(value = "parentId") int parentId) {
         String token = JwtTokenUtil.getTokenFromHeader(header);
@@ -97,7 +92,6 @@ public class VatLieuController {
     }
 
     @GetMapping("/swap")
-    @DBModifyEvent("VatLieu")
     public void swap(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                      @RequestParam(value = "id1") int id1,
                      @RequestParam(value = "id2") int id2) {

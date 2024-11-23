@@ -1,6 +1,5 @@
 package com.huy.backendnoithat.controller.thongTinNoiThat;
 
-import com.huy.backendnoithat.aop.DBModifyEvent;
 import com.huy.backendnoithat.model.dto.BangNoiThat.PhongCach;
 import com.huy.backendnoithat.service.thongTinNoiThat.PhongCachService;
 import com.huy.backendnoithat.utils.JwtTokenUtil;
@@ -42,7 +41,6 @@ public class PhongCachController {
     }
 
     @PostMapping("")
-    @DBModifyEvent("PhongCach")
     public void save(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                      @RequestParam(value = "owner", required = false) String owner, @RequestBody PhongCach phongCach) {
         String token = JwtTokenUtil.getTokenFromHeader(header);
@@ -50,7 +48,6 @@ public class PhongCachController {
     }
 
     @DeleteMapping("/{id}")
-    @DBModifyEvent("PhongCach")
     public void deleteById(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                            @RequestParam(value = "owner", required = false) String owner, @PathVariable int id) {
         String token = JwtTokenUtil.getTokenFromHeader(header);
@@ -58,7 +55,6 @@ public class PhongCachController {
     }
 
     @PutMapping("")
-    @DBModifyEvent("PhongCach")
     public void update(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                        @RequestParam(value = "owner", required = false) String owner, @RequestBody PhongCach phongCach) {
         String token = JwtTokenUtil.getTokenFromHeader(header);
@@ -80,7 +76,6 @@ public class PhongCachController {
 //        return phongCachService.joinFetchPhongCachUsingId(token, id);
 //    }
     @GetMapping("/copySampleData")
-    @DBModifyEvent("PhongCach")
     public ResponseEntity<String> copySampleDataFromAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String header) {
         String token = JwtTokenUtil.getTokenFromHeader(header);
         phongCachService.copySampleDataFromAdmin(token);
@@ -88,7 +83,6 @@ public class PhongCachController {
     }
 
     @GetMapping("/swap")
-    @DBModifyEvent("PhongCach")
     public void swap(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                      @RequestParam(value = "id1") int id1,
                      @RequestParam(value = "id2") int id2) {

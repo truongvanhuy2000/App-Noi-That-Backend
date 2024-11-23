@@ -1,6 +1,5 @@
 package com.huy.backendnoithat.controller.thongTinNoiThat;
 
-import com.huy.backendnoithat.aop.DBModifyEvent;
 import com.huy.backendnoithat.model.dto.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.service.thongTinNoiThat.NoiThatService;
 import com.huy.backendnoithat.utils.JwtTokenUtil;
@@ -41,7 +40,6 @@ public class NoiThatController {
     }
 
     @PostMapping("")
-    @DBModifyEvent("NoiThat")
     public void save(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                      @RequestParam(value = "owner", required = false) String owner,
                      @RequestBody NoiThat noiThat, @RequestParam("parentId") int parentId) {
@@ -50,7 +48,6 @@ public class NoiThatController {
     }
 
     @DeleteMapping("/{id}")
-    @DBModifyEvent("NoiThat")
     public void deleteById(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                            @RequestParam(value = "owner", required = false) String owner,
                            @PathVariable int id) {
@@ -59,7 +56,6 @@ public class NoiThatController {
     }
 
     @PutMapping("")
-    @DBModifyEvent("NoiThat")
     public void update(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                        @RequestParam(value = "owner", required = false) String owner,
                        @RequestBody NoiThat noiThat) {
@@ -100,7 +96,6 @@ public class NoiThatController {
     }
 
     @GetMapping("/copySampleData")
-    @DBModifyEvent("NoiThat")
     public ResponseEntity<String> copySampleDataFromAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                                                           @RequestParam(value = "parentId") int parentId) {
         String token = JwtTokenUtil.getTokenFromHeader(header);
@@ -109,7 +104,6 @@ public class NoiThatController {
     }
 
     @GetMapping("/swap")
-    @DBModifyEvent("NoiThat")
     public void swap(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                      @RequestParam(value = "id1") int id1,
                      @RequestParam(value = "id2") int id2) {
