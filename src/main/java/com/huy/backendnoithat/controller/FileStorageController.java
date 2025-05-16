@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.controller;
 
 import com.huy.backendnoithat.model.dto.SavedFileDTO;
-import com.huy.backendnoithat.service.general.FileStorageService;
+import com.huy.backendnoithat.service.file.FileStorageService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class FileStorageController {
     }
 
     @GetMapping("/get-file/{file-id}")
-    public SavedFileDTO getFileInfo(HttpServletResponse httpResponse, @PathVariable("file-id") int fileID) throws IOException {
+    public SavedFileDTO getFileInfo(@PathVariable("file-id") int fileID) {
         return fileStorageService.getFileInfo(fileID);
     }
 
@@ -50,7 +50,7 @@ public class FileStorageController {
 
     @DeleteMapping("/delete-nt-file/{file-id}")
     public void deleteNtFile(@PathVariable("file-id") int fileID) {
-        fileStorageService.deleteNtFile(fileID);
+        fileStorageService.deleteFile(fileID);
     }
 
     @PutMapping("/update-nt-file/{file-id}")

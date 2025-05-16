@@ -2,5 +2,6 @@ package com.huy.backendnoithat.model.enums;
 
 public enum StorageType {
     AWS_S3,
-    LOCAL
+    LOCAL,
+    GOOGLE_DRIVE,
 }

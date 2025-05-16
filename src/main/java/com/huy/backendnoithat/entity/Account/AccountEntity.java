@@ -31,9 +31,9 @@ public class AccountEntity {
     private boolean active;
     @Column(name = "enabled")
     private boolean enabled;
+
     @Column(name = "expire_date")
     private Date expiredDate;
-
     @CreationTimestamp
     @Column(name = "created_date")
     private Date createdDate;

@@ -3,10 +3,12 @@ package com.huy.backendnoithat.model.dto.AccountManagement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.huy.backendnoithat.entity.Account.AccountInformationEntity;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountInformation {
