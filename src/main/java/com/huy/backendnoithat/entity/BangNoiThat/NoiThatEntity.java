@@ -25,6 +25,9 @@ public class NoiThatEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "order_index")
+    private int orderIndex;
+
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "noiThatEntity",
             fetch = FetchType.LAZY)

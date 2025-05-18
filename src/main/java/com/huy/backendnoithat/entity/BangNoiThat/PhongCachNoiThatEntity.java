@@ -25,6 +25,9 @@ public class PhongCachNoiThatEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "order_index")
+    private int orderIndex;
+
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private AccountEntity account;

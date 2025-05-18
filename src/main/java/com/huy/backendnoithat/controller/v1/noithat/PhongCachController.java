@@ -6,13 +6,15 @@ import com.huy.backendnoithat.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RequestMapping("/api/v1/phongcach")
-@RestController
+@RestController("phongCachControllerV1")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Tag(name = "V1PhongCachController")
 public class PhongCachController {
@@ -27,7 +29,8 @@ public class PhongCachController {
     @GetMapping("/{id}")
     public PhongCach findById(@PathVariable int id) {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
-        return phongCachService.findById(userID, id);
+        return phongCachService.findById(userID, id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "PhongCach not found"));
     }
 
     @PostMapping("")

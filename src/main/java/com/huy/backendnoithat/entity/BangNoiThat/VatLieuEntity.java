@@ -22,6 +22,9 @@ public class VatLieuEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "order_index")
+    private int orderIndex;
+
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "vatLieuEntity", fetch = FetchType.LAZY)
     private ThongSoEntity thongSoEntity;
 
