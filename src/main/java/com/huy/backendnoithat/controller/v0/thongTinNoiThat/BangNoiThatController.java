@@ -27,11 +27,4 @@ public class BangNoiThatController {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         bangNoiThatService.sampleAll(token);
     }
-
-    @GetMapping(path = "/event/DBModification", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<ServerSentEvent<NoiThatUpdate>> getDBModificationEvent() {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        return bangNoiThatService.getDBModificationEvent(token);
-    }
-
 }

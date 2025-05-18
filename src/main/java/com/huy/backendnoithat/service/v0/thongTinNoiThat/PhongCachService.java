@@ -1,9 +1,11 @@
 package com.huy.backendnoithat.service.v0.thongTinNoiThat;
 
 import com.huy.backendnoithat.model.dto.BangNoiThat.PhongCach;
+import lombok.Data;
 
 import java.util.List;
 
+@Deprecated
 public interface PhongCachService {
     // Phong Cach Noi That
     List<PhongCach> findAll(String token);
@@ -17,10 +19,6 @@ public interface PhongCachService {
     void deleteById(String token, int id);
 
     void update(String token, PhongCach phongCach);
-
-    List<PhongCach> joinFetchPhongCach(String token);
-
-    PhongCach joinFetchPhongCachUsingId(String token, int id);
 
     void copySampleDataFromAdmin(String token);
 

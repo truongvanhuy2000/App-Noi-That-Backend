@@ -59,19 +59,6 @@ public class NoiThatController {
         return noiThatService.searchByPhongCach(token, id);
     }
 
-    // Dont use this API yet
-    @GetMapping("/fetch")
-    public List<NoiThat> joinFetchNoiThat() {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        return noiThatService.joinFetchNoiThat();
-    }
-
-    @GetMapping("/fetch/{id}")
-    public NoiThat joinFetchNoiThatUsingId(@PathVariable int id) {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        return noiThatService.joinFetchNoiThatUsingId(id);
-    }
-
     @GetMapping("/searchBy")
     public List<NoiThat> searchBy(@RequestParam(value = "phongCachName") String phongCachName) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());

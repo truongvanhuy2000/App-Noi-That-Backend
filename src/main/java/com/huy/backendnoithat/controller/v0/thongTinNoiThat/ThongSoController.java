@@ -61,12 +61,4 @@ public class ThongSoController {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         return thongSoService.searchByVatLieu(token, id);
     }
-
-
-    @GetMapping("/copySampleData")
-    public ResponseEntity<String> copySampleDataFromAdmin(@RequestParam(value = "parentId") int parentId) {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        thongSoService.copySampleDataFromAdmin(token, parentId);
-        return ResponseEntity.ok("Copied successfully.");
-    }
 }

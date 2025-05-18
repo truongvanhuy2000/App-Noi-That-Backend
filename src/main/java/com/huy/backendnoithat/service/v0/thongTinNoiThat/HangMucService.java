@@ -4,6 +4,7 @@ import com.huy.backendnoithat.model.dto.BangNoiThat.HangMuc;
 
 import java.util.List;
 
+@Deprecated
 public interface HangMucService {
     // Hang muc
     List<HangMuc> findAll(String token);
@@ -17,10 +18,6 @@ public interface HangMucService {
     void deleteById(String token, int id);
 
     void update(String token, HangMuc hangMucEntity);
-
-    List<HangMuc> joinFetchHangMuc();
-
-    HangMuc joinFetchHangMucUsingId(int id);
 
     List<HangMuc> searchByNoiThat(String token, int id);
 

@@ -55,13 +55,6 @@ public class PhongCachController {
         phongCachService.update(token, phongCach);
     }
 
-    @GetMapping("/copySampleData")
-    public ResponseEntity<String> copySampleDataFromAdmin() {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        phongCachService.copySampleDataFromAdmin(token);
-        return ResponseEntity.ok("Copied successfully.");
-    }
-
     @GetMapping("/swap")
     public void swap(@RequestParam(value = "id1") int id1, @RequestParam(value = "id2") int id2) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());

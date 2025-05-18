@@ -6,8 +6,8 @@ import com.huy.backendnoithat.entity.BangNoiThat.ThongSoEntity;
 import com.huy.backendnoithat.entity.BangNoiThat.VatLieuEntity;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.BangNoiThat.ThongSo;
-import com.huy.backendnoithat.service.v0.account.AccountService;
 import com.huy.backendnoithat.service.general.JwtTokenService;
+import com.huy.backendnoithat.service.v0.account.AccountService;
 import com.huy.backendnoithat.service.v0.thongTinNoiThat.ThongSoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,8 +79,10 @@ public class ThongSoServiceImpl implements ThongSoService {
     }
 
     @Override
-    public void copySampleDataFromAdmin(int destinationId, int parentId, String vatLieuName,
-                                        String hangMucName, String noiThatName, String phongCachName) {
+    public void copySampleDataFromAdmin(
+        int destinationId, int parentId, String vatLieuName,
+        String hangMucName, String noiThatName, String phongCachName
+    ) {
         thongSoDAO.copySampleDataFromAdmin(destinationId, parentId, vatLieuName, hangMucName, noiThatName, phongCachName);
     }
 }

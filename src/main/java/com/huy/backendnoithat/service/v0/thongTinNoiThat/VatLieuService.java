@@ -4,6 +4,7 @@ import com.huy.backendnoithat.model.dto.BangNoiThat.VatLieu;
 
 import java.util.List;
 
+@Deprecated
 public interface VatLieuService {
     // Vat Lieu
     List<VatLieu> findAll(String token);
@@ -17,8 +18,6 @@ public interface VatLieuService {
     void deleteById(String token, int id);
 
     void update(String token, VatLieu vatLieu);
-
-    List<VatLieu> joinFetchVatLieu();
 
     List<VatLieu> searchByHangMuc(String token, int id);
 

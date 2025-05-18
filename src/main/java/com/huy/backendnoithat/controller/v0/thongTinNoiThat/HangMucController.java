@@ -60,19 +60,6 @@ public class HangMucController {
         return hangMucService.searchByNoiThat(token, id);
     }
 
-    // Dont use this API yet
-    @GetMapping("/fetch")
-    public List<HangMuc> joinFetchHangMuc() {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        return hangMucService.joinFetchHangMuc();
-    }
-
-    @GetMapping("/fetch/{id}")
-    public HangMuc joinFetchHangMucUsingId(@PathVariable int id) {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        return hangMucService.joinFetchHangMucUsingId(id);
-    }
-
     @GetMapping("/searchBy")
     public List<HangMuc> searchBy(
         @RequestParam(value = "phongCachName") String phongCachName,

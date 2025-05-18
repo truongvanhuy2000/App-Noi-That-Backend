@@ -69,13 +69,6 @@ public class VatLieuController {
         return vatLieuService.searchBy(token, phongCachName, noiThatName, hangMucName);
     }
 
-    @GetMapping("/copySampleData")
-    public ResponseEntity<String> copySampleDataFromAdmin(@RequestParam(value = "parentId") int parentId) {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        vatLieuService.copySampleDataFromAdmin(token, parentId);
-        return ResponseEntity.ok("Copied successfully.");
-    }
-
     @GetMapping("/swap")
     public void swap(
         @RequestParam(value = "id1") int id1,

@@ -63,17 +63,6 @@ public class NoiThatServiceImpl implements NoiThatService {
     }
 
     @Override
-    public List<NoiThat> joinFetchNoiThat() {
-        return noiThatDAO.findAllAndJoinFetch().stream()
-                .map(item -> new NoiThat(item, true)).toList();
-    }
-
-    @Override
-    public NoiThat joinFetchNoiThatUsingId(int id) {
-        return null;
-    }
-
-    @Override
     public List<NoiThat> searchByPhongCach(String token, int id) {
         String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         return noiThatDAO.searchByPhongCach(username, id).stream()

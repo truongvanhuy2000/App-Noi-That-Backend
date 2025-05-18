@@ -61,16 +61,6 @@ public class HangMucServiceImpl implements HangMucService {
     }
 
     @Override
-    public List<HangMuc> joinFetchHangMuc() {
-        return null;
-    }
-
-    @Override
-    public HangMuc joinFetchHangMucUsingId(int id) {
-        return null;
-    }
-
-    @Override
     public List<HangMuc> searchByNoiThat(String token, int id) {
         String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         return hangMucDAO.searchByNoiThat(username, id).stream().map(hangMuc -> new HangMuc(hangMuc, false)).toList();

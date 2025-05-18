@@ -14,6 +14,14 @@ public class SecurityUtils {
         return userID;
     }
 
+    public static int getUserFromContext(SecurityContext securityContext) {
+        if (!(securityContext.getAuthentication().getPrincipal() instanceof Number userID)) {
+            log.error("User ID not found in security context");
+            throw new RuntimeException("User not found");
+        }
+        return userID.intValue();
+    }
+
     public static String getTokenFromContext(SecurityContext securityContext) {
         if (!(securityContext.getAuthentication().getCredentials() instanceof String token)) {
             log.error("Token not found in security context");

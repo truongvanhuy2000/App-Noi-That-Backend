@@ -5,15 +5,12 @@ import com.huy.backendnoithat.model.dto.BangNoiThat.HangMuc;
 import com.huy.backendnoithat.model.dto.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.model.dto.BangNoiThat.PhongCach;
 import com.huy.backendnoithat.model.dto.BangNoiThat.VatLieu;
-import com.huy.backendnoithat.model.dto.Event.NoiThatUpdate;
-import com.huy.backendnoithat.service.v0.account.AccountService;
 import com.huy.backendnoithat.service.general.JwtTokenService;
+import com.huy.backendnoithat.service.v0.account.AccountService;
 import com.huy.backendnoithat.service.v0.thongTinNoiThat.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -73,17 +70,6 @@ public class BangNoiThatServiceImpl implements BangNoiThatService {
                                HangMuc hangMuc, NoiThat noiThat, PhongCach phongCach) {
         thongSoService.copySampleDataFromAdmin(accountId, vatLieu.getId(), vatLieu.getName(),
                 hangMuc.getName(), noiThat.getName(), phongCach.getName());
-    }
-
-    @Override
-    public Flux<ServerSentEvent<NoiThatUpdate>> getDBModificationEvent(String token) {
-        String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
-        return Flux.create(sink -> noiThatUpdateHandler.register(username, sink::next)).map(
-                noiThatUpdate -> ServerSentEvent.<NoiThatUpdate>builder()
-                        .event("noithat-update")
-                        .data((NoiThatUpdate) noiThatUpdate)
-                        .build()
-        );
     }
 
 }

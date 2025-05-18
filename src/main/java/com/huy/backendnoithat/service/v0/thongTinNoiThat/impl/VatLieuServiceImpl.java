@@ -67,12 +67,6 @@ public class VatLieuServiceImpl implements VatLieuService {
     }
 
     @Override
-    public List<VatLieu> joinFetchVatLieu() {
-//        return vatLieuDAO.findAllAndJoinFetch().stream().map(item -> new VatLieu(item, true)).toList();
-        return null;
-    }
-
-    @Override
     public List<VatLieu> searchByHangMuc(String token, int id) {
         String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         return vatLieuDAO.searchByHangMuc(username, id)

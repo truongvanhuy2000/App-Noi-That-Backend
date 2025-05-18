@@ -4,6 +4,7 @@ import com.huy.backendnoithat.model.dto.BangNoiThat.NoiThat;
 
 import java.util.List;
 
+@Deprecated
 public interface NoiThatService {
 
     // Noi that
@@ -18,10 +19,6 @@ public interface NoiThatService {
     void deleteById(String token, int id);
 
     void update(String token, NoiThat noiThat);
-
-    List<NoiThat> joinFetchNoiThat();
-
-    NoiThat joinFetchNoiThatUsingId(int id);
 
     List<NoiThat> searchByPhongCach(String token, int id);
 

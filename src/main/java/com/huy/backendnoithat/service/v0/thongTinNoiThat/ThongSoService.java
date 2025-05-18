@@ -4,6 +4,7 @@ import com.huy.backendnoithat.model.dto.BangNoiThat.ThongSo;
 
 import java.util.List;
 
+@Deprecated
 public interface ThongSoService {
     List<ThongSo> findAll(String token);
 

@@ -61,19 +61,6 @@ public class PhongCachServiceImpl implements PhongCachService {
     }
 
     @Override
-    public List<PhongCach> joinFetchPhongCach(String token) {
-        String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
-        return phongCachDAO.findAllAndJoinFetch(username).stream()
-                .map(phongCachNoiThat -> new PhongCach(phongCachNoiThat, true)).toList();
-    }
-
-    @Override
-    public PhongCach joinFetchPhongCachUsingId(String token, int id) {
-        String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
-        return new PhongCach(phongCachDAO.findByIdAndJoinFetch(username, id), true);
-    }
-
-    @Override
     public void copySampleDataFromAdmin(String token) {
         String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         Account account = accountService.findByUsername(username);

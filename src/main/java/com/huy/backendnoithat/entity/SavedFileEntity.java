@@ -1,7 +1,9 @@
 package com.huy.backendnoithat.entity;
 
 import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.model.enums.FileType;
 import com.huy.backendnoithat.model.enums.StorageType;
+import com.huy.backendnoithat.model.enums.UploadStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,10 +25,12 @@ public class SavedFileEntity {
     private String fileName;
     @Column(name = "physical_name")
     private String physicalName;
+    @Enumerated(EnumType.STRING)
     @Column(name = "storage_type")
     private StorageType storageType;
-    @Column(name = "is_uploaded")
-    private boolean isUploaded;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "upload_status")
+    private UploadStatus uploadStatus;
     @Column(name = "is_backup")
     private boolean isBackup;
     @Column(name = "tag")
@@ -35,6 +39,11 @@ public class SavedFileEntity {
     private String checksum;
     @Column(name = "expiration")
     private String expiration;
+    @Column(name = "size")
+    private long size;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "content_type")
+    private FileType fileType;
 
     @CreationTimestamp
     @Column(name = "created_date")

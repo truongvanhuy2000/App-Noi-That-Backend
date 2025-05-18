@@ -1,0 +1,49 @@
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        security: DEBUG
+logo:
+  path: "/companylogo"
+pricingModel:
+  path: "./data/logo/pricing"
+server:
+  port: 8080
+spring:
+  data:
+    redis:
+      repositories:
+        enabled: false
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:data/sqlite.db
+  jpa:
+    hibernate:
+      ddl-auto: update
+  main:
+    banner-mode: 'off'
+  sql:
+    init:
+      mode: always
+
+deployment:
+  secure: false
+  frontend:
+    url: 'http://localhost:3000'
+
+cors:
+  allowed-origins: 'http://localhost:3000'
+
+aws:
+  sts:
+    external-id: 'Appnoithat'
+  s3:
+    role-arn: 'arn:aws:iam::179218842168:role/Appnoithat-S3-access'
+    credential-duration: 6
+    bucket-name: 'app-noi-that-user-file'
+    multipart-size-MB: 5
