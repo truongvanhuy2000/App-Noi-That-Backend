@@ -25,13 +25,13 @@ public class UserController {
         return userService.getAccountInformation();
     }
 
-    @PutMapping("/changePassword")
+    @PutMapping("/change-password")
     public ResponseEntity<String> changePassword(@RequestBody PasswordChangeRequest passwordChangeRequest) {
         userService.changePassword(passwordChangeRequest);
         return ResponseEntity.ok("Change password successfully");
     }
 
-    @PutMapping("/updateInfo")
+    @PutMapping("/update-info")
     public ResponseEntity<String> updateInfo(@RequestBody AccountInformation accountInformation) {
         userService.updateInfo(accountInformation);
         return ResponseEntity.ok("Updated successfully");

@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@RequestMapping("/api/v1/phongcach")
+@RequestMapping("/api/v1/phong-cach")
 @RestController("phongCachControllerV1")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Tag(name = "V1PhongCachController")

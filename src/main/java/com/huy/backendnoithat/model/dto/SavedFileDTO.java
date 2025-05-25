@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.InputStream;
 import java.sql.Date;
 
 @Builder
@@ -18,4 +19,5 @@ public class SavedFileDTO {
     private UploadStatus uploadStatus;
     private long size;
     private Date updatedDate;
+    private InputStream inputStream;
 }

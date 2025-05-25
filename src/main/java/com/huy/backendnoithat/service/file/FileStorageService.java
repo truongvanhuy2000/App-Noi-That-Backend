@@ -73,6 +73,8 @@ public interface FileStorageService {
 
     SavedFileDTO getFile(int fileID, FileType fileType, OutputStream outputStream);
 
+    SavedFileDTO getFile(int fileID, FileType fileType);
+
     void updateFile(UploadFile uploadFile, FileType fileType, int fileID);
 
     SavedFileDTO saveFile(FileType fileType, UploadFile uploadFile);

@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.List;
@@ -98,6 +99,22 @@ public class GoogleDriveFileStorageService implements FileStorageService {
         try {
             googleDrive.files().get(entity.getPhysicalName()).executeMediaAndDownloadTo(outputStream);
             return savedFileEntityDTOMapper.toDTO(entity);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read file from Google Drive", e);
+        }
+    }
+
+    @Override
+    public SavedFileDTO getFile(int fileID, FileType fileType) {
+        SavedFileEntity entity = fileStorageDAO.findById(fileID).orElseThrow();
+        if (entity.getFileType() != fileType) {
+            throw new IllegalArgumentException("File type mismatch");
+        }
+        try {
+            InputStream inputStream = googleDrive.files().get(entity.getPhysicalName()).executeMediaAsInputStream();
+            SavedFileDTO savedFileDTO = savedFileEntityDTOMapper.toDTO(entity);
+            savedFileDTO.setInputStream(inputStream);
+            return savedFileDTO;
         } catch (IOException e) {
             throw new RuntimeException("Failed to read file from Google Drive", e);
         }

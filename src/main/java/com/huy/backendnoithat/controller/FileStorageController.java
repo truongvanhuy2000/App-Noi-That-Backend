@@ -9,12 +9,16 @@ import com.huy.backendnoithat.utils.SecurityUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -52,17 +56,16 @@ public class FileStorageController {
         fileStorageService.updateFile(uploadFile, fileType, fileID);
     }
 
-    @GetMapping("/{file-type}/{file-id}/download")
-    public void downloadFile(
-        HttpServletResponse httpResponse,
+    @GetMapping(value = "/{file-type}/{file-id}/download")
+    public ResponseEntity<Resource> downloadFile(
         @PathVariable("file-id") int fileID,
         @PathVariable("file-type") FileType fileType
-    ) throws IOException {
-        SavedFileDTO savedFileDTO = fileStorageService.getFile(fileID, fileType, httpResponse.getOutputStream());
-        ContentDisposition contentDisposition = ContentDisposition.builder("inline")
-            .filename(savedFileDTO.getFileName())
-            .build();
-        httpResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
+    ) {
+        SavedFileDTO savedFileDTO = fileStorageService.getFile(fileID, fileType);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentLength(savedFileDTO.getSize());
+        Resource inputStreamResource = new InputStreamResource(savedFileDTO.getInputStream());
+        return new ResponseEntity<>(inputStreamResource, headers, HttpStatus.OK);
     }
 
     @GetMapping("/{file-type}/{file-id}/file-info")
