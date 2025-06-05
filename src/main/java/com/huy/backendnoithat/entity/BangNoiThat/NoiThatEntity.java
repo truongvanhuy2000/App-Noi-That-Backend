@@ -28,9 +28,7 @@ public class NoiThatEntity {
     @Column(name = "order_index")
     private int orderIndex;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "noiThatEntity",
-            fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "noiThatEntity", fetch = FetchType.LAZY)
     private List<HangMucEntity> hangMucEntity;
 
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)

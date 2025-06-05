@@ -59,6 +59,7 @@ public class VatLieuController {
         return vatLieuService.searchByHangMuc(token, id);
     }
 
+    @Deprecated
     @GetMapping("/searchBy")
     public List<VatLieu> searchBy(
         @RequestParam(value = "phongCachName") String phongCachName,
