@@ -1,25 +1,20 @@
-package com.huy.backendnoithat.controller.v0.thongTinNoiThat;
+package com.huy.backendnoithat.controller.v1.noithat;
 
-import com.huy.backendnoithat.model.dto.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.model.dto.BangNoiThat.ThongSo;
 import com.huy.backendnoithat.service.v0.thongTinNoiThat.ThongSoService;
-import com.huy.backendnoithat.utils.JwtTokenUtil;
 import com.huy.backendnoithat.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/api/thongso")
-@RestController
-@Deprecated
+@RequestMapping("/api/v1/thong-so")
+@RestController("V1ThongSoController")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@Tag(name = "V0ThongSoController")
+@Tag(name = "V1ThongSoController")
 public class ThongSoController {
     private final ThongSoService thongSoService;
 
@@ -59,7 +54,7 @@ public class ThongSoController {
         thongSoService.update(token, thongSo);
     }
 
-    @GetMapping("/searchByVatlieu/{id}")
+    @GetMapping("/find/vat-lieu/{id}")
     public List<ThongSo> searchByVatLieu(@PathVariable int id) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         return thongSoService.searchByVatLieu(token, id);

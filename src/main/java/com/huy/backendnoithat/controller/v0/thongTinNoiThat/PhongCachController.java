@@ -4,6 +4,7 @@ import com.huy.backendnoithat.model.dto.BangNoiThat.PhongCach;
 import com.huy.backendnoithat.service.v0.thongTinNoiThat.PhongCachService;
 import com.huy.backendnoithat.utils.JwtTokenUtil;
 import com.huy.backendnoithat.utils.SecurityUtils;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -15,7 +16,9 @@ import java.util.List;
 
 @RequestMapping("/api/phongcach")
 @RestController
+@Deprecated
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Tag(name = "V0PhongCachController")
 public class PhongCachController {
     private final PhongCachService phongCachService;
 

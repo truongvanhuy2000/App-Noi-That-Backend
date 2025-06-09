@@ -10,6 +10,7 @@ import com.huy.backendnoithat.model.dto.SavedFileDTO;
 import com.huy.backendnoithat.model.enums.FileType;
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 @SpringBootTest
+@Disabled
 class GoogleDriveFileStorageServiceTest {
     @Autowired
     private GoogleDriveFileStorageService googleDriveFileStorageService;

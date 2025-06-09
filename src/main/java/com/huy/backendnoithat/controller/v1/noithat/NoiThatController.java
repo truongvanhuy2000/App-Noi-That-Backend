@@ -1,4 +1,4 @@
-package com.huy.backendnoithat.controller.v0.thongTinNoiThat;
+package com.huy.backendnoithat.controller.v1.noithat;
 
 import com.huy.backendnoithat.model.dto.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.service.v0.thongTinNoiThat.NoiThatService;
@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Deprecated
-@RestController
-@Tag(name = "V0NoiThatController")
-@RequestMapping("/api/noithat")
+@RequestMapping("/api/v1/noi-that")
+@RestController("V1NoiThatController")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Tag(name = "V1NoiThatController")
 public class NoiThatController {
     private final NoiThatService noiThatService;
 
@@ -56,23 +55,10 @@ public class NoiThatController {
         noiThatService.update(token, noiThat);
     }
 
-    @GetMapping("/searchByPhongCach/{id}")
+    @GetMapping("/find/phong-cach/{id}")
     public List<NoiThat> searchByPhongCach(@PathVariable int id) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         return noiThatService.searchByPhongCach(token, id);
-    }
-
-    @GetMapping("/searchBy")
-    public List<NoiThat> searchBy(@RequestParam(value = "phongCachName") String phongCachName) {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        return noiThatService.searchBy(token, phongCachName);
-    }
-
-    @GetMapping("/copySampleData")
-    public ResponseEntity<String> copySampleDataFromAdmin(@RequestParam(value = "parentId") int parentId) {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        noiThatService.copySampleDataFromAdmin(token, parentId);
-        return ResponseEntity.ok("Copied successfully.");
     }
 
     @GetMapping("/swap")

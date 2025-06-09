@@ -1,4 +1,4 @@
-package com.huy.backendnoithat.controller.v0.thongTinNoiThat;
+package com.huy.backendnoithat.controller.v1.noithat;
 
 import com.huy.backendnoithat.model.dto.BangNoiThat.HangMuc;
 import com.huy.backendnoithat.service.v0.thongTinNoiThat.HangMucService;
@@ -6,18 +6,15 @@ import com.huy.backendnoithat.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Deprecated
-@RestController
-@Tag(name = "V0HangMucController")
-@RequestMapping("/api/hangmuc")
+@RequestMapping("/api/v1/hang-muc")
+@RestController("V1HangMucController")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Tag(name = "V1HangMucController")
 public class HangMucController {
     private final HangMucService hangMucService;
 
@@ -25,12 +22,6 @@ public class HangMucController {
     public List<HangMuc> findAll() {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         return hangMucService.findAll(token);
-    }
-
-    @GetMapping("/search")
-    public HangMuc findUsingName(@RequestParam(value = "name") String name) {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        return hangMucService.findUsingName(token, name);
     }
 
     @GetMapping("/{id}")
@@ -57,26 +48,10 @@ public class HangMucController {
         hangMucService.save(token, hangMuc, parentId);
     }
 
-    @GetMapping("/searchByNoiThat/{id}")
+    @GetMapping("/find/noi-that/{id}")
     public List<HangMuc> searchByNoiThat(@PathVariable int id) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         return hangMucService.searchByNoiThat(token, id);
-    }
-
-    @GetMapping("/searchBy")
-    public List<HangMuc> searchBy(
-        @RequestParam(value = "phongCachName") String phongCachName,
-        @RequestParam(value = "noiThatName") String noiThatName
-    ) {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        return hangMucService.searchBy(token, phongCachName, noiThatName);
-    }
-
-    @GetMapping("/copySampleData")
-    public ResponseEntity<String> copySampleDataFromAdmin(@RequestParam(value = "parentId") int parentId) {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        hangMucService.copySampleDataFromAdmin(token, parentId);
-        return ResponseEntity.ok("Copied successfully.");
     }
 
     @GetMapping("/swap")
