@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @RestController
@@ -20,10 +21,18 @@ public class ExporterController {
     private final ExporterService exporterService;
 
     @PostMapping("")
-    public ResponseEntity<String> exportSheetData(@RequestBody SheetDataExportDTO sheetDataExportDTO) {
-        exporterService.export(sheetDataExportDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public Mono<ResponseEntity<?>> exportSheetData(@RequestBody SheetDataExportDTO sheetDataExportDTO) {
+        return exporterService.export(sheetDataExportDTO)
+            .map(resource -> {
+                if (resource != null) {
+                    return new ResponseEntity<>(resource, null, HttpStatus.OK);
+                } else {
+                    log.error("Export failed: Resource is null");
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }).onErrorResume(e -> {
+            log.error("Export failed: {}", e.getMessage(), e);
+            return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+        });
     }
-
-
 }
