@@ -3,7 +3,9 @@ package com.huy.backendnoithat.configuration;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,5 +21,10 @@ public class BeanConfig {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         return modelMapper;
+    }
+
+    @Bean
+    public byte[] exportSheetTemplate() throws IOException {
+        return new ClassPathResource("template.xlsx").getInputStream().readAllBytes();
     }
 }

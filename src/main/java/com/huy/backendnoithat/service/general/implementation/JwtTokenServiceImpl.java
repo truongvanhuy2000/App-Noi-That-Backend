@@ -179,7 +179,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
     private boolean verifyJWT(SignedJWT signedJWT) throws JOSEException {
         if (isTokenExpired(signedJWT)) {
-            log.info("expired access token");
+            log.info("Expired access token");
             return false;
         }
         JWK publicJWK = signedJWT.getHeader().getJWK();

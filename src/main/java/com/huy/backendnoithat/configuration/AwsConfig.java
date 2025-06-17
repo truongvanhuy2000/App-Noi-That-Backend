@@ -81,5 +81,4 @@ public class AwsConfig {
         threadPoolTaskExecutor.setMaxPoolSize(20);
         return threadPoolTaskExecutor;
     }
-
 }

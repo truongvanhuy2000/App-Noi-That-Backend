@@ -142,7 +142,7 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
         String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         LapBaoGiaInfoEntity lapBaoGiaInfoEntity = lapBaoGiaInfoDAO.findByUsername(username);
         if (lapBaoGiaInfoEntity == null) {
-            throw new NotFoundException("Không tìm thấy thông tin");
+            return null;
         }
         return ThongTinCongTyDTO.builder()
                 .tenCongTy(lapBaoGiaInfoEntity.getTenCongTy())
@@ -160,7 +160,7 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
         String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         LapBaoGiaInfoEntity lapBaoGiaInfoEntity = lapBaoGiaInfoDAO.findByUsername(username);
         if (lapBaoGiaInfoEntity == null) {
-            throw new NotFoundException("Không tìm thấy thông tin");
+            return null;
         }
         return lapBaoGiaInfoEntity.getNote();
     }

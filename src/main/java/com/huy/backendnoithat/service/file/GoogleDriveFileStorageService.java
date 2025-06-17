@@ -130,12 +130,13 @@ public class GoogleDriveFileStorageService implements FileStorageService {
         try {
             File fileMeta = new File();
             fileMeta.setName(uploadFile.getFileName());
-            googleDrive.files()
-                .update(entity.getPhysicalName(), fileMeta,
+            googleDrive.files().update(entity.getPhysicalName(), fileMeta,
                     new InputStreamContent(uploadFile.getContentType(), uploadFile.getInputStream()))
                 .execute();
             // Update metadata in DB if needed
             entity.setFileName(uploadFile.getFileName());
+            entity.setSize(uploadFile.getSize());
+            entity.setUploadStatus(UploadStatus.UPLOADED);
             fileStorageDAO.save(entity);
         } catch (IOException e) {
             throw new RuntimeException("Failed to update file on Google Drive", e);

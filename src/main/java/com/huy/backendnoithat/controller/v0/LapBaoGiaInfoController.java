@@ -1,9 +1,10 @@
-package com.huy.backendnoithat.controller;
+package com.huy.backendnoithat.controller.v0;
 
 import com.huy.backendnoithat.model.dto.LapBaoGiaInfoDTO;
 import com.huy.backendnoithat.model.dto.ThongTinCongTyDTO;
 import com.huy.backendnoithat.service.general.LapBaoGiaInfoService;
 import com.huy.backendnoithat.utils.JwtTokenUtil;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.Map;
 
-@RestController
+@Hidden
+@RestController("LapBaoGiaInfoControllerV0")
 @RequestMapping("/api/lapBaoGiaInfo")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LapBaoGiaInfoController {
