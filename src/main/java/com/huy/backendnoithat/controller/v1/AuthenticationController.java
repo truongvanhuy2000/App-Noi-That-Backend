@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.controller.v1;
 
+import com.huy.backendnoithat.exception.AuthorizationException;
 import com.huy.backendnoithat.model.RefreshTokenRequest;
 import com.huy.backendnoithat.model.dto.LoginRequest;
 import com.huy.backendnoithat.model.dto.TokenResponse;
@@ -64,12 +65,12 @@ public class AuthenticationController {
             refreshToken = requestBody.getRefreshToken();
         } else {
             if (request.getCookies() == null) {
-                throw new RuntimeException("No cookies found in request");
+                throw new AuthorizationException("No cookies found in request");
             }
             Optional<Cookie> refreshTokenCookie = Arrays.stream(request.getCookies())
                 .filter(cookie -> cookie.getName().equals(JwtTokenService.REFRESH_TOKEN_COOKIE)).findFirst();
             if (refreshTokenCookie.isEmpty()) {
-                throw new RuntimeException("No refresh token found in cookies");
+                throw new AuthorizationException("No refresh token found in cookies");
             }
             refreshToken = refreshTokenCookie.get().getValue();
         }

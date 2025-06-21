@@ -43,6 +43,44 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     @Override
+    public String generateToken(Map<String, Object> claims, @NonNull Date expirationDate) {
+        if (claims == null || claims.isEmpty()) {
+            throw new IllegalArgumentException("Claims must not be null or empty");
+        }
+        var jwtClaimsSetBuilder = new JWTClaimsSet.Builder()
+            .issuer(ISSUER)
+            .jwtID(UUID.randomUUID().toString())
+            .issueTime(new Date())
+            .expirationTime(expirationDate);
+        claims.forEach(jwtClaimsSetBuilder::claim);
+        return generateSerializedJwtToken(jwtClaimsSetBuilder.build(), expirationDate);
+    }
+
+    @Override
+    public boolean verifyToken(String token) {
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(token);
+            return verifyJWT(signedJWT);
+        } catch (ParseException | JOSEException e) {
+            log.error(e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public Map<String, Object> getClaimsFromToken(String token) {
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(token);
+            JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
+            return jwtClaimsSet.getClaims();
+        } catch (ParseException e) {
+            log.error(e.getMessage());
+            throw new RuntimeException();
+        }
+    }
+
+
+    @Override
     public String generateAccessToken(Long userId, String username, List<String> roles) {
         Date expirationDate = new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY_MILLIS);
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()

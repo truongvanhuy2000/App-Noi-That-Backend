@@ -7,6 +7,7 @@ import com.google.api.services.drive.model.File;
 import com.huy.backendnoithat.dao.FileStorageDAO;
 import com.huy.backendnoithat.entity.Account.AccountEntity;
 import com.huy.backendnoithat.entity.SavedFileEntity;
+import com.huy.backendnoithat.exception.NotFoundException;
 import com.huy.backendnoithat.manager.SavedFileEntityManager;
 import com.huy.backendnoithat.mapper.SavedFileEntityDTOMapper;
 import com.huy.backendnoithat.model.FileSearchRequest;
@@ -18,6 +19,7 @@ import com.huy.backendnoithat.model.dto.SavedFileDTO;
 import com.huy.backendnoithat.model.enums.FileType;
 import com.huy.backendnoithat.model.enums.StorageType;
 import com.huy.backendnoithat.model.enums.UploadStatus;
+import com.huy.backendnoithat.service.DataProcessingService;
 import com.huy.backendnoithat.utils.SecurityUtils;
 import jakarta.servlet.ServletOutputStream;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +43,7 @@ public class GoogleDriveFileStorageService implements FileStorageService {
     private final FileStorageDAO fileStorageDAO;
     private final SavedFileEntityManager savedFileEntityManager;
     private final SavedFileEntityDTOMapper savedFileEntityDTOMapper;
+    private final DataProcessingService dataProcessingService;
 
     @Override
     public void updateFileInfo(int fileID, FileType fileType, SavedFileDTO savedFileDTO) {
@@ -106,7 +109,8 @@ public class GoogleDriveFileStorageService implements FileStorageService {
 
     @Override
     public SavedFileDTO getFile(int fileID, FileType fileType) {
-        SavedFileEntity entity = fileStorageDAO.findById(fileID).orElseThrow();
+        SavedFileEntity entity = fileStorageDAO.findById(fileID)
+            .orElseThrow(() -> new NotFoundException("File not found with ID: " + fileID));
         if (entity.getFileType() != fileType) {
             throw new IllegalArgumentException("File type mismatch");
         }

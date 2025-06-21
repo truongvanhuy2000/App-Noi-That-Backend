@@ -27,12 +27,6 @@ import java.io.IOException;
 public class ExporterController {
     private final ExporterService exporterService;
 
-    @Operation(summary = "Export sheet data")
-    @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Excel file",
-            content = @Content(mediaType = "application/octet-stream",
-                schema = @Schema(type = "string", format = "binary")))
-    })
     @PostMapping(produces = "application/octet-stream")
     public ResponseEntity<Resource> exportSheetData(@RequestBody SheetDataExportDTO sheetDataExportDTO) throws IOException, ExportException {
         Resource resource = exporterService.exportSheetData(sheetDataExportDTO);
