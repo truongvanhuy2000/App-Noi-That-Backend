@@ -34,6 +34,9 @@ public class LapBaoGiaInfoEntity {
     private String note;
     @Column(name = "modified_date")
     private Date modifiedDate;
+    @JoinColumn(name = "logo_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    private SavedFileEntity companyLogo;
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     @OneToOne(fetch = FetchType.LAZY)
     private AccountEntity account;

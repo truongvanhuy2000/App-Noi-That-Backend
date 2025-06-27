@@ -1,9 +1,7 @@
 logging:
   level:
     root: info
-    org:
-      springframework:
-        security: DEBUG
+
 logo:
   path: ${LOGO_PATH}
 pricingModel:

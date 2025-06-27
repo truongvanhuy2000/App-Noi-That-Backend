@@ -12,4 +12,6 @@ public interface LapBaoGiaInfoDAO extends JpaRepository<LapBaoGiaInfoEntity, Int
             "join AccountEntity acc on acc.id = lbgi.account.id " +
             "where acc.username = :username")
     LapBaoGiaInfoEntity findByUsername(@Param("username") String username);
+
+    LapBaoGiaInfoEntity findByAccountId(int id);
 }

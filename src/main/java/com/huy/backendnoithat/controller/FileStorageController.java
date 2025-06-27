@@ -76,7 +76,7 @@ public class FileStorageController {
         return fileStorageService.getFileInfo(fileID, fileType);
     }
 
-    @GetMapping("/{file-type}/find")
+    @GetMapping("/find")
     public PaginationResponse<List<SavedFileDTO>> find(
         @ModelAttribute PaginationRequest paginationRequest,
         @ModelAttribute FileSearchRequest fileSearchRequest

@@ -13,7 +13,8 @@ public interface SavedFileEntityDTOMapper {
         @Mapping(target = "fileName", source = "savedFileEntity.fileName"),
         @Mapping(target = "uploadStatus", source = "savedFileEntity.uploadStatus"),
         @Mapping(target = "size", source = "savedFileEntity.size"),
-        @Mapping(target = "updatedDate", source = "savedFileEntity.updatedDate")
+        @Mapping(target = "updatedDate", source = "savedFileEntity.updatedDate"),
+        @Mapping(target = "fileType", source = "savedFileEntity.fileType")
     })
     SavedFileDTO toDTO(SavedFileEntity savedFileEntity);
 

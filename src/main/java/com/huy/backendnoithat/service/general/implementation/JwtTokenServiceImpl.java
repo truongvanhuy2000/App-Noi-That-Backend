@@ -39,7 +39,8 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
     private enum TokenType {
         ACCESS_TOKEN,
-        REFRESH_TOKEN
+        REFRESH_TOKEN,
+        GENERIC_TOKEN
     }
 
     @Override
@@ -51,6 +52,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
             .issuer(ISSUER)
             .jwtID(UUID.randomUUID().toString())
             .issueTime(new Date())
+            .claim(TOKEN_TYPE, TokenType.GENERIC_TOKEN.toString())
             .expirationTime(expirationDate);
         claims.forEach(jwtClaimsSetBuilder::claim);
         return generateSerializedJwtToken(jwtClaimsSetBuilder.build(), expirationDate);

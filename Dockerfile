@@ -1,5 +1,4 @@
-FROM maven:3.8.5-openjdk-17-slim AS build
-RUN mkdir -p /workspace
+FROM truongvanhuy2000/appnoithatbackendbase AS build
 WORKDIR /workspace
 COPY pom.xml /workspace
 COPY src /workspace/src

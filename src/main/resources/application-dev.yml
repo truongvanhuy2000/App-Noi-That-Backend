@@ -3,7 +3,8 @@ logging:
     root: info
     org:
       springframework:
-        security: DEBUG
+        cache: TRACE
+
 logo:
   path: ${LOGO_PATH}
 pricingModel:
@@ -38,8 +39,6 @@ aws:
     credential-duration: 6
     bucket-name: 'app-noi-that-user-file'
     multipart-size-MB: 5
-
-
 
 deployment:
   secure: false

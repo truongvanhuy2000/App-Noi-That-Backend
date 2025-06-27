@@ -25,6 +25,8 @@ import jakarta.servlet.ServletOutputStream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -182,7 +184,7 @@ public class GoogleDriveFileStorageService implements FileStorageService {
         PaginationRequest paginationRequest, FileSearchRequest fileSearchRequest
     ) {
         PagedList<SavedFileEntity> entities = savedFileEntityManager
-            .search(paginationRequest.getPage(), paginationRequest.getSize(), fileSearchRequest);
+                .search(paginationRequest.getPage(), paginationRequest.getSize(), fileSearchRequest);
         List<SavedFileDTO> savedFileDTOList = entities.stream()
             .map(savedFileEntityDTOMapper::toDTO)
             .toList();

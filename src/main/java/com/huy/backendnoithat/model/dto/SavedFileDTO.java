@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.model.dto;
 
+import com.huy.backendnoithat.model.enums.FileType;
 import com.huy.backendnoithat.model.enums.UploadStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,4 +21,5 @@ public class SavedFileDTO {
     private long size;
     private Date updatedDate;
     private InputStream inputStream;
+    private FileType fileType;
 }

@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/public/sheet/pre-signed")
@@ -41,16 +42,14 @@ public class SheetPublicViewController {
         @PathVariable String token,
         @RequestBody SheetDataExportDTO sheetDataExportDTO
     ) throws IOException, ExportException {
-        if (!jwtTokenService.verifyToken(token)) {
-            throw new AuthorizationException("Invalid token provided");
+        if (sheetService.validatePreSignedToken(token)) {
+            throw new AuthorizationException("Invalid or expired token");
         }
-        Resource resource = exporterService.exportSheetData(sheetDataExportDTO);
+        Map<String, Object> claims = jwtTokenService.getClaimsFromToken(token);
+        int userId = (int) claims.get(SheetService.Constant.USER_SHARE);
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentDisposition(
-            ContentDisposition.builder("attachment")
-                .filename("exported_data.xlsx")
-                .build()
-        );
+        headers.setContentDisposition(ContentDisposition.builder("attachment").filename("exported_data.xlsx").build());
+        Resource resource = exporterService.exportSheetData(sheetDataExportDTO, userId);
         long contentLength = resource.contentLength();
         headers.setContentLength(contentLength);
         return ResponseEntity.ok().headers(headers).body(resource);

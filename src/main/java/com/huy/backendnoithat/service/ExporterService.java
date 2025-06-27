@@ -24,10 +24,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 
 @Slf4j
 @Service
@@ -36,9 +33,17 @@ public class ExporterService {
     private final byte[] exportSheetTemplate;
     private final FileStorageService fileStorageService;
     private final RestTemplate restTemplate;
+    private final SheetService sheetService;
 
-    public Resource exportSheetData(SheetDataExportDTO sheetDataExportDTO) throws IOException, ExportException {
+    public Resource exportSheetData(SheetDataExportDTO sheetDataExportDTO, int userID) throws IOException, ExportException {
+        byte[] logo = sheetService.getCompanyLogo(userID);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        if (sheetDataExportDTO.getExportData() == null || sheetDataExportDTO.getExportData().getExportData().isEmpty()) {
+            throw new IllegalArgumentException("Data package is null for export");
+        }
+        if (logo != null) {
+            sheetDataExportDTO.getExportData().getExportData().forEach(it -> it.getDataPackage().getThongTinCongTy().setLogo(logo));
+        }
         switch (sheetDataExportDTO.getExportType()) {
             case XLSX_SINGLE:
                 exportSingleXLS(sheetDataExportDTO, outputStream);
@@ -55,9 +60,6 @@ public class ExporterService {
 
 
     private void exportMultiXLS(SheetDataExportDTO sheetDataExportDTO, OutputStream outputStream) throws IOException, ExportException {
-        if (sheetDataExportDTO.getExportData() == null || sheetDataExportDTO.getExportData().getExportData().isEmpty()) {
-            throw new IllegalArgumentException("Data package is null for export");
-        }
         ExportFile exportFile = new ExportMultipleXLS(
             new ByteArrayInputStream(exportSheetTemplate),
             sheetDataExportDTO.getExportData().getExportData()
@@ -66,9 +68,6 @@ public class ExporterService {
     }
 
     private void exportSingleXLS(SheetDataExportDTO sheetDataExportDTO, OutputStream outputStream) throws IOException, ExportException {
-        if (sheetDataExportDTO.getExportData() == null || sheetDataExportDTO.getExportData().getExportData().isEmpty()) {
-            throw new IllegalArgumentException("Data package is null for export");
-        }
         SheetFileData sheetFileData = sheetDataExportDTO.getExportData();
         ExportFile exportFile = new ExportSingleXLS(
             new ByteArrayInputStream(exportSheetTemplate),
