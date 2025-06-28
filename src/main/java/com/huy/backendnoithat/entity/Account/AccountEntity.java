@@ -20,20 +20,20 @@ import java.util.List;
 @Builder
 public class AccountEntity {
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "username")
+    @Column(name = "username", nullable = false)
     private String username;
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
     @Column(name = "active")
     private boolean active;
     @Column(name = "enabled")
     private boolean enabled;
+
     @Column(name = "expire_date")
     private Date expiredDate;
-
     @CreationTimestamp
     @Column(name = "created_date")
     private Date createdDate;

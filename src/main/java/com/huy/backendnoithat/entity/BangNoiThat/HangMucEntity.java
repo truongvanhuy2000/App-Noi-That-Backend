@@ -25,6 +25,9 @@ public class HangMucEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "order_index")
+    private int orderIndex;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hangMucEntity", fetch = FetchType.LAZY)
     private List<VatLieuEntity> vatLieuEntity;
 

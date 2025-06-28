@@ -1,16 +1,25 @@
 package com.huy.backendnoithat.model.dto;
 
+import com.huy.backendnoithat.model.enums.FileType;
+import com.huy.backendnoithat.model.enums.UploadStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
+import java.io.InputStream;
+import java.sql.Date;
+
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SavedFileDTO {
     private int id;
     private String fileName;
-    private boolean isUploaded;
+    private UploadStatus uploadStatus;
+    private long size;
+    private Date updatedDate;
+    private InputStream inputStream;
+    private FileType fileType;
 }

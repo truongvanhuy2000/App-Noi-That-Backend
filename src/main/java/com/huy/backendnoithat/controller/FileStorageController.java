@@ -1,16 +1,24 @@
 package com.huy.backendnoithat.controller;
 
+import com.huy.backendnoithat.model.*;
+import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.SavedFileDTO;
-import com.huy.backendnoithat.service.general.FileStorageService;
+import com.huy.backendnoithat.model.enums.FileType;
+import com.huy.backendnoithat.service.file.FileStorageService;
+import com.huy.backendnoithat.utils.SecurityUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -19,42 +27,86 @@ import java.util.List;
 public class FileStorageController {
     private final FileStorageService fileStorageService;
 
-    @PostMapping("/upload/nt-file")
-    public SavedFileDTO saveNtFile(@RequestParam("file") MultipartFile multipartFile) {
-        return fileStorageService.saveNtFile(multipartFile);
+    @PostMapping(value = "/{file-type}/upload", consumes = "multipart/form-data")
+    public SavedFileDTO saveFile(
+        @RequestParam("file") MultipartFile multipartFile,
+        @PathVariable("file-type") FileType fileType
+    ) throws IOException {
+        var uploadFile = UploadFile.builder()
+            .contentType(multipartFile.getContentType())
+            .fileName(multipartFile.getOriginalFilename())
+            .size(multipartFile.getSize())
+            .inputStream(multipartFile.getInputStream())
+            .build();
+        return fileStorageService.saveFile(fileType, uploadFile);
     }
 
-    @PutMapping("/upload/nt-file/{file-id}")
-    public void updateNtFile(@RequestParam("file") MultipartFile multipartFile, @PathVariable("file-id") int fileID) {
-        fileStorageService.updateNtFile(multipartFile, fileID);
+    @PutMapping(value = "/{file-type}/{file-id}/upload", consumes = "multipart/form-data")
+    public void updateFile(
+        @RequestParam("file") MultipartFile multipartFile,
+        @PathVariable("file-id") int fileID,
+        @PathVariable("file-type") FileType fileType
+    ) throws IOException {
+        var uploadFile = UploadFile.builder()
+            .contentType(multipartFile.getContentType())
+            .fileName(multipartFile.getOriginalFilename())
+            .size(multipartFile.getSize())
+            .inputStream(multipartFile.getInputStream())
+            .build();
+        fileStorageService.updateFile(uploadFile, fileType, fileID);
     }
 
-    @GetMapping("/download/nt-file/{file-id}")
-    public void getNtFile(HttpServletResponse httpResponse, @PathVariable("file-id") int fileID) throws IOException {
-        SavedFileDTO savedFileDTO = fileStorageService.getNtFile(fileID, httpResponse.getOutputStream());
-        ContentDisposition contentDisposition = ContentDisposition.builder("inline")
-                .filename(savedFileDTO.getFileName())
-                .build();
-        httpResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
+    @GetMapping(value = "/{file-type}/{file-id}/download")
+    public ResponseEntity<Resource> downloadFile(
+        @PathVariable("file-id") int fileID,
+        @PathVariable("file-type") FileType fileType
+    ) {
+        SavedFileDTO savedFileDTO = fileStorageService.getFile(fileID, fileType);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentLength(savedFileDTO.getSize());
+        Resource inputStreamResource = new InputStreamResource(savedFileDTO.getInputStream());
+        return new ResponseEntity<>(inputStreamResource, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/get-file/{file-id}")
-    public SavedFileDTO getFileInfo(HttpServletResponse httpResponse, @PathVariable("file-id") int fileID) throws IOException {
-        return fileStorageService.getFileInfo(fileID);
+    @GetMapping("/{file-type}/{file-id}/file-info")
+    public SavedFileDTO getFileInfo(
+        @PathVariable("file-id") int fileID,
+        @PathVariable("file-type") FileType fileType
+    ) {
+        return fileStorageService.getFileInfo(fileID, fileType);
     }
 
-    @GetMapping("/get-all")
-    public List<SavedFileDTO> getAllFileOfUser() {
-        return fileStorageService.getAllFileOfUser();
+    @GetMapping("/find")
+    public PaginationResponse<List<SavedFileDTO>> find(
+        @ModelAttribute PaginationRequest paginationRequest,
+        @ModelAttribute FileSearchRequest fileSearchRequest
+    ) {
+        long userID = SecurityUtils.getUserFromContext();
+        fileSearchRequest.setUserId(Math.toIntExact(userID));
+        return fileStorageService.find(paginationRequest, fileSearchRequest);
     }
 
-    @DeleteMapping("/delete-nt-file/{file-id}")
-    public void deleteNtFile(@PathVariable("file-id") int fileID) {
-        fileStorageService.deleteNtFile(fileID);
+    @GetMapping("/{file-type}/all")
+    public List<SavedFileDTO> getAllFileOfUser(
+        @PathVariable("file-type") FileType fileType
+    ) {
+        return fileStorageService.getAllFileOfUser(fileType);
     }
 
-    @PutMapping("/update-nt-file/{file-id}")
-    public void updateFileInfo(@PathVariable("file-id") int fileID, @RequestBody SavedFileDTO savedFileDTO) {
-        fileStorageService.updateFileInfo(fileID, savedFileDTO);
+    @DeleteMapping("/{file-type}/{file-id}")
+    public void deleteFile(
+        @PathVariable("file-id") int fileID,
+        @PathVariable("file-type") FileType fileType
+    ) {
+        fileStorageService.deleteFile(fileID, fileType);
+    }
+
+    @PutMapping("/{file-type}/{file-id}/file-info")
+    public void updateFileInfo(
+        @PathVariable("file-id") int fileID,
+        @RequestBody SavedFileDTO savedFileDTO,
+        @PathVariable("file-type") FileType fileType
+    ) {
+        fileStorageService.updateFileInfo(fileID, fileType, savedFileDTO);
     }
 }

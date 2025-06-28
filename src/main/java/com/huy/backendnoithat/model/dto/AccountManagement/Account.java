@@ -36,7 +36,6 @@ public class Account {
     public Account(AccountEntity accountEntity) {
         this.id = accountEntity.getId();
         this.username = accountEntity.getUsername();
-        // We don't transfer password to client
         this.password = "";
         this.active = accountEntity.isActive();
         this.enabled = accountEntity.isEnabled();

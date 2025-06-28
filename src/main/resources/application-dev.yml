@@ -1,0 +1,49 @@
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        cache: TRACE
+
+logo:
+  path: ${LOGO_PATH}
+pricingModel:
+  path: ${PRICING_MODEL_PATH}
+server:
+  port: ${BE_PORT}
+spring:
+  data:
+    redis:
+      repositories:
+        enabled: false
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: ${DB_PASSWORD}
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+  jpa:
+    hibernate:
+      ddl-auto: update
+  main:
+    banner-mode: 'off'
+
+aws:
+  sts:
+    external-id: ${AWS_STS_EXTERNAL_ID}
+  s3:
+    role-arn: 'arn:aws:iam::179218842168:role/Appnoithat-S3-access'
+    credential-duration: 6
+    bucket-name: 'app-noi-that-user-file'
+    multipart-size-MB: 5
+
+deployment:
+  secure: false
+  frontend:
+    url: 'http://localhost:3000'
+
+cors:
+  allowed-origins: 'http://localhost:3000'

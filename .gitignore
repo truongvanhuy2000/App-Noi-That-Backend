@@ -37,3 +37,5 @@ build/
 /.run/
 /.mvn/
 /out/docker/database/data/
+/key/drive-key.json
+/redis/data/
