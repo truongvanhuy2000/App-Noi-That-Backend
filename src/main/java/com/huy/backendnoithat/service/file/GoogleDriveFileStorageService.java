@@ -25,6 +25,7 @@ import jakarta.servlet.ServletOutputStream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
@@ -46,6 +47,9 @@ public class GoogleDriveFileStorageService implements FileStorageService {
     private final SavedFileEntityManager savedFileEntityManager;
     private final SavedFileEntityDTOMapper savedFileEntityDTOMapper;
     private final DataProcessingService dataProcessingService;
+
+    @Value("${drive.parents}")
+    private String[] parents;
 
     @Override
     public void updateFileInfo(int fileID, FileType fileType, SavedFileDTO savedFileDTO) {
@@ -155,9 +159,7 @@ public class GoogleDriveFileStorageService implements FileStorageService {
         AccountEntity account = AccountEntity.builder().id(Math.toIntExact(userID)).build();
         try {
             File fileMeta = new File();
-            fileMeta.setName(uploadFile.getFileName())
-                .setParents(List.of("1HlLY0UpqW02kt31GYAVI-V4WPqyLUPjS"));
-
+            fileMeta.setName(uploadFile.getFileName()).setParents(List.of(parents));
             File uploadedFile = googleDrive.files()
                 .create(fileMeta, new InputStreamContent(uploadFile.getContentType(), uploadFile.getInputStream()))
                 .setFields("id, name, parents")

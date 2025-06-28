@@ -4,11 +4,12 @@ logging:
 
 logo:
   path: ${LOGO_PATH}
-pricingModel:
-  path: ${PRICING_MODEL_PATH}
 server:
   port: ${BE_PORT}
+
 spring:
+  main:
+    banner-mode: 'off'
   data:
     redis:
       repositories:
@@ -25,8 +26,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-  main:
-    banner-mode: 'off'
 
 aws:
   sts:
@@ -36,8 +35,6 @@ aws:
     credential-duration: 6
     bucket-name: 'app-noi-that-user-file'
     multipart-size-MB: 5
-
-
 
 deployment:
   secure: false
