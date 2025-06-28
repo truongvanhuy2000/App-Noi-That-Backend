@@ -49,30 +49,6 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
                 .build();
     }
 
-    private byte[] getLogo(String fileName) {
-        if (fileName == null) {
-            return null;
-        }
-        try (InputStream file = new FileInputStream(Paths.get(LOGO_PATH, fileName).toString())) {
-            return file.readAllBytes();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private String saveLogo(byte[] logo) {
-        if (logo == null) {
-            return null;
-        }
-        String fileName = "company_logo" + UUID.randomUUID() + System.currentTimeMillis() + ".png";
-        try (FileOutputStream out = new FileOutputStream(Paths.get(LOGO_PATH, fileName).toAbsolutePath().toString())) {
-            out.write(logo);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return fileName;
-    }
-
     @Override
     public void saveNoteArea(String token, String noteArea) {
         String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
@@ -104,7 +80,6 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
                 .soDienThoai(thongTinCongTyDTO.getSoDienThoai())
                 .email(thongTinCongTyDTO.getEmail())
                 .modifiedDate(thongTinCongTyDTO.getCreatedDate())
-                .logoPath(saveLogo(thongTinCongTyDTO.getLogo()))
                 .build();
         if (existingInfo == null) {
             Account account = accountService.findByUsername(username);
@@ -151,7 +126,6 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
                 .soDienThoai(lapBaoGiaInfoEntity.getSoDienThoai())
                 .email(lapBaoGiaInfoEntity.getEmail())
                 .createdDate(lapBaoGiaInfoEntity.getModifiedDate())
-                .logo(getLogo(lapBaoGiaInfoEntity.getLogoPath()))
                 .build();
     }
 
