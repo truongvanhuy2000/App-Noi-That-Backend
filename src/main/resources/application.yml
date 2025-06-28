@@ -16,3 +16,6 @@ drive:
   parents: ${GOOGLE_DRIVE_PARENTS}
   key:
     path: ${GOOGLE_DRIVE_KEY_PATH}
+
+cors:
+  allowed-origins: "http://localhost:3000,www.lapbaogia.com,https://www.lapbaogia.com"
