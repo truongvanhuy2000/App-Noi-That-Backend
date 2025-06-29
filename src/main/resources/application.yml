@@ -17,5 +17,7 @@ drive:
   key:
     path: ${GOOGLE_DRIVE_KEY_PATH}
 
+export.pdf.converter: ${PDF_CONVERTER_URL:http://localhost:5000/convert}
+
 cors:
   allowed-origins: "http://localhost:3000,www.lapbaogia.com,https://www.lapbaogia.com"

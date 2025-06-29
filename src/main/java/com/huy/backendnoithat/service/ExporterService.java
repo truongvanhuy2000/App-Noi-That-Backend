@@ -16,6 +16,7 @@ import org.huytv.fileExport.operation.ntfile.ExportNtFile;
 import org.huytv.fileExport.operation.pdf.HttpServicePdfExport;
 import org.huytv.model.SheetFileData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
@@ -30,6 +31,9 @@ import java.io.*;
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class ExporterService {
+    @Value("${export.pdf.converter}")
+    private String PDF_EXPORT_URL;
+
     private final byte[] exportSheetTemplate;
     private final FileStorageService fileStorageService;
     private final RestTemplate restTemplate;
@@ -94,7 +98,7 @@ public class ExporterService {
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
             ResponseEntity<byte[]> response = restTemplate.exchange(
-                "http://localhost:5000/convert",
+                PDF_EXPORT_URL,
                 HttpMethod.POST,
                 requestEntity,
                 byte[].class

@@ -70,9 +70,6 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
     public void saveThongTinCongTy(String token, ThongTinCongTyDTO thongTinCongTyDTO) {
         String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();
         LapBaoGiaInfoEntity existingInfo = lapBaoGiaInfoDAO.findByUsername(username);
-        if (existingInfo != null && existingInfo.getLogoPath() != null) {
-            deleteExistingLogo(existingInfo.getLogoPath());
-        }
         LapBaoGiaInfoEntity lapBaoGiaInfoEntity = LapBaoGiaInfoEntity.builder()
                 .tenCongTy(thongTinCongTyDTO.getTenCongTy())
                 .diaChiVanPhong(thongTinCongTyDTO.getDiaChiVanPhong())
@@ -90,16 +87,6 @@ public class LapBaoGiaInfoServiceImpl implements LapBaoGiaInfoService {
             lapBaoGiaInfoEntity.setNote(existingInfo.getNote());
         }
         lapBaoGiaInfoDAO.save(lapBaoGiaInfoEntity);
-    }
-
-    private void deleteExistingLogo(String fileName) {
-        if (fileName == null) {
-            return;
-        }
-        File file = new File(Paths.get(LOGO_PATH, fileName).toString());
-        if (file.exists()) {
-            file.delete();
-        }
     }
 
     @Override
