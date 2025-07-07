@@ -48,6 +48,7 @@ public class ExporterService {
         if (logo != null) {
             sheetDataExportDTO.getExportData().getExportData().forEach(it -> it.getDataPackage().getThongTinCongTy().setLogo(logo));
         }
+        log.info("Exporting sheet data with type: {} for user: {}", sheetDataExportDTO.getExportType(), userID);
         switch (sheetDataExportDTO.getExportType()) {
             case XLSX_SINGLE:
                 exportSingleXLS(sheetDataExportDTO, outputStream);

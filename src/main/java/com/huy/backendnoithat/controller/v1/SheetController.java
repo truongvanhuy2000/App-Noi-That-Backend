@@ -1,8 +1,6 @@
 package com.huy.backendnoithat.controller.v1;
 
-import com.huy.backendnoithat.model.SheetFileDTO;
-import com.huy.backendnoithat.model.PreSignedToken;
-import com.huy.backendnoithat.model.UploadFile;
+import com.huy.backendnoithat.model.*;
 import com.huy.backendnoithat.model.dto.SavedFileDTO;
 import com.huy.backendnoithat.model.dto.SheetDataExportDTO;
 import com.huy.backendnoithat.service.SheetService;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -44,6 +43,15 @@ public class SheetController {
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/search")
+    public PaginationResponse<List<SavedFileDTO>> searchSheetFiles(
+        @ModelAttribute PaginationRequest paginationRequest,
+        @ModelAttribute SheetSearchRequest sheetSearchRequest
+    ) {
+        int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
+        return sheetService.searchSheetFiles(userID, paginationRequest, sheetSearchRequest);
+    }
+
     @PostMapping("")
     public SheetFileDTO saveNoiThatFile(
         @RequestParam(value = "fileId", required = false) Integer fileId,
@@ -61,6 +69,9 @@ public class SheetController {
     public ResponseEntity<Resource> getCompanyLogo() throws IOException {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
         byte[] logo = sheetService.getCompanyLogo(userID);
+        if (logo == null || logo.length == 0) {
+            return null;
+        }
         Resource resource = new ByteArrayResource(logo);
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
