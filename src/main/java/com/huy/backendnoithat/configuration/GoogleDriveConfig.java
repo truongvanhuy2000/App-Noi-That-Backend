@@ -22,6 +22,7 @@ public class GoogleDriveConfig {
     @Value("${drive.key.path}")
     private String DRIVE_KEY_PATH;
 
+
     @Bean
     public Drive googleDriveService() {
         File file = new File(DRIVE_KEY_PATH);

@@ -13,9 +13,9 @@ spring:
       port: ${REDIS_PORT:6379}
 
 drive:
-  parents: ${GOOGLE_DRIVE_PARENTS}
+  parents: ${GOOGLE_DRIVE_PARENTS:default}
   key:
-    path: ${GOOGLE_DRIVE_KEY_PATH}
+    path: ${GOOGLE_DRIVE_KEY_PATH:./key/drive-key.json}
 
 export.pdf.converter: ${PDF_CONVERTER_URL:http://localhost:5000/convert}
 
