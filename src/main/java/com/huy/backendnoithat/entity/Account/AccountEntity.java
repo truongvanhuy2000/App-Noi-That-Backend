@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.entity.Account;
 
+import com.huy.backendnoithat.entity.SubscriptionModelEntity;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -47,6 +49,11 @@ public class AccountEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountEntity", fetch = FetchType.LAZY)
     private List<RoleEntity> roleEntity;
+
+//    @ManyToMany
+//    @JoinTable(name = "account_subscription",
+//        joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "subscription_id"))
+//    private final List<SubscriptionModelEntity> subscriptions = new ArrayList<>();
 
 
     public AccountEntity(Account account) {

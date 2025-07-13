@@ -1,10 +1,14 @@
 package com.huy.backendnoithat.entity;
 
+import com.huy.backendnoithat.entity.Account.AccountEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,4 +35,6 @@ public class SubscriptionModelEntity {
     private int limitFile;
     @Column(name = "price")
     private int price;
+//    @ManyToMany(mappedBy = "subscriptions")
+//    private final List<AccountEntity> accountEntities = new ArrayList<>();
 }
