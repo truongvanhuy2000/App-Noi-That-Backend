@@ -1,10 +1,14 @@
 package com.huy.backendnoithat.entity.Account;
 
+import com.huy.backendnoithat.entity.SubscriptionModelEntity;
 import com.huy.backendnoithat.model.dto.AccountManagement.AccountInformation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "accountinformation")

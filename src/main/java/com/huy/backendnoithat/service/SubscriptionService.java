@@ -70,6 +70,7 @@ public class SubscriptionService {
         subscriptionModelEntity.setDurationMonth(subscriptionModelDTO.getDurationMonth());
         subscriptionModelEntity.setBonusMonth(subscriptionModelDTO.getBonusMonth());
         subscriptionModelEntity.setLimitFile(subscriptionModelDTO.getLimitFile());
+        subscriptionModelEntity.setTier(subscriptionModelDTO.getTier());
 
         subscriptionModelDAO.save(subscriptionModelEntity);
         return SubscriptionModelDTO.builder()
@@ -105,6 +106,12 @@ public class SubscriptionService {
         }
         if (subscriptionModelDTO.getLimitFile() > 0) {
             subscriptionModelEntity.setLimitFile(subscriptionModelDTO.getLimitFile());
+        }
+        if (subscriptionModelDTO.getPrice() != null) {
+            subscriptionModelEntity.setPrice(subscriptionModelDTO.getPrice());
+        }
+        if (subscriptionModelDTO.getTier() != null) {
+            subscriptionModelEntity.setTier(subscriptionModelDTO.getTier());
         }
 
         subscriptionModelDAO.save(subscriptionModelEntity);
