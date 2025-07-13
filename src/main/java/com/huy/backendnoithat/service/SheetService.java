@@ -42,7 +42,6 @@ public class SheetService {
     private final JwtTokenService jwtTokenService;
     private final FileStorageService fileStorageService;
     private final LapBaoGiaInfoDAO lapBaoGiaInfoDAO;
-    private final CacheManager cacheManager;
     private final SavedFileEntityManager savedFileEntityManager;
     private final SavedFileEntityDTOMapper savedFileEntityDTOMapper;
 

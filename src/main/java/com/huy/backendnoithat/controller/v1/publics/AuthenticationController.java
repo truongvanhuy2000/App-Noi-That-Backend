@@ -1,4 +1,4 @@
-package com.huy.backendnoithat.controller.v1;
+package com.huy.backendnoithat.controller.v1.publics;
 
 import com.huy.backendnoithat.exception.AuthorizationException;
 import com.huy.backendnoithat.model.RefreshTokenRequest;

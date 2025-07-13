@@ -34,7 +34,7 @@ public class LoginServiceImpl implements LoginService {
         if (account.getExpiredDate().isBefore(LocalDate.now())) {
             throw new AccountExpiredException("Account is expired");
         }
-        if (!account.isEnabled() || !account.isActive()) {
+        if (!account.getEnabled() || !account.getActive()) {
             throw new AccountIsDisabledException("Account is disabled");
         }
         Authentication authentication = authenticationManager.authenticate(
@@ -61,7 +61,7 @@ public class LoginServiceImpl implements LoginService {
         if (account.getExpiredDate().isBefore(LocalDate.now())) {
             throw new AccountExpiredException("Account is expired");
         }
-        if (!account.isEnabled() || !account.isActive()) {
+        if (!account.getEnabled() || !account.getActive()) {
             throw new AccountIsDisabledException("Account is disabled");
         }
         String accessToken = jwtTokenService.generateAccessToken((long) account.getId(), account.getUsername(), account.getRoles());

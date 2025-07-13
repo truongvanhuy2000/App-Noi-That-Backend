@@ -1,7 +1,5 @@
 package com.huy.backendnoithat.service.general.implementation;
 
-import com.huy.backendnoithat.model.dto.AccountManagement.Account;
-import com.huy.backendnoithat.model.enums.UserRole;
 import com.huy.backendnoithat.service.general.JwtTokenService;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.ECDSASigner;
@@ -14,22 +12,19 @@ import com.nimbusds.jose.jwk.gen.ECKeyGenerator;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import jakarta.servlet.http.Cookie;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 @Component
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Slf4j
-public class JwtTokenServiceImpl implements JwtTokenService {
+public class SimpleJwtTokenService implements JwtTokenService {
     private static final String ISSUER = "app-nt-be";
     private static final String TOKEN_TYPE = "token_type";
     private static final String ROLE_CLAIM = "role";

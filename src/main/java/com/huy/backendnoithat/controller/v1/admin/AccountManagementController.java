@@ -29,7 +29,7 @@ public class AccountManagementController {
     }
 
     @GetMapping("/find")
-    public PaginationResponse<List<Account>> search(
+    public PaginationResponse<List<Account>> searchAccount(
         @ModelAttribute PaginationRequest paginationRequest,
         @ModelAttribute UserSearchRequest userSearchRequest
     ) {
@@ -37,19 +37,19 @@ public class AccountManagementController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> save(@RequestBody Account account) {
+    public ResponseEntity<String> saveAccount(@RequestBody Account account) {
         Account ret = accountManagementService.save(account);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable(value = "id") int id, @RequestBody Account account) {
+    public ResponseEntity<String> updateAccount(@PathVariable(value = "id") int id, @RequestBody Account account) {
         accountManagementService.update(id, account);
         return ResponseEntity.ok("Updated successfully.");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable(value = "id") int id) {
+    public ResponseEntity<String> deleteAccount(@PathVariable(value = "id") int id) {
         accountService.deleteById(id);
         return ResponseEntity.ok("Deleted successfully.");
     }

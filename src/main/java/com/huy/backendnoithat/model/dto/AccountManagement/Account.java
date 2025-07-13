@@ -23,9 +23,9 @@ public class Account {
     @JsonProperty("password")
     private String password;
     @JsonProperty("active")
-    private boolean active;
+    private Boolean active;
     @JsonProperty("enabled")
-    private boolean enabled;
+    private Boolean enabled;
     @JsonProperty("roles")
     private List<String> roles;
     @JsonProperty("accountInformation")

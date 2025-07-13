@@ -3,14 +3,17 @@ package com.huy.backendnoithat.service.v1;
 import com.blazebit.persistence.PagedList;
 import com.huy.backendnoithat.dao.v1.AccountEntityDAO;
 import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.entity.Account.RoleEntity;
 import com.huy.backendnoithat.manager.AccountEntityManager;
 import com.huy.backendnoithat.model.PaginationRequest;
 import com.huy.backendnoithat.model.PaginationResponse;
 import com.huy.backendnoithat.model.UserSearchRequest;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.AccountManagement.AccountInformation;
+import com.huy.backendnoithat.model.enums.UserRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,10 +48,32 @@ public class AccountManagementService {
     @Transactional
     public void update(int id, Account account) {
         AccountEntity accountEntity = accountEntityDAO.findById(id).orElseThrow();
-        accountEntity.setExpiredDate(new Date(Date.valueOf(account.getExpiredDate()).getTime()));
-        accountEntity.setActive(account.isActive());
-        accountEntity.setEnabled(account.isEnabled());
-        accountEntity.setPassword(account.getPassword());
+        if (account.getExpiredDate() != null) {
+            accountEntity.setExpiredDate(new Date(Date.valueOf(account.getExpiredDate()).getTime()));
+        }
+        if (account.getActive() != null) {
+            accountEntity.setActive(account.getActive());
+        }
+        if (account.getEnabled() != null) {
+            accountEntity.setEnabled(account.getEnabled());
+        }
+        if (StringUtils.isNotEmpty(account.getPassword())) {
+            accountEntity.setPassword(account.getPassword());
+        }
+        if (account.getRoles() != null && !account.getRoles().isEmpty()) {
+            // Each account has one role, so we assume the first role is the user role
+            String roleValue = account.getRoles().get(0);
+            if (roleValue == null || roleValue.isEmpty()) {
+                throw new RuntimeException("Role cannot be null or empty");
+            }
+            if (roleValue.equals(UserRole.USER.value) || roleValue.equals(UserRole.ADMIN.value)) {
+                RoleEntity userRole = accountEntity.getRoleEntity().get(0);
+                userRole.setRole(roleValue);
+            } else {
+                throw new RuntimeException("Invalid role: " + roleValue);
+            }
+
+        }
     }
 
     @Transactional
@@ -61,7 +86,7 @@ public class AccountManagementService {
             account.setAccountInformation(AccountInformation.builder().name("anon").build());
         }
         accountEntity = new AccountEntity(account);
-        accountEntity.setEnabled(account.isActive());
+        accountEntity.setEnabled(account.getActive());
         AccountEntity ret = accountEntityDAO.save(accountEntity);
         return new Account(ret);
     }

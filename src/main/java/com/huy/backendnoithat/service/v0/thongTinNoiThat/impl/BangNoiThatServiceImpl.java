@@ -1,6 +1,5 @@
 package com.huy.backendnoithat.service.v0.thongTinNoiThat.impl;
 
-import com.huy.backendnoithat.event.NoiThatUpdateHandler;
 import com.huy.backendnoithat.model.dto.BangNoiThat.HangMuc;
 import com.huy.backendnoithat.model.dto.BangNoiThat.NoiThat;
 import com.huy.backendnoithat.model.dto.BangNoiThat.PhongCach;
@@ -24,8 +23,7 @@ public class BangNoiThatServiceImpl implements BangNoiThatService {
     private final ThongSoService thongSoService;
     private final JwtTokenService jwtTokenService;
     private final AccountService accountService;
-    private final NoiThatUpdateHandler noiThatUpdateHandler;
-    
+
     @Override
     public void sampleAll(String token) {
         String username = jwtTokenService.getUsernameFromToken(token).orElseThrow();

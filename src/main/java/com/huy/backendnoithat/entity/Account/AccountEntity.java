@@ -50,18 +50,18 @@ public class AccountEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountEntity", fetch = FetchType.LAZY)
     private List<RoleEntity> roleEntity;
 
-//    @ManyToMany
-//    @JoinTable(name = "account_subscription",
-//        joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "subscription_id"))
-//    private final List<SubscriptionModelEntity> subscriptions = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "account_subscription",
+        joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "subscription_id"))
+    private final List<SubscriptionModelEntity> subscriptions = new ArrayList<>();
 
 
     public AccountEntity(Account account) {
         this.id = account.getId();
         this.username = account.getUsername();
         this.password = account.getPassword();
-        this.active = account.isActive();
-        this.enabled = account.isEnabled();
+        this.active = account.getActive();
+        this.enabled = account.getEnabled();
         this.roleEntity = account.getRoles().stream().map(item -> new RoleEntity(0, this, item)).toList();
         this.accountInformationEntity = new AccountInformationEntity(account.getAccountInformation());
         this.expiredDate = new Date(Date.valueOf(account.getExpiredDate()).getTime());
