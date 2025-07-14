@@ -19,37 +19,31 @@ public class ThongSoController {
     private final ThongSoService thongSoService;
 
     @GetMapping("")
-    public List<ThongSo> findAll() {
+    public List<ThongSo> findAllThongSo() {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         return thongSoService.findAll(token);
     }
 
-    @GetMapping("/search")
-    public ThongSo findUsingName(@RequestParam String name) {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        return thongSoService.findUsingName(token, name);
-    }
-
     @GetMapping("/{id}")
-    public ThongSo findById(@PathVariable int id) {
+    public ThongSo findThongSoById(@PathVariable int id) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         return thongSoService.findUsingId(token, id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id) {
+    public void deleteThongSoById(@PathVariable int id) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         thongSoService.deleteById(token, id);
     }
 
     @PostMapping("")
-    public void save(@RequestBody ThongSo thongSo, @RequestParam("parentId") int parentId) {
+    public void saveThongSo(@RequestBody ThongSo thongSo, @RequestParam("parentId") int parentId) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         thongSoService.save(token, thongSo, parentId);
     }
 
     @PutMapping("")
-    public void update(@RequestBody ThongSo thongSo) {
+    public void updateThongSo(@RequestBody ThongSo thongSo) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         thongSoService.update(token, thongSo);
     }

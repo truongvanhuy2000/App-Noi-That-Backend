@@ -3,6 +3,7 @@ package com.huy.backendnoithat.service.v1;
 import com.blazebit.persistence.PagedList;
 import com.huy.backendnoithat.dao.v1.AccountEntityDAO;
 import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.entity.Account.AccountRestrictionEntity;
 import com.huy.backendnoithat.entity.Account.RoleEntity;
 import com.huy.backendnoithat.manager.AccountEntityManager;
 import com.huy.backendnoithat.model.PaginationRequest;
@@ -25,6 +26,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class AccountManagementService {
+    public static final int DEFAULT_FILE_LIMIT = 10000;
+
     private final AccountEntityManager accountEntityManager;
     private final AccountEntityDAO accountEntityDAO;
 
@@ -45,11 +48,36 @@ public class AccountManagementService {
             .build();
     }
 
+    public Account findById(int id) {
+        AccountEntity accountEntity = accountEntityDAO.findById(id).orElseThrow();
+        return new Account(accountEntity);
+    }
+
+    public Account findByUsername(String username) {
+        AccountEntity accountEntity = accountEntityDAO.findByUsername(username).orElseThrow();
+        return new Account(accountEntity);
+    }
+
     @Transactional
     public void update(int id, Account account) {
         AccountEntity accountEntity = accountEntityDAO.findById(id).orElseThrow();
         if (account.getExpiredDate() != null) {
-            accountEntity.setExpiredDate(new Date(Date.valueOf(account.getExpiredDate()).getTime()));
+            if (accountEntity.getAccountRestrictionEntity() != null) {
+                accountEntity.getAccountRestrictionEntity().setExpiredTimestamp(Date.valueOf(account.getExpiredDate()).getTime());
+            } else {
+                AccountRestrictionEntity accountRestrictionEntity = new AccountRestrictionEntity();
+                accountRestrictionEntity.setExpiredTimestamp(Date.valueOf(account.getExpiredDate()).getTime());
+                accountEntity.setAccountRestrictionEntity(accountRestrictionEntity);
+            }
+        }
+        if (account.getFileLimit() != null) {
+            if (accountEntity.getAccountRestrictionEntity() != null) {
+                accountEntity.getAccountRestrictionEntity().setFileLimit(account.getFileLimit());
+            } else {
+                AccountRestrictionEntity accountRestrictionEntity = new AccountRestrictionEntity();
+                accountRestrictionEntity.setFileLimit(account.getFileLimit());
+                accountEntity.setAccountRestrictionEntity(accountRestrictionEntity);
+            }
         }
         if (account.getActive() != null) {
             accountEntity.setActive(account.getActive());
@@ -72,7 +100,6 @@ public class AccountManagementService {
             } else {
                 throw new RuntimeException("Invalid role: " + roleValue);
             }
-
         }
     }
 
@@ -84,6 +111,11 @@ public class AccountManagementService {
         }
         if (account.getAccountInformation() == null) {
             account.setAccountInformation(AccountInformation.builder().name("anon").build());
+        }
+        AccountRestrictionEntity accountRestrictionEntity = new AccountRestrictionEntity();
+        accountRestrictionEntity.setFileLimit(account.getFileLimit() != null ? account.getFileLimit() : DEFAULT_FILE_LIMIT);
+        if (account.getExpiredDate() != null) {
+            accountRestrictionEntity.setExpiredTimestamp(Date.valueOf(account.getExpiredDate()).getTime());
         }
         accountEntity = new AccountEntity(account);
         accountEntity.setEnabled(account.getActive());

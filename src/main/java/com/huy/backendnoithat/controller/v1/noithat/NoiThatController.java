@@ -6,7 +6,6 @@ import com.huy.backendnoithat.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,37 +19,32 @@ public class NoiThatController {
     private final NoiThatService noiThatService;
 
     @GetMapping("")
-    public List<NoiThat> findAll() {
+    public List<NoiThat> findAllNoiThat() {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         return noiThatService.findAll(token);
     }
 
     @GetMapping("/{id}")
-    public NoiThat findById(@PathVariable int id) {
+    public NoiThat findNoiThatById(@PathVariable int id) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         return noiThatService.findUsingId(token, id);
     }
 
-    @GetMapping("/search")
-    public NoiThat findUsingName(@RequestParam(value = "name") String name) {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        return noiThatService.findUsingName(token, name);
-    }
 
     @PostMapping("")
-    public void save(@RequestBody NoiThat noiThat, @RequestParam("parentId") int parentId) {
+    public void saveNoiThat(@RequestBody NoiThat noiThat, @RequestParam("parentId") int parentId) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         noiThatService.save(token, noiThat, parentId);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id) {
+    public void deleteNoiThatById(@PathVariable int id) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         noiThatService.deleteById(token, id);
     }
 
     @PutMapping("")
-    public void update(@RequestBody NoiThat noiThat) {
+    public void updateNoiThat(@RequestBody NoiThat noiThat) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         noiThatService.update(token, noiThat);
     }
@@ -62,7 +56,7 @@ public class NoiThatController {
     }
 
     @GetMapping("/swap")
-    public void swap(@RequestParam(value = "id1") int id1, @RequestParam(value = "id2") int id2) {
+    public void swapNoiThat(@RequestParam(value = "id1") int id1, @RequestParam(value = "id2") int id2) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         noiThatService.swap(token, id1, id2);
     }

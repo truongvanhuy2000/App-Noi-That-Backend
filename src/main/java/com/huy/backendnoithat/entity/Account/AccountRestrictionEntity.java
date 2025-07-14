@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 @Entity
 @Data
 @Builder
@@ -18,5 +20,13 @@ public class AccountRestrictionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "expire_date")
+    private Long expiredTimestamp;
 
+    @Column(name = "file_limit")
+    private Integer fileLimit;
+
+    @JoinColumn(name = "account_id")
+    @OneToOne(targetEntity = AccountEntity.class)
+    private AccountEntity accountEntity;
 }

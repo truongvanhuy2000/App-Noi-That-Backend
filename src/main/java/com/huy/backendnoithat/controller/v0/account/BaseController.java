@@ -45,5 +45,4 @@ public class BaseController {
         baseService.updateInfo(token, AccountInfo);
         return ResponseEntity.ok("Updated successfully");
     }
-
 }

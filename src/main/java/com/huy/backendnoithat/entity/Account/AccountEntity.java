@@ -34,8 +34,12 @@ public class AccountEntity {
     @Column(name = "enabled")
     private boolean enabled;
 
+    // No longer used, but kept for backward compatibility
+    // TODO: Remove this field in the future
+    @Deprecated
     @Column(name = "expire_date")
     private Date expiredDate;
+
     @CreationTimestamp
     @Column(name = "created_date")
     private Date createdDate;
@@ -55,6 +59,8 @@ public class AccountEntity {
         joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "subscription_id"))
     private final List<SubscriptionModelEntity> subscriptions = new ArrayList<>();
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "accountEntity")
+    private AccountRestrictionEntity accountRestrictionEntity;
 
     public AccountEntity(Account account) {
         this.id = account.getId();
@@ -64,6 +70,5 @@ public class AccountEntity {
         this.enabled = account.getEnabled();
         this.roleEntity = account.getRoles().stream().map(item -> new RoleEntity(0, this, item)).toList();
         this.accountInformationEntity = new AccountInformationEntity(account.getAccountInformation());
-        this.expiredDate = new Date(Date.valueOf(account.getExpiredDate()).getTime());
     }
 }

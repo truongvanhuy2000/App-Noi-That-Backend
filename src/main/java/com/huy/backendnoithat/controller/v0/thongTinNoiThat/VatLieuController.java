@@ -3,6 +3,7 @@ package com.huy.backendnoithat.controller.v0.thongTinNoiThat;
 import com.huy.backendnoithat.model.dto.BangNoiThat.VatLieu;
 import com.huy.backendnoithat.service.v0.thongTinNoiThat.VatLieuService;
 import com.huy.backendnoithat.utils.SecurityUtils;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Hidden
 @Deprecated
 @RestController
 @RequestMapping("/api/vatlieu")

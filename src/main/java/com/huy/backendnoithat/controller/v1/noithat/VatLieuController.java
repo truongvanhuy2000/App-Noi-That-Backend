@@ -19,37 +19,32 @@ public class VatLieuController {
     private final VatLieuService vatLieuService;
 
     @GetMapping("")
-    public List<VatLieu> findAll() {
+    public List<VatLieu> findAllVatLieu() {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         return vatLieuService.findAll(token);
     }
 
-    @GetMapping("/search")
-    public VatLieu findUsingName(@RequestParam(value = "name") String name) {
-        String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
-        return vatLieuService.findUsingName(token, name);
-    }
 
     @GetMapping("/{id}")
-    public VatLieu findById(@PathVariable int id) {
+    public VatLieu findVatLieuById(@PathVariable int id) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         return vatLieuService.findUsingId(token, id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id) {
+    public void deleteVatLieuById(@PathVariable int id) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         vatLieuService.deleteById(token, id);
     }
 
     @PutMapping("")
-    public void update(@RequestBody VatLieu vatLieu) {
+    public void updateVatLieu(@RequestBody VatLieu vatLieu) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         vatLieuService.update(token, vatLieu);
     }
 
     @PostMapping("")
-    public void save(@RequestBody VatLieu vatLieu, @RequestParam("parentId") int parentId) {
+    public void saveVatLieu(@RequestBody VatLieu vatLieu, @RequestParam("parentId") int parentId) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         vatLieuService.save(token, vatLieu, parentId);
     }
@@ -61,10 +56,7 @@ public class VatLieuController {
     }
 
     @GetMapping("/swap")
-    public void swap(
-        @RequestParam(value = "id1") int id1,
-        @RequestParam(value = "id2") int id2
-    ) {
+    public void swapVatLieu(@RequestParam(value = "id1") int id1, @RequestParam(value = "id2") int id2) {
         String token = SecurityUtils.getTokenFromContext(SecurityContextHolder.getContext());
         vatLieuService.swap(token, id1, id2);
     }

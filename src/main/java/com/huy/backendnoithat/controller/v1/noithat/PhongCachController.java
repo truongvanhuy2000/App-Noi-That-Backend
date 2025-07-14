@@ -21,38 +21,38 @@ public class PhongCachController {
     private final PhongCachService phongCachService;
 
     @GetMapping("")
-    public List<PhongCach> findAll() {
+    public List<PhongCach> findAllPhongCach() {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
         return phongCachService.findAll(userID);
     }
 
     @GetMapping("/{id}")
-    public PhongCach findById(@PathVariable int id) {
+    public PhongCach findPhongCachById(@PathVariable int id) {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
         return phongCachService.findById(userID, id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "PhongCach not found"));
     }
 
     @PostMapping("")
-    public void save(@RequestBody PhongCach phongCach) {
+    public void savePhongCach(@RequestBody PhongCach phongCach) {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
         phongCachService.save(userID, phongCach);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id) {
+    public void deletePhongCachById(@PathVariable int id) {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
         phongCachService.deleteById(userID, id);
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable int id, @RequestBody PhongCach phongCach) {
+    public void updatePhongCach(@PathVariable int id, @RequestBody PhongCach phongCach) {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
         phongCachService.update(userID, id, phongCach);
     }
 
     @GetMapping("/swap")
-    public void swap(@RequestParam(value = "id1") int id1, @RequestParam(value = "id2") int id2) {
+    public void swapPhongCach(@RequestParam(value = "id1") int id1, @RequestParam(value = "id2") int id2) {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
         phongCachService.swap(userID, id1, id2);
     }

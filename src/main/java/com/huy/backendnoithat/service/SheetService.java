@@ -165,6 +165,7 @@ public class SheetService {
 
         if (fileId == null) {
             log.info("Saving new sheet file with name: {}", sheetDataExportDTO.getFileName());
+
             SavedFileDTO savedFileDTO = fileStorageService.saveFile(FileType.NT_FILE, uploadFile);
             return new SheetFileDTO(savedFileDTO.getId(), sheetDataExportDTO.getFileName(), fileContent, savedFileDTO.getSize());
         } else {

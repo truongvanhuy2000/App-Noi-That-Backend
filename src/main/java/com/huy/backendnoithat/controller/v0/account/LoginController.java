@@ -4,6 +4,7 @@ import com.huy.backendnoithat.model.RefreshTokenRequest;
 import com.huy.backendnoithat.model.dto.LoginRequest;
 import com.huy.backendnoithat.model.dto.TokenResponse;
 import com.huy.backendnoithat.service.v0.account.LoginService;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.naming.AuthenticationException;
 
+@Hidden
+@Deprecated
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)

@@ -1,8 +1,10 @@
 package com.huy.backendnoithat.controller.v1;
 
+import com.huy.backendnoithat.entity.Account.AccountRestrictionEntity;
 import com.huy.backendnoithat.model.*;
 import com.huy.backendnoithat.model.dto.SavedFileDTO;
 import com.huy.backendnoithat.model.dto.SheetDataExportDTO;
+import com.huy.backendnoithat.service.AccountRestrictionService;
 import com.huy.backendnoithat.service.SheetService;
 import com.huy.backendnoithat.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class SheetController {
     private final SheetService sheetService;
+    private final AccountRestrictionService accountRestrictionService;
 
     @GetMapping(value = "/share/{fileId}")
     public PreSignedToken shareSheetFile(@PathVariable(value = "fileId", required = false) Integer fileId) {
@@ -57,6 +60,11 @@ public class SheetController {
         @RequestParam(value = "fileId", required = false) Integer fileId,
         @RequestBody SheetDataExportDTO sheetDataExportDTO
     ) {
+        int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
+        if (accountRestrictionService.isAccountReachFileUploadLimit(userID)) {
+            throw new RuntimeException("Account has reached the file upload limit");
+        }
+
         try {
             return sheetService.saveSheetFile(fileId, sheetDataExportDTO);
         } catch (IOException | ExportException e) {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Deprecated
 @Service(value = "defaultAccountService")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class AccountServiceImpl implements AccountService {

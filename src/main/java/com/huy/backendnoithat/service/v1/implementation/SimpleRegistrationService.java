@@ -4,9 +4,13 @@ import com.huy.backendnoithat.dao.SubscriptionModelDAO;
 import com.huy.backendnoithat.dao.v1.AccountEntityDAO;
 import com.huy.backendnoithat.entity.Account.AccountEntity;
 import com.huy.backendnoithat.entity.Account.AccountInformationEntity;
+import com.huy.backendnoithat.entity.Account.AccountRestrictionEntity;
 import com.huy.backendnoithat.entity.Account.RoleEntity;
 import com.huy.backendnoithat.entity.SubscriptionModelEntity;
 import com.huy.backendnoithat.model.UserRegistrationRequest;
+import com.huy.backendnoithat.model.dto.AccountManagement.Account;
+import com.huy.backendnoithat.model.enums.UserRole;
+import com.huy.backendnoithat.service.v1.AccountManagementService;
 import com.huy.backendnoithat.service.v1.RegisterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
@@ -26,6 +31,7 @@ public class SimpleRegistrationService implements RegisterService {
     private final AccountEntityDAO accountEntityDAO;
     private final PasswordEncoder passwordEncoder;
     private final SubscriptionModelDAO subscriptionModelDAO;
+    private final AccountManagementService accountManagementService;
 
     @Override
     public boolean usernameValidation(String username) {
@@ -59,17 +65,25 @@ public class SimpleRegistrationService implements RegisterService {
             throw new RuntimeException("Username already exists");
         }
         long totalSubscriptionMonth = subscriptionModelEntity.getDurationMonth() + subscriptionModelEntity.getBonusMonth();
-        long expirationTime = System.currentTimeMillis() + TimeUnit.DAYS.toMillis((totalSubscriptionMonth) * 30L);
+        int fileLimit = subscriptionModelEntity.getLimitFile();
+        if (fileLimit <= 0) {
+            log.warn("File limit is not set or invalid, defaulting to 1");
+            fileLimit = 10000; // Set to 10000 for safety
+        }
 
-        AccountEntity accountEntity = new AccountEntity();
-        AccountInformationEntity accountInformationEntity = new AccountInformationEntity(registrationRequest.getAccountInformation());
-        accountEntity.setUsername(registrationRequest.getUsername());
-        accountEntity.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-        accountEntity.setAccountInformationEntity(accountInformationEntity);
-        accountEntity.setEnabled(false);
-        accountEntity.setActive(false);
-        accountEntity.setRoleEntity(Stream.of("ROLE_USER").map(item -> new RoleEntity(0, accountEntity, item)).toList());
-        accountEntity.setExpiredDate(new Date(expirationTime));
-        accountEntityDAO.save(accountEntity);
+        LocalDate expirationDate = LocalDate.now().plusMonths(totalSubscriptionMonth);
+
+        Account account = Account.builder()
+            .username(registrationRequest.getUsername())
+            .password(passwordEncoder.encode(registrationRequest.getPassword()))
+            .accountInformation(registrationRequest.getAccountInformation())
+            .enabled(false)
+            .active(false)
+            .fileLimit(fileLimit)
+            .expiredDate(expirationDate)
+            .roles(Stream.of(UserRole.USER.value).toList())
+            .build();
+
+        accountManagementService.save(account);
     }
 }

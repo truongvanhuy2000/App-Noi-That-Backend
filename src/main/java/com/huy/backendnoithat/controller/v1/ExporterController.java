@@ -38,17 +38,4 @@ public class ExporterController {
         headers.setContentLength(contentLength);
         return ResponseEntity.ok().headers(headers).body(resource);
     }
-
-    @PostMapping("/save/nt-file")
-    public SavedFileDTO saveNoiThatFile(
-        @RequestParam(value = "fileId", required = false) Integer fileId,
-        @RequestBody SheetDataExportDTO sheetDataExportDTO
-    ) {
-        try {
-            return exporterService.saveNoiThatFile(fileId, sheetDataExportDTO);
-        } catch (IOException | ExportException e) {
-            log.error("Error saving Noi That file: {}", e.getMessage());
-            throw new RuntimeException("Failed to save Noi That file", e);
-        }
-    }
 }
