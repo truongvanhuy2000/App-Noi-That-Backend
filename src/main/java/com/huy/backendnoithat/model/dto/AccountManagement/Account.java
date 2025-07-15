@@ -1,8 +1,8 @@
 package com.huy.backendnoithat.model.dto.AccountManagement;
 
-import com.huy.backendnoithat.entity.Account.AccountEntity;
-import com.huy.backendnoithat.entity.Account.AccountRestrictionEntity;
-import com.huy.backendnoithat.entity.Account.RoleEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
+import com.huy.backendnoithat.entity.account.AccountRestrictionEntity;
+import com.huy.backendnoithat.entity.account.RoleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,7 +41,7 @@ public class Account {
             this.fileLimit = accountRestrictionEntity.getFileLimit();
             if (accountRestrictionEntity.getExpiredTimestamp() != null) {
                 // Convert the timestamp to LocalDate in the VST timezone, dealing with vietnam's timezone only
-                this.expiredDate = LocalDate.ofInstant(Instant.ofEpochMilli(accountRestrictionEntity.getExpiredTimestamp()), ZoneId.of("VST"));
+                this.expiredDate = LocalDate.ofInstant(Instant.ofEpochMilli(accountRestrictionEntity.getExpiredTimestamp()), ZoneId.of("Asia/Ho_Chi_Minh"));
             }
         }
     }

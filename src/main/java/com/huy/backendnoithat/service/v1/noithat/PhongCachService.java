@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.service.v1.noithat;
 
 import com.huy.backendnoithat.dao.v1.noithat.PhongCachEntityDAO;
-import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.entity.BangNoiThat.PhongCachNoiThatEntity;
 import com.huy.backendnoithat.mapper.PhongCachNoiThatEntityDTOMapper;
 import com.huy.backendnoithat.model.dto.BangNoiThat.PhongCach;
@@ -44,6 +44,7 @@ public class PhongCachService {
         phongCachEntityDAO.delete(phongCachNoiThatEntity.get());
     }
 
+    @Transactional
     public void update(int userID, int id, PhongCach phongCach) {
         Optional<PhongCachNoiThatEntity> phongCachNoiThatEntity = phongCachEntityDAO.findByIdAndAccountId(id, userID);
         if (phongCachNoiThatEntity.isEmpty()) {
@@ -51,7 +52,6 @@ public class PhongCachService {
         }
         PhongCachNoiThatEntity phongCachNoiThatEntityToUpdate = phongCachNoiThatEntity.get();
         phongCachNoiThatEntityToUpdate.setName(phongCach.getName());
-        phongCachEntityDAO.save(phongCachNoiThatEntityToUpdate);
     }
 
     @Transactional

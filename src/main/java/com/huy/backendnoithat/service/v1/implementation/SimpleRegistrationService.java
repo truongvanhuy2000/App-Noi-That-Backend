@@ -2,10 +2,7 @@ package com.huy.backendnoithat.service.v1.implementation;
 
 import com.huy.backendnoithat.dao.SubscriptionModelDAO;
 import com.huy.backendnoithat.dao.v1.AccountEntityDAO;
-import com.huy.backendnoithat.entity.Account.AccountEntity;
-import com.huy.backendnoithat.entity.Account.AccountInformationEntity;
-import com.huy.backendnoithat.entity.Account.AccountRestrictionEntity;
-import com.huy.backendnoithat.entity.Account.RoleEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.entity.SubscriptionModelEntity;
 import com.huy.backendnoithat.model.UserRegistrationRequest;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
@@ -18,10 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 @Slf4j

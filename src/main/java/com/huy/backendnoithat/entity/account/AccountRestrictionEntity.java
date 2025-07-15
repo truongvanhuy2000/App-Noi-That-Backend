@@ -1,12 +1,10 @@
-package com.huy.backendnoithat.entity.Account;
+package com.huy.backendnoithat.entity.account;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.sql.Date;
 
 @Entity
 @Data

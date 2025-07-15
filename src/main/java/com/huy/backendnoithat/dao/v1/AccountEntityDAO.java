@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.dao.v1;
 
-import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;

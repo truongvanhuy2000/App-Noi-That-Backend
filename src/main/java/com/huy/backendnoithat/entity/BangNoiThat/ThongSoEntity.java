@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.entity.BangNoiThat;
 
-import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.model.dto.BangNoiThat.ThongSo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.service.general.implementation;
 
 import com.huy.backendnoithat.dao.LapBaoGiaInfoDAO;
-import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.entity.LapBaoGiaInfoEntity;
 import com.huy.backendnoithat.exception.NotFoundException;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.nio.file.Paths;
 import java.util.Date;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)

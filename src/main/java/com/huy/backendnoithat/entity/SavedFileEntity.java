@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.entity;
 
-import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.model.enums.FileType;
 import com.huy.backendnoithat.model.enums.StorageType;
 import com.huy.backendnoithat.model.enums.UploadStatus;

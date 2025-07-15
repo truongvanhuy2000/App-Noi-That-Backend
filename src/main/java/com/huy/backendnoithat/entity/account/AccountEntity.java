@@ -1,5 +1,6 @@
-package com.huy.backendnoithat.entity.Account;
+package com.huy.backendnoithat.entity.account;
 
+import com.huy.backendnoithat.entity.LapBaoGiaInfoEntity;
 import com.huy.backendnoithat.entity.SubscriptionModelEntity;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import jakarta.persistence.*;
@@ -62,12 +63,15 @@ public class AccountEntity {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "accountEntity")
     private AccountRestrictionEntity accountRestrictionEntity;
 
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    private LapBaoGiaInfoEntity lapBaoGiaInfoEntity;
+
     public AccountEntity(Account account) {
         this.id = account.getId();
         this.username = account.getUsername();
         this.password = account.getPassword();
-        this.active = account.getActive();
-        this.enabled = account.getEnabled();
+        this.active = account.getActive() != null ? account.getActive() : false;
+        this.enabled = account.getEnabled() != null ? account.getEnabled() : false;
         this.roleEntity = account.getRoles().stream().map(item -> new RoleEntity(0, this, item)).toList();
         this.accountInformationEntity = new AccountInformationEntity(account.getAccountInformation());
     }

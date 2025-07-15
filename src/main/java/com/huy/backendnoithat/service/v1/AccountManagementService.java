@@ -2,9 +2,9 @@ package com.huy.backendnoithat.service.v1;
 
 import com.blazebit.persistence.PagedList;
 import com.huy.backendnoithat.dao.v1.AccountEntityDAO;
-import com.huy.backendnoithat.entity.Account.AccountEntity;
-import com.huy.backendnoithat.entity.Account.AccountRestrictionEntity;
-import com.huy.backendnoithat.entity.Account.RoleEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
+import com.huy.backendnoithat.entity.account.AccountRestrictionEntity;
+import com.huy.backendnoithat.entity.account.RoleEntity;
 import com.huy.backendnoithat.manager.AccountEntityManager;
 import com.huy.backendnoithat.model.PaginationRequest;
 import com.huy.backendnoithat.model.PaginationResponse;
@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class AccountManagementService {
 
     private final AccountEntityManager accountEntityManager;
     private final AccountEntityDAO accountEntityDAO;
+    private final PasswordEncoder passwordEncoder;
 
     public PaginationResponse<List<Account>> search(
         PaginationRequest paginationRequest,
@@ -86,7 +88,7 @@ public class AccountManagementService {
             accountEntity.setEnabled(account.getEnabled());
         }
         if (StringUtils.isNotEmpty(account.getPassword())) {
-            accountEntity.setPassword(account.getPassword());
+            accountEntity.setPassword(passwordEncoder.encode(account.getPassword()));
         }
         if (account.getRoles() != null && !account.getRoles().isEmpty()) {
             // Each account has one role, so we assume the first role is the user role
@@ -119,6 +121,8 @@ public class AccountManagementService {
         }
         accountEntity = new AccountEntity(account);
         accountEntity.setEnabled(account.getActive());
+        accountRestrictionEntity.setAccountEntity(accountEntity);
+        accountEntity.setAccountRestrictionEntity(accountRestrictionEntity);
         AccountEntity ret = accountEntityDAO.save(accountEntity);
         return new Account(ret);
     }
