@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.dao.v0.ThongTinNoiThat.PhongCach;
 
-import com.huy.backendnoithat.entity.BangNoiThat.PhongCachNoiThatEntity;
+import com.huy.backendnoithat.entity.sheet.PhongCachNoiThatEntity;
 
 import java.util.List;
 

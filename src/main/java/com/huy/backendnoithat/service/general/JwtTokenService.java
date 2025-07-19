@@ -1,10 +1,9 @@
 package com.huy.backendnoithat.service.general;
 
-import com.huy.backendnoithat.model.dto.AccountManagement.Account;
-import com.huy.backendnoithat.model.enums.UserRole;
-import jakarta.servlet.http.Cookie;
-
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public interface JwtTokenService {

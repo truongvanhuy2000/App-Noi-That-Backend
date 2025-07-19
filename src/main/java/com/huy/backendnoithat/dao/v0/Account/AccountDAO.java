@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.dao.v0.Account;
 
-import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.model.dto.AccountManagement.AccountInformation;
 
 import java.util.List;

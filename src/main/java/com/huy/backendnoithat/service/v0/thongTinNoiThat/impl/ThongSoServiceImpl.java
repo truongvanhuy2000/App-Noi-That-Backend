@@ -2,8 +2,8 @@ package com.huy.backendnoithat.service.v0.thongTinNoiThat.impl;
 
 import com.huy.backendnoithat.dao.v0.ThongTinNoiThat.ThongSo.ThongSoDAO;
 import com.huy.backendnoithat.dao.v0.ThongTinNoiThat.VatLieu.VatLieuDAO;
-import com.huy.backendnoithat.entity.BangNoiThat.ThongSoEntity;
-import com.huy.backendnoithat.entity.BangNoiThat.VatLieuEntity;
+import com.huy.backendnoithat.entity.sheet.ThongSoEntity;
+import com.huy.backendnoithat.entity.sheet.VatLieuEntity;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.BangNoiThat.ThongSo;
 import com.huy.backendnoithat.service.general.JwtTokenService;

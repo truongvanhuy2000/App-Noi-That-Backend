@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Hidden
+@Deprecated
 @RestController("LapBaoGiaInfoControllerV0")
 @RequestMapping("/api/lapBaoGiaInfo")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

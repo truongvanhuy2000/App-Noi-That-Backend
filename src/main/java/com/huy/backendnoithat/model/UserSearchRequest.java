@@ -1,7 +1,6 @@
 package com.huy.backendnoithat.model;
 
 import lombok.*;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Getter
 @Setter

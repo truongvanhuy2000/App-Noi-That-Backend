@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.dao.v0.ThongTinNoiThat.HangMuc;
 
-import com.huy.backendnoithat.entity.BangNoiThat.HangMucEntity;
+import com.huy.backendnoithat.entity.sheet.HangMucEntity;
 
 import java.util.List;
 

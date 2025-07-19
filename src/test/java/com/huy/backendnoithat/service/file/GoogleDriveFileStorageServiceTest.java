@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.service.file;
 
 import com.huy.backendnoithat.dao.v1.AccountEntityDAO;
-import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.model.FileSearchRequest;
 import com.huy.backendnoithat.model.PaginationRequest;
 import com.huy.backendnoithat.model.PaginationResponse;
@@ -9,14 +9,11 @@ import com.huy.backendnoithat.model.UploadFile;
 import com.huy.backendnoithat.model.dto.SavedFileDTO;
 import com.huy.backendnoithat.model.enums.FileType;
 import jakarta.annotation.PostConstruct;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -26,7 +23,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ActiveProfiles("test")
 @SpringBootTest

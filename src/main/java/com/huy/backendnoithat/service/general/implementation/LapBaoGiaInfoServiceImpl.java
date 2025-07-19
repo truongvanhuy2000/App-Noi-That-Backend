@@ -1,24 +1,21 @@
 package com.huy.backendnoithat.service.general.implementation;
 
 import com.huy.backendnoithat.dao.LapBaoGiaInfoDAO;
-import com.huy.backendnoithat.entity.Account.AccountEntity;
 import com.huy.backendnoithat.entity.LapBaoGiaInfoEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.exception.NotFoundException;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.LapBaoGiaInfoDTO;
 import com.huy.backendnoithat.model.dto.ThongTinCongTyDTO;
-import com.huy.backendnoithat.service.v0.account.AccountService;
 import com.huy.backendnoithat.service.general.JwtTokenService;
 import com.huy.backendnoithat.service.general.LapBaoGiaInfoService;
+import com.huy.backendnoithat.service.v0.account.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.nio.file.Paths;
 import java.util.Date;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)

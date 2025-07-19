@@ -2,7 +2,7 @@ package com.huy.backendnoithat.manager;
 
 import com.blazebit.persistence.CriteriaBuilderFactory;
 import com.blazebit.persistence.PagedList;
-import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.model.UserSearchRequest;
 import com.huy.backendnoithat.utils.SqlUtils;
 import jakarta.persistence.EntityManager;

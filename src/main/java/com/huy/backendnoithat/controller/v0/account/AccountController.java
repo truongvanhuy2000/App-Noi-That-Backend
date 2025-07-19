@@ -2,6 +2,7 @@ package com.huy.backendnoithat.controller.v0.account;
 
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.service.v0.account.AccountService;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Hidden
+@Deprecated
 @RestController
 @RequestMapping("/api/accounts")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)

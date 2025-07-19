@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.dao.v1.noithat;
 
-import com.huy.backendnoithat.entity.BangNoiThat.PhongCachNoiThatEntity;
+import com.huy.backendnoithat.entity.sheet.PhongCachNoiThatEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;

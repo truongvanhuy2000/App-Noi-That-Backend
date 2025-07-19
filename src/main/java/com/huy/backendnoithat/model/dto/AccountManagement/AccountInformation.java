@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.model.dto.AccountManagement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.huy.backendnoithat.entity.Account.AccountInformationEntity;
+import com.huy.backendnoithat.entity.account.AccountInformationEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

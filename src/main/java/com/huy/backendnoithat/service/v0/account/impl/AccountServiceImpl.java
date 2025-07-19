@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.service.v0.account.impl;
 
 import com.huy.backendnoithat.dao.v0.Account.AccountDAO;
-import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.AccountManagement.AccountInformation;
 import com.huy.backendnoithat.service.v0.account.AccountService;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Deprecated
 @Service(value = "defaultAccountService")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class AccountServiceImpl implements AccountService {

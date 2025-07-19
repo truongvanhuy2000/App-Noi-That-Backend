@@ -1,14 +1,16 @@
 package com.huy.backendnoithat.model.dto.AccountManagement;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.huy.backendnoithat.entity.Account.AccountEntity;
-import com.huy.backendnoithat.entity.Account.RoleEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
+import com.huy.backendnoithat.entity.account.AccountRestrictionEntity;
+import com.huy.backendnoithat.entity.account.RoleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 @Data
@@ -16,22 +18,15 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class Account {
-    @JsonProperty("id")
     private int id;
-    @JsonProperty("username")
     private String username;
-    @JsonProperty("password")
     private String password;
-    @JsonProperty("active")
-    private boolean active;
-    @JsonProperty("enabled")
-    private boolean enabled;
-    @JsonProperty("roles")
+    private Boolean active;
+    private Boolean enabled;
     private List<String> roles;
-    @JsonProperty("accountInformation")
     private AccountInformation accountInformation;
-    @JsonProperty("expiredDate")
     private LocalDate expiredDate;
+    private Integer fileLimit;
 
     public Account(AccountEntity accountEntity) {
         this.id = accountEntity.getId();
@@ -41,6 +36,13 @@ public class Account {
         this.enabled = accountEntity.isEnabled();
         this.roles = accountEntity.getRoleEntity().stream().map(RoleEntity::getRole).toList();
         this.accountInformation = new AccountInformation(accountEntity.getAccountInformationEntity());
-        this.expiredDate = accountEntity.getExpiredDate().toLocalDate();
+        if (accountEntity.getAccountRestrictionEntity() != null) {
+            AccountRestrictionEntity accountRestrictionEntity = accountEntity.getAccountRestrictionEntity();
+            this.fileLimit = accountRestrictionEntity.getFileLimit();
+            if (accountRestrictionEntity.getExpiredTimestamp() != null) {
+                // Convert the timestamp to LocalDate in the VST timezone, dealing with vietnam's timezone only
+                this.expiredDate = LocalDate.ofInstant(Instant.ofEpochMilli(accountRestrictionEntity.getExpiredTimestamp()), ZoneId.of("Asia/Ho_Chi_Minh"));
+            }
+        }
     }
 }

@@ -5,8 +5,8 @@ import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.huy.backendnoithat.dao.FileStorageDAO;
-import com.huy.backendnoithat.entity.Account.AccountEntity;
 import com.huy.backendnoithat.entity.SavedFileEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.exception.NotFoundException;
 import com.huy.backendnoithat.manager.SavedFileEntityManager;
 import com.huy.backendnoithat.mapper.SavedFileEntityDTOMapper;
@@ -14,27 +14,22 @@ import com.huy.backendnoithat.model.FileSearchRequest;
 import com.huy.backendnoithat.model.PaginationRequest;
 import com.huy.backendnoithat.model.PaginationResponse;
 import com.huy.backendnoithat.model.UploadFile;
-import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.SavedFileDTO;
 import com.huy.backendnoithat.model.enums.FileType;
 import com.huy.backendnoithat.model.enums.StorageType;
 import com.huy.backendnoithat.model.enums.UploadStatus;
 import com.huy.backendnoithat.service.DataProcessingService;
 import com.huy.backendnoithat.utils.SecurityUtils;
-import jakarta.servlet.ServletOutputStream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j

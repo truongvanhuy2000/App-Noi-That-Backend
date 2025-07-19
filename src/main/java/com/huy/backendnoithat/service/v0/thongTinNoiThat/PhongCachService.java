@@ -1,7 +1,6 @@
 package com.huy.backendnoithat.service.v0.thongTinNoiThat;
 
 import com.huy.backendnoithat.model.dto.BangNoiThat.PhongCach;
-import lombok.Data;
 
 import java.util.List;
 

@@ -2,16 +2,21 @@ package com.huy.backendnoithat.service.v1;
 
 import com.blazebit.persistence.PagedList;
 import com.huy.backendnoithat.dao.v1.AccountEntityDAO;
-import com.huy.backendnoithat.entity.Account.AccountEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
+import com.huy.backendnoithat.entity.account.AccountRestrictionEntity;
+import com.huy.backendnoithat.entity.account.RoleEntity;
 import com.huy.backendnoithat.manager.AccountEntityManager;
 import com.huy.backendnoithat.model.PaginationRequest;
 import com.huy.backendnoithat.model.PaginationResponse;
 import com.huy.backendnoithat.model.UserSearchRequest;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.AccountManagement.AccountInformation;
+import com.huy.backendnoithat.model.enums.UserRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +27,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class AccountManagementService {
+    public static final int DEFAULT_FILE_LIMIT = 10000;
+
     private final AccountEntityManager accountEntityManager;
     private final AccountEntityDAO accountEntityDAO;
+    private final PasswordEncoder passwordEncoder;
 
     public PaginationResponse<List<Account>> search(
         PaginationRequest paginationRequest,
@@ -42,13 +50,59 @@ public class AccountManagementService {
             .build();
     }
 
+    public Account findById(int id) {
+        AccountEntity accountEntity = accountEntityDAO.findById(id).orElseThrow();
+        return new Account(accountEntity);
+    }
+
+    public Account findByUsername(String username) {
+        AccountEntity accountEntity = accountEntityDAO.findByUsername(username).orElseThrow();
+        return new Account(accountEntity);
+    }
+
     @Transactional
     public void update(int id, Account account) {
         AccountEntity accountEntity = accountEntityDAO.findById(id).orElseThrow();
-        accountEntity.setExpiredDate(new Date(Date.valueOf(account.getExpiredDate()).getTime()));
-        accountEntity.setActive(account.isActive());
-        accountEntity.setEnabled(account.isEnabled());
-        accountEntity.setPassword(account.getPassword());
+        if (account.getExpiredDate() != null) {
+            if (accountEntity.getAccountRestrictionEntity() != null) {
+                accountEntity.getAccountRestrictionEntity().setExpiredTimestamp(Date.valueOf(account.getExpiredDate()).getTime());
+            } else {
+                AccountRestrictionEntity accountRestrictionEntity = new AccountRestrictionEntity();
+                accountRestrictionEntity.setExpiredTimestamp(Date.valueOf(account.getExpiredDate()).getTime());
+                accountEntity.setAccountRestrictionEntity(accountRestrictionEntity);
+            }
+        }
+        if (account.getFileLimit() != null) {
+            if (accountEntity.getAccountRestrictionEntity() != null) {
+                accountEntity.getAccountRestrictionEntity().setFileLimit(account.getFileLimit());
+            } else {
+                AccountRestrictionEntity accountRestrictionEntity = new AccountRestrictionEntity();
+                accountRestrictionEntity.setFileLimit(account.getFileLimit());
+                accountEntity.setAccountRestrictionEntity(accountRestrictionEntity);
+            }
+        }
+        if (account.getActive() != null) {
+            accountEntity.setActive(account.getActive());
+        }
+        if (account.getEnabled() != null) {
+            accountEntity.setEnabled(account.getEnabled());
+        }
+        if (StringUtils.isNotEmpty(account.getPassword())) {
+            accountEntity.setPassword(passwordEncoder.encode(account.getPassword()));
+        }
+        if (account.getRoles() != null && !account.getRoles().isEmpty()) {
+            // Each account has one role, so we assume the first role is the user role
+            String roleValue = account.getRoles().get(0);
+            if (roleValue == null || roleValue.isEmpty()) {
+                throw new RuntimeException("Role cannot be null or empty");
+            }
+            if (roleValue.equals(UserRole.USER.value) || roleValue.equals(UserRole.ADMIN.value)) {
+                RoleEntity userRole = accountEntity.getRoleEntity().get(0);
+                userRole.setRole(roleValue);
+            } else {
+                throw new RuntimeException("Invalid role: " + roleValue);
+            }
+        }
     }
 
     @Transactional
@@ -60,8 +114,17 @@ public class AccountManagementService {
         if (account.getAccountInformation() == null) {
             account.setAccountInformation(AccountInformation.builder().name("anon").build());
         }
+        AccountRestrictionEntity accountRestrictionEntity = new AccountRestrictionEntity();
+        accountRestrictionEntity.setFileLimit(account.getFileLimit() != null ? account.getFileLimit() : DEFAULT_FILE_LIMIT);
+        if (account.getExpiredDate() != null) {
+            accountRestrictionEntity.setExpiredTimestamp(Date.valueOf(account.getExpiredDate()).getTime());
+        }
+        String encodedPassword = passwordEncoder.encode(account.getPassword());
         accountEntity = new AccountEntity(account);
-        accountEntity.setEnabled(account.isActive());
+        accountEntity.setPassword(encodedPassword);
+        accountEntity.setEnabled(account.getActive());
+        accountRestrictionEntity.setAccountEntity(accountEntity);
+        accountEntity.setAccountRestrictionEntity(accountRestrictionEntity);
         AccountEntity ret = accountEntityDAO.save(accountEntity);
         return new Account(ret);
     }

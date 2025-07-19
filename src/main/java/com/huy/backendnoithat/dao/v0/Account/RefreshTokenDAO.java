@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.dao.v0.Account;
 
-import com.huy.backendnoithat.entity.Account.RefreshTokenEntity;
+import com.huy.backendnoithat.entity.account.RefreshTokenEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
