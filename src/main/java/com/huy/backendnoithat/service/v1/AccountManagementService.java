@@ -119,7 +119,9 @@ public class AccountManagementService {
         if (account.getExpiredDate() != null) {
             accountRestrictionEntity.setExpiredTimestamp(Date.valueOf(account.getExpiredDate()).getTime());
         }
+        String encodedPassword = passwordEncoder.encode(account.getPassword());
         accountEntity = new AccountEntity(account);
+        accountEntity.setPassword(encodedPassword);
         accountEntity.setEnabled(account.getActive());
         accountRestrictionEntity.setAccountEntity(accountEntity);
         accountEntity.setAccountRestrictionEntity(accountRestrictionEntity);

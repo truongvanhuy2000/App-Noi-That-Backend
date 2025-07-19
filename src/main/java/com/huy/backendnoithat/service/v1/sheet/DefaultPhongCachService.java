@@ -1,8 +1,9 @@
-package com.huy.backendnoithat.service.v1.noithat;
+package com.huy.backendnoithat.service.v1.sheet;
 
 import com.huy.backendnoithat.dao.v1.noithat.PhongCachEntityDAO;
 import com.huy.backendnoithat.entity.account.AccountEntity;
-import com.huy.backendnoithat.entity.BangNoiThat.PhongCachNoiThatEntity;
+import com.huy.backendnoithat.entity.sheet.HangMucEntity;
+import com.huy.backendnoithat.entity.sheet.PhongCachNoiThatEntity;
 import com.huy.backendnoithat.mapper.PhongCachNoiThatEntityDTOMapper;
 import com.huy.backendnoithat.model.dto.BangNoiThat.PhongCach;
 import lombok.RequiredArgsConstructor;
@@ -10,19 +11,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class PhongCachService {
+public class DefaultPhongCachService {
     private final PhongCachEntityDAO phongCachEntityDAO;
     private final PhongCachNoiThatEntityDTOMapper phongCachNoiThatEntityDTOMapper;
 
     public List<PhongCach> findAll(int userID) {
         List<PhongCachNoiThatEntity> entityList = phongCachEntityDAO.findAllByAccountId(userID);
-        return entityList.stream().map(phongCachNoiThatEntityDTOMapper::toDTO).toList();
+        return entityList.stream()
+            .sorted(Comparator.comparingInt(PhongCachNoiThatEntity::getOrderIndex))
+            .map(phongCachNoiThatEntityDTOMapper::toDTO)
+            .toList();
     }
 
     public Optional<PhongCach> findById(int userID, int id) {
@@ -30,10 +35,12 @@ public class PhongCachService {
         return entity.map(phongCachNoiThatEntityDTOMapper::toDTO);
     }
 
+    @Transactional
     public void save(int userID, PhongCach phongCach) {
         PhongCachNoiThatEntity phongCachNoiThatEntity = phongCachNoiThatEntityDTOMapper.toEntity(phongCach);
         phongCachNoiThatEntity.setAccount(AccountEntity.builder().id(userID).build());
-        phongCachEntityDAO.save(phongCachNoiThatEntity);
+        phongCachNoiThatEntity = phongCachEntityDAO.save(phongCachNoiThatEntity);
+        phongCachNoiThatEntity.setOrderIndex(phongCachNoiThatEntity.getId());
     }
 
     public void deleteById(int userID, int id) {

@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.model.dto.BangNoiThat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.huy.backendnoithat.entity.BangNoiThat.HangMucEntity;
+import com.huy.backendnoithat.entity.sheet.HangMucEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.dao.v0.ThongTinNoiThat.ThongSo;
 
-import com.huy.backendnoithat.entity.BangNoiThat.ThongSoEntity;
+import com.huy.backendnoithat.entity.sheet.ThongSoEntity;
 import com.huy.backendnoithat.model.constant.AccountConstant;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;

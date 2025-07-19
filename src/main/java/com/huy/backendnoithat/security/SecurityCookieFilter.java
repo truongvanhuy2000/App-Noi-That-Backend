@@ -1,7 +1,5 @@
 package com.huy.backendnoithat.security;
 
-import com.huy.backendnoithat.model.dto.AccountManagement.Account;
-import com.huy.backendnoithat.model.enums.UserRole;
 import com.huy.backendnoithat.service.general.JwtTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,7 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 

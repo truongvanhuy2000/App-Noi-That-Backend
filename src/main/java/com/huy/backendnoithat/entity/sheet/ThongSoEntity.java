@@ -1,17 +1,15 @@
-package com.huy.backendnoithat.entity.BangNoiThat;
+package com.huy.backendnoithat.entity.sheet;
 
 import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.model.dto.BangNoiThat.ThongSo;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Table(name = "thongso")
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ThongSoEntity {
@@ -30,7 +28,7 @@ public class ThongSoEntity {
     @Column(name = "don_gia")
     private Double donGia;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private AccountEntity account;
 
@@ -45,5 +43,26 @@ public class ThongSoEntity {
         this.cao = thongSo.getCao();
         this.donVi = thongSo.getDonVi();
         this.donGia = thongSo.getDonGia();
+    }
+
+    public static ThongSoEntity blank() {
+        ThongSoEntity thongSo = new ThongSoEntity();
+        thongSo.setId(0);
+        thongSo.setDai(0f);
+        thongSo.setRong(0f);
+        thongSo.setCao(0f);
+        thongSo.setDonVi("");
+        thongSo.setDonGia(0d);
+        return thongSo;
+    }
+
+    public ThongSoEntity clone() {
+        return ThongSoEntity.builder()
+            .dai(this.dai)
+            .rong(this.rong)
+            .cao(this.cao)
+            .donVi(this.donVi)
+            .donGia(this.donGia)
+            .build();
     }
 }

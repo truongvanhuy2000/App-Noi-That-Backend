@@ -2,8 +2,8 @@ package com.huy.backendnoithat.service.v1.implementation;
 
 import com.huy.backendnoithat.dao.SubscriptionModelDAO;
 import com.huy.backendnoithat.dao.v1.AccountEntityDAO;
-import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.entity.SubscriptionModelEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.model.UserRegistrationRequest;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.enums.UserRole;
@@ -24,7 +24,6 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class SimpleRegistrationService implements RegisterService {
     private final AccountEntityDAO accountEntityDAO;
-    private final PasswordEncoder passwordEncoder;
     private final SubscriptionModelDAO subscriptionModelDAO;
     private final AccountManagementService accountManagementService;
 
@@ -70,7 +69,7 @@ public class SimpleRegistrationService implements RegisterService {
 
         Account account = Account.builder()
             .username(registrationRequest.getUsername())
-            .password(passwordEncoder.encode(registrationRequest.getPassword()))
+            .password(registrationRequest.getPassword())
             .accountInformation(registrationRequest.getAccountInformation())
             .enabled(false)
             .active(false)

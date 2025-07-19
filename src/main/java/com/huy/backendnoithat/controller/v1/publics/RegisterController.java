@@ -2,8 +2,8 @@ package com.huy.backendnoithat.controller.v1.publics;
 
 import com.huy.backendnoithat.model.UserRegistrationRequest;
 import com.huy.backendnoithat.model.dto.SubscriptionModelDTO;
-import com.huy.backendnoithat.service.v1.RegisterService;
 import com.huy.backendnoithat.service.SubscriptionService;
+import com.huy.backendnoithat.service.v1.RegisterService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

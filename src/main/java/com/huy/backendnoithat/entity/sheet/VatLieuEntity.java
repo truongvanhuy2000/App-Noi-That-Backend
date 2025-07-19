@@ -1,17 +1,15 @@
-package com.huy.backendnoithat.entity.BangNoiThat;
+package com.huy.backendnoithat.entity.sheet;
 
 import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.model.dto.BangNoiThat.VatLieu;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Table(name = "vatlieu")
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class VatLieuEntity {
@@ -19,11 +17,12 @@ public class VatLieuEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "order_index")
-    private int orderIndex;
+    private int orderIndex = 0;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "vatLieuEntity", fetch = FetchType.LAZY)
     private ThongSoEntity thongSoEntity;
@@ -32,9 +31,16 @@ public class VatLieuEntity {
     @JoinColumn(name = "hang_muc_id", referencedColumnName = "id")
     private HangMucEntity hangMucEntity;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private AccountEntity account;
+
+    public VatLieuEntity clone() {
+        return VatLieuEntity.builder()
+            .name(this.name)
+            .orderIndex(this.orderIndex)
+            .build();
+    }
 
     public VatLieuEntity(VatLieu vatLieu) {
         this.id = vatLieu.getId();

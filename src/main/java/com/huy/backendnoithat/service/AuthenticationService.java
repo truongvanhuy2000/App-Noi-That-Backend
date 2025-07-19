@@ -16,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
-import java.time.LocalDate;
 
 @Service("AuthenticationService")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})

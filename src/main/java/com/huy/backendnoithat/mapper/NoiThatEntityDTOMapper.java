@@ -1,6 +1,6 @@
 package com.huy.backendnoithat.mapper;
 
-import com.huy.backendnoithat.entity.BangNoiThat.NoiThatEntity;
+import com.huy.backendnoithat.entity.sheet.NoiThatEntity;
 import com.huy.backendnoithat.model.dto.BangNoiThat.NoiThat;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

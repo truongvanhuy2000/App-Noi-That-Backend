@@ -1,7 +1,7 @@
-package com.huy.backendnoithat.controller.v1.noithat;
+package com.huy.backendnoithat.controller.v1.sheet;
 
 import com.huy.backendnoithat.model.dto.BangNoiThat.PhongCach;
-import com.huy.backendnoithat.service.v1.noithat.PhongCachService;
+import com.huy.backendnoithat.service.v1.sheet.DefaultPhongCachService;
 import com.huy.backendnoithat.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -18,43 +18,43 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Tag(name = "V1PhongCachController")
 public class PhongCachController {
-    private final PhongCachService phongCachService;
+    private final DefaultPhongCachService defaultPhongCachService;
 
     @GetMapping("")
     public List<PhongCach> findAllPhongCach() {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
-        return phongCachService.findAll(userID);
+        return defaultPhongCachService.findAll(userID);
     }
 
     @GetMapping("/{id}")
     public PhongCach findPhongCachById(@PathVariable int id) {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
-        return phongCachService.findById(userID, id)
+        return defaultPhongCachService.findById(userID, id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "PhongCach not found"));
     }
 
     @PostMapping("")
     public void savePhongCach(@RequestBody PhongCach phongCach) {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
-        phongCachService.save(userID, phongCach);
+        defaultPhongCachService.save(userID, phongCach);
     }
 
     @DeleteMapping("/{id}")
     public void deletePhongCachById(@PathVariable int id) {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
-        phongCachService.deleteById(userID, id);
+        defaultPhongCachService.deleteById(userID, id);
     }
 
     @PutMapping("/{id}")
     public void updatePhongCach(@PathVariable int id, @RequestBody PhongCach phongCach) {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
-        phongCachService.update(userID, id, phongCach);
+        defaultPhongCachService.update(userID, id, phongCach);
     }
 
     @GetMapping("/swap")
     public void swapPhongCach(@RequestParam(value = "id1") int id1, @RequestParam(value = "id2") int id2) {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
-        phongCachService.swap(userID, id1, id2);
+        defaultPhongCachService.swap(userID, id1, id2);
     }
 }
 

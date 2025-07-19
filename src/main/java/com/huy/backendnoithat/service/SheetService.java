@@ -3,6 +3,7 @@ package com.huy.backendnoithat.service;
 import com.huy.backendnoithat.dao.LapBaoGiaInfoDAO;
 import com.huy.backendnoithat.entity.LapBaoGiaInfoEntity;
 import com.huy.backendnoithat.entity.SavedFileEntity;
+import com.huy.backendnoithat.entity.account.AccountEntity;
 import com.huy.backendnoithat.exception.AuthorizationException;
 import com.huy.backendnoithat.manager.SavedFileEntityManager;
 import com.huy.backendnoithat.mapper.SavedFileEntityDTOMapper;
@@ -19,7 +20,6 @@ import org.huytv.exception.ExportException;
 import org.huytv.fileExport.ExportFile;
 import org.huytv.fileExport.operation.ntfile.ExportNtFile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -104,8 +104,8 @@ public class SheetService {
     }
 
     @Transactional
-    @Cacheable(value = "companyLogoCache", key = "#userID")
-    public byte[] getCompanyLogo(int userID) throws IOException {
+    @Cacheable(value = "companyLogoCache", key = "#userID", unless = "#result == null || #result.length == 0")
+    public byte[] getCompanyLogo(int userID) {
         LapBaoGiaInfoEntity lapBaoGiaInfoEntity = lapBaoGiaInfoDAO.findByAccountId(userID);
         if (lapBaoGiaInfoEntity == null) {
             return null;
@@ -118,7 +118,12 @@ public class SheetService {
         if (savedFileDTO == null) {
             return null; // No file found
         }
-        return savedFileDTO.getInputStream().readAllBytes();
+        try {
+            return savedFileDTO.getInputStream().readAllBytes();
+        } catch (IOException e) {
+            log.error("Error reading company logo for user ID {}: {}", userID, e.getMessage());
+            return null; // Return null if there's an error reading the file
+        }
     }
 
     @Transactional
@@ -128,6 +133,13 @@ public class SheetService {
         if (lapBaoGiaInfoEntity == null) {
             log.info("Creating new LapBaoGiaInfoEntity for user ID: {}", userID);
             lapBaoGiaInfoEntity = new LapBaoGiaInfoEntity();
+            lapBaoGiaInfoEntity.setAccount(AccountEntity.builder().id(userID).build());
+        }
+        SavedFileEntity companyLogo = lapBaoGiaInfoEntity.getCompanyLogo();
+        if (companyLogo != null) {
+            log.info("Deleting existing company logo for user ID: {}", userID);
+            fileStorageService.deleteFile(companyLogo.getId(), FileType.IMAGE_FILE);
+            lapBaoGiaInfoEntity.setCompanyLogo(null); // Clear the existing logo
         }
         SavedFileDTO savedFileDTO = fileStorageService.saveFile(FileType.IMAGE_FILE, uploadFile);
         if (savedFileDTO == null) {
@@ -136,10 +148,11 @@ public class SheetService {
         }
         lapBaoGiaInfoEntity.setCompanyLogo(SavedFileEntity.builder().id(savedFileDTO.getId()).build());
         lapBaoGiaInfoDAO.save(lapBaoGiaInfoEntity);
+        log.info("Company logo uploaded successfully for user ID: {}", userID);
         return savedFileDTO;
     }
 
-    @Cacheable(value = "sheetFileCache", key = "#fileID")
+    @Cacheable(value = "sheetFileCache", key = "#fileID", unless = "#result == null")
     public SheetFileDTO getSheetFile(int fileID) throws IOException {
         SavedFileDTO savedFileDTO = fileStorageService.getFile(fileID, FileType.NT_FILE);
         if (savedFileDTO == null) {

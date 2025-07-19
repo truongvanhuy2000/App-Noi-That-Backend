@@ -6,7 +6,6 @@ import com.huy.backendnoithat.model.dto.SheetDataExportDTO;
 import com.huy.backendnoithat.service.ExporterService;
 import com.huy.backendnoithat.service.SheetService;
 import com.huy.backendnoithat.service.general.JwtTokenService;
-import com.huy.backendnoithat.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.huytv.exception.ExportException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -41,7 +39,7 @@ public class SheetPublicViewController {
     }
 
     @GetMapping("/view/company-logo/{token}")
-    public ResponseEntity<Resource> getPreSignedCompanyLogo(@PathVariable String token) throws IOException {
+    public ResponseEntity<Resource> getPreSignedCompanyLogo(@PathVariable String token) {
         if (!sheetService.validatePreSignedToken(token)) {
             throw new AuthorizationException("Invalid or expired token");
         }

@@ -2,9 +2,9 @@ package com.huy.backendnoithat.service.v0.account.impl;
 
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.AccountManagement.AccountInformation;
+import com.huy.backendnoithat.service.general.JwtTokenService;
 import com.huy.backendnoithat.service.v0.account.AccountService;
 import com.huy.backendnoithat.service.v0.account.BaseService;
-import com.huy.backendnoithat.service.general.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
