@@ -8,11 +8,14 @@ import com.huy.backendnoithat.exception.AuthorizationException;
 import com.huy.backendnoithat.manager.SavedFileEntityManager;
 import com.huy.backendnoithat.mapper.SavedFileEntityDTOMapper;
 import com.huy.backendnoithat.model.*;
+import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.SavedFileDTO;
 import com.huy.backendnoithat.model.dto.SheetDataExportDTO;
 import com.huy.backendnoithat.model.enums.FileType;
 import com.huy.backendnoithat.service.file.FileStorageService;
 import com.huy.backendnoithat.service.general.JwtTokenService;
+import com.huy.backendnoithat.service.v0.account.AccountService;
+import com.huy.backendnoithat.service.v1.AccountManagementService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +47,7 @@ public class SheetService {
     private final LapBaoGiaInfoDAO lapBaoGiaInfoDAO;
     private final SavedFileEntityManager savedFileEntityManager;
     private final SavedFileEntityDTOMapper savedFileEntityDTOMapper;
+    private final AccountManagementService accountManagementService;
 
     public PreSignedToken shareSheetFile(Integer fileId, int userID) {
         // Simulate the generation of a pre-signed token for sharing a sheet file
@@ -208,6 +212,20 @@ public class SheetService {
         return PaginationResponse.<List<SavedFileDTO>>builder()
             .total(entities.getTotalSize())
             .data(savedFileDTOList)
+            .build();
+    }
+
+    public SheetStats getSheetStats(int userID) {
+        Account account = accountManagementService.findById(userID);
+        var result = fileStorageService.find(
+            PaginationRequest.builder().size(1).page(0).build(),
+            FileSearchRequest.builder().userId(userID).fileType(FileType.NT_FILE).build()
+        );
+
+        long totalFiles = result.getTotal();
+        return SheetStats.builder()
+            .totalSheets((int) totalFiles)
+            .limitSheets(account.getFileLimit())
             .build();
     }
 
