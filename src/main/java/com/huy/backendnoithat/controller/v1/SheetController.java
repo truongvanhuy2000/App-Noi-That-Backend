@@ -1,5 +1,7 @@
 package com.huy.backendnoithat.controller.v1;
 
+import com.huy.backendnoithat.exception.FileStorageException;
+import com.huy.backendnoithat.exception.errorCode.FileStorageErrorCode;
 import com.huy.backendnoithat.model.*;
 import com.huy.backendnoithat.model.dto.SavedFileDTO;
 import com.huy.backendnoithat.model.dto.SheetDataExportDTO;
@@ -62,7 +64,7 @@ public class SheetController {
     ) {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
         if (accountRestrictionService.isAccountReachFileUploadLimit(userID, FileType.NT_FILE)) {
-            throw new RuntimeException("Account has reached the file upload limit");
+            throw new FileStorageException(FileStorageErrorCode.FILE_LIMIT_REACHED);
         }
         try {
             return sheetService.saveSheetFile(fileId, sheetDataExportDTO);
@@ -73,7 +75,7 @@ public class SheetController {
     }
 
     @GetMapping(value = "/company-logo")
-    public ResponseEntity<Resource> getCompanyLogo() throws IOException {
+    public ResponseEntity<Resource> getCompanyLogo() {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
         byte[] logo = sheetService.getCompanyLogo(userID);
         if (logo == null || logo.length == 0) {
@@ -94,5 +96,11 @@ public class SheetController {
             .build();
         SavedFileDTO savedFileDTO = sheetService.uploadCompanyLogo(userID, uploadFile);
         return ResponseEntity.ok(savedFileDTO);
+    }
+
+    @GetMapping(value = "/stats")
+    public SheetStats getSheetStats() {
+        int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
+        return sheetService.getSheetStats(userID);
     }
 }

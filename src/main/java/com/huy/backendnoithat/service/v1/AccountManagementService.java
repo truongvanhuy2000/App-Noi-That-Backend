@@ -67,8 +67,10 @@ public class AccountManagementService {
             if (accountEntity.getAccountRestrictionEntity() != null) {
                 accountEntity.getAccountRestrictionEntity().setExpiredTimestamp(Date.valueOf(account.getExpiredDate()).getTime());
             } else {
+                log.info("Creating new AccountRestrictionEntity for account with ID: {}", id);
                 AccountRestrictionEntity accountRestrictionEntity = new AccountRestrictionEntity();
                 accountRestrictionEntity.setExpiredTimestamp(Date.valueOf(account.getExpiredDate()).getTime());
+                accountRestrictionEntity.setAccountEntity(accountEntity);
                 accountEntity.setAccountRestrictionEntity(accountRestrictionEntity);
             }
         }
@@ -76,8 +78,10 @@ public class AccountManagementService {
             if (accountEntity.getAccountRestrictionEntity() != null) {
                 accountEntity.getAccountRestrictionEntity().setFileLimit(account.getFileLimit());
             } else {
+                log.info("Creating new AccountRestrictionEntity for account with ID: {}", id);
                 AccountRestrictionEntity accountRestrictionEntity = new AccountRestrictionEntity();
                 accountRestrictionEntity.setFileLimit(account.getFileLimit());
+                accountRestrictionEntity.setAccountEntity(accountEntity);
                 accountEntity.setAccountRestrictionEntity(accountRestrictionEntity);
             }
         }

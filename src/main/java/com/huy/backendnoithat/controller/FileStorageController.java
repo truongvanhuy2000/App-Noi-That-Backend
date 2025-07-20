@@ -1,5 +1,7 @@
 package com.huy.backendnoithat.controller;
 
+import com.huy.backendnoithat.exception.FileStorageException;
+import com.huy.backendnoithat.exception.errorCode.FileStorageErrorCode;
 import com.huy.backendnoithat.model.FileSearchRequest;
 import com.huy.backendnoithat.model.PaginationRequest;
 import com.huy.backendnoithat.model.PaginationResponse;
@@ -37,7 +39,7 @@ public class FileStorageController {
     ) throws IOException {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
         if (accountRestrictionService.isAccountReachFileUploadLimit(userID, fileType)) {
-            throw new RuntimeException("Account has reached the file upload limit");
+            throw new FileStorageException(FileStorageErrorCode.FILE_LIMIT_REACHED);
         }
         var uploadFile = UploadFile.builder()
             .contentType(multipartFile.getContentType())
