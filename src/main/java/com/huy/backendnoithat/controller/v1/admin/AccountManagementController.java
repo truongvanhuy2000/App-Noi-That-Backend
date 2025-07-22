@@ -58,11 +58,11 @@ public class AccountManagementController {
     public ResponseEntity<String> changeActivationStatus(@PathVariable("action") String action, @PathVariable("id") int id) {
         return switch (action.toLowerCase()) {
             case "activate" -> {
-                accountService.activateAccount(id);
+                accountManagementService.updateAccountActivationStatus(id, true);
                 yield ResponseEntity.ok("Activated successfully.");
             }
             case "deactivate" -> {
-                accountService.deactivateAccount(id);
+                accountManagementService.updateAccountActivationStatus(id, false);
                 yield ResponseEntity.ok("Deactivated successfully.");
             }
             default -> ResponseEntity.badRequest().body("Invalid action: " + action);
