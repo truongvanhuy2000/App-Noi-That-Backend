@@ -22,12 +22,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class AccountManagementService {
     public static final int DEFAULT_FILE_LIMIT = 10000;
+    public static final int DEFAULT_EXPIRED_DAYS = 30;
 
     private final AccountEntityManager accountEntityManager;
     private final AccountEntityDAO accountEntityDAO;
@@ -131,5 +133,23 @@ public class AccountManagementService {
         accountEntity.setAccountRestrictionEntity(accountRestrictionEntity);
         AccountEntity ret = accountEntityDAO.save(accountEntity);
         return new Account(ret);
+    }
+
+    @Transactional
+    public void updateAccountActivationStatus(int id, boolean active) {
+        AccountEntity accountEntity = accountEntityDAO.findById(id).orElseThrow();
+        if (accountEntity.isActive() == active) {
+            log.warn("Account with ID {} is already in the requested activation state: {}", id, active);
+            return;
+        }
+        if (accountEntity.getAccountRestrictionEntity() == null) {
+            log.warn("Cannot activate account with ID {} because it has no restrictions set.", id);
+            AccountRestrictionEntity accountRestrictionEntity = new AccountRestrictionEntity();
+            accountRestrictionEntity.setFileLimit(DEFAULT_FILE_LIMIT);
+            accountRestrictionEntity.setExpiredTimestamp(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(DEFAULT_EXPIRED_DAYS));
+            accountRestrictionEntity.setAccountEntity(accountEntity);
+            accountEntity.setAccountRestrictionEntity(accountRestrictionEntity);
+        }
+        accountEntity.setActive(active);
     }
 }
