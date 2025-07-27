@@ -1,8 +1,11 @@
 package com.huy.backendnoithat.service.v1;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.huy.backendnoithat.model.PasswordChangeRequest;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
 import com.huy.backendnoithat.model.dto.AccountManagement.AccountInformation;
+import com.huy.backendnoithat.service.CryptoService;
+import com.huy.backendnoithat.service.general.JwtTokenService;
 import com.huy.backendnoithat.service.v0.account.AccountService;
 import com.huy.backendnoithat.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class UserService {
     private final AccountService accountService;
+    private final JwtTokenService jwtTokenService;
+    private final ObjectMapper objectMapper;
+    private final CryptoService cryptoService;
 
     public Account getAccountInformation() {
         if (!(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof Long userID)) {
@@ -42,5 +48,15 @@ public class UserService {
         long userID = SecurityUtils.getUserFromContext();
         Account account = accountService.findById((int) userID);
         accountService.updateInfo(account.getUsername(), accountInformation);
+    }
+
+    public String generateDigitalSignature(int userID) {
+        Account account = accountService.findById(userID);
+        if (account == null) {
+            log.error("User with ID {} not found", userID);
+            throw new RuntimeException("User not found");
+        }
+        String refreshToken = jwtTokenService.generateRefreshToken(account.getUsername());
+        return cryptoService.encrypt(refreshToken);
     }
 }

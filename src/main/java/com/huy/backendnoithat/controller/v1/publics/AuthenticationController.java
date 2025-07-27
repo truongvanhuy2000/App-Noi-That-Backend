@@ -48,8 +48,27 @@ public class AuthenticationController {
             response.addCookie(tokenCookie);
             response.addCookie(refreshTokenCookie);
             return ResponseEntity.ok(token);
-        } catch (AuthenticationException e) {
+        } catch (Exception e) {
             log.error("Login failed for user {}: {}", username, e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping(value = "/login/digital-signature", produces = "application/json", consumes = "text/plain")
+    public ResponseEntity<TokenResponse> loginWithDigitalSignature(
+        @RequestBody String digitalSignature, HttpServletResponse response
+    ) {
+        try {
+            TokenResponse token = loginService.parseDigitalSignature(digitalSignature);
+            Cookie tokenCookie = cookieService.generateTokenCookie(
+                token.getAccessToken(), JwtTokenService.JWT_TOKEN_VALIDITY_MILLIS);
+            Cookie refreshTokenCookie = cookieService.generateRefreshTokenCookie(
+                token.getRefreshToken(), JwtTokenService.JWT_REFRESH_TOKEN_VALIDITY_MILLIS);
+            response.addCookie(tokenCookie);
+            response.addCookie(refreshTokenCookie);
+            return ResponseEntity.ok(token);
+        } catch (Exception e) {
+            log.error("Login w digital signature failed: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
