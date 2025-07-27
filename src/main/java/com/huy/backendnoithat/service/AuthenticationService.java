@@ -1,5 +1,7 @@
 package com.huy.backendnoithat.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.huy.backendnoithat.exception.AccountExpiredException;
 import com.huy.backendnoithat.exception.AccountIsDisabledException;
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
@@ -9,6 +11,7 @@ import com.huy.backendnoithat.service.v0.account.LoginService;
 import com.huy.backendnoithat.service.v1.AccountManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +27,8 @@ public class AuthenticationService implements LoginService {
     private final JwtTokenService jwtTokenService;
     private final AccountManagementService accountManagementService;
     private final AccountRestrictionService accountRestrictionService;
+    private final ObjectMapper objectMapper;
+    private final CryptoService cryptoService;
 
     @Override
     public TokenResponse login(String username, String password) throws AuthenticationException {
@@ -71,5 +76,11 @@ public class AuthenticationService implements LoginService {
             .accessTokenExpiration(jwtTokenService.getExpirationDateFromToken(accessToken).orElseThrow())
             .refreshTokenExpiration(jwtTokenService.getExpirationDateFromToken(refreshToken).orElseThrow())
             .build();
+    }
+
+    @Override
+    public TokenResponse parseDigitalSignature(String digitalSignature) {
+        String decryptedData = cryptoService.decrypt(digitalSignature);
+        return refreshToken(decryptedData);
     }
 }
