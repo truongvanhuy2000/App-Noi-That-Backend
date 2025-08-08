@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.controller.v1.publics;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.huy.backendnoithat.exception.AuthorizationException;
 import com.huy.backendnoithat.model.RefreshTokenRequest;
 import com.huy.backendnoithat.model.dto.LoginRequest;
@@ -13,7 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,41 +36,31 @@ public class AuthenticationController {
     public ResponseEntity<TokenResponse> login(
         @RequestBody LoginRequest requestBody,
         HttpServletResponse response
-    ) {
+    ) throws AuthenticationException {
         String username = requestBody.getUsername();
         String password = requestBody.getPassword();
-        try {
-            TokenResponse token = loginService.login(username, password);
-            Cookie tokenCookie = cookieService.generateTokenCookie(
-                token.getAccessToken(), JwtTokenService.JWT_TOKEN_VALIDITY_MILLIS);
-            Cookie refreshTokenCookie = cookieService.generateRefreshTokenCookie(
-                token.getRefreshToken(), JwtTokenService.JWT_REFRESH_TOKEN_VALIDITY_MILLIS);
-            response.addCookie(tokenCookie);
-            response.addCookie(refreshTokenCookie);
-            return ResponseEntity.ok(token);
-        } catch (Exception e) {
-            log.error("Login failed for user {}: {}", username, e.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+        TokenResponse token = loginService.login(username, password);
+        Cookie tokenCookie = cookieService.generateTokenCookie(
+            token.getAccessToken(), JwtTokenService.JWT_TOKEN_VALIDITY_MILLIS);
+        Cookie refreshTokenCookie = cookieService.generateRefreshTokenCookie(
+            token.getRefreshToken(), JwtTokenService.JWT_REFRESH_TOKEN_VALIDITY_MILLIS);
+        response.addCookie(tokenCookie);
+        response.addCookie(refreshTokenCookie);
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping(value = "/login/digital-signature", produces = "application/json", consumes = "text/plain")
     public ResponseEntity<TokenResponse> loginWithDigitalSignature(
         @RequestBody String digitalSignature, HttpServletResponse response
-    ) {
-        try {
-            TokenResponse token = loginService.parseDigitalSignature(digitalSignature);
-            Cookie tokenCookie = cookieService.generateTokenCookie(
-                token.getAccessToken(), JwtTokenService.JWT_TOKEN_VALIDITY_MILLIS);
-            Cookie refreshTokenCookie = cookieService.generateRefreshTokenCookie(
-                token.getRefreshToken(), JwtTokenService.JWT_REFRESH_TOKEN_VALIDITY_MILLIS);
-            response.addCookie(tokenCookie);
-            response.addCookie(refreshTokenCookie);
-            return ResponseEntity.ok(token);
-        } catch (Exception e) {
-            log.error("Login w digital signature failed: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    ) throws JsonProcessingException, AuthenticationException {
+        TokenResponse token = loginService.parseDigitalSignature(digitalSignature);
+        Cookie tokenCookie = cookieService.generateTokenCookie(
+            token.getAccessToken(), JwtTokenService.JWT_TOKEN_VALIDITY_MILLIS);
+        Cookie refreshTokenCookie = cookieService.generateRefreshTokenCookie(
+            token.getRefreshToken(), JwtTokenService.JWT_REFRESH_TOKEN_VALIDITY_MILLIS);
+        response.addCookie(tokenCookie);
+        response.addCookie(refreshTokenCookie);
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping(value = "/refresh", produces = "application/json")
@@ -78,7 +68,7 @@ public class AuthenticationController {
         @RequestBody(required = false) RefreshTokenRequest requestBody,
         HttpServletRequest request,
         HttpServletResponse response
-    ) {
+    ) throws AuthenticationException {
         String refreshToken;
         if (requestBody != null && requestBody.getRefreshToken() != null) {
             refreshToken = requestBody.getRefreshToken();

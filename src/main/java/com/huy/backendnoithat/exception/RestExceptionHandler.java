@@ -1,5 +1,6 @@
 package com.huy.backendnoithat.exception;
 
+import com.huy.backendnoithat.exception.errorCode.AccountErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,10 +57,22 @@ public class RestExceptionHandler {
     public ResponseEntity<ErrorResponse> handleException(AccountExpiredException exception) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setStatus(HttpStatus.FORBIDDEN.value());
-        errorResponse.setMessage("Account is expired.");
+        errorResponse.setMessage(AccountErrorCode.ACCOUNT_EXPIRED.description);
         errorResponse.setTimeStamp(System.currentTimeMillis());
+        errorResponse.setErrorCode(AccountErrorCode.ACCOUNT_EXPIRED.errorCode);
         log.error("Error", exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(AuthenticationServiceException exception) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+        errorResponse.setMessage(AccountErrorCode.INVALID_CREDENTIALS.description);
+        errorResponse.setTimeStamp(System.currentTimeMillis());
+        errorResponse.setErrorCode(AccountErrorCode.INVALID_CREDENTIALS.errorCode);
+        log.error("Error", exception);
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler
@@ -84,10 +97,6 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleException(AuthenticationServiceException exception) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {

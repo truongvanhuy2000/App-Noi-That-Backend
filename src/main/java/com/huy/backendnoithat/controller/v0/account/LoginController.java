@@ -37,7 +37,7 @@ public class LoginController {
     }
 
     @PostMapping(value = "/refreshToken", produces = "application/json")
-    public ResponseEntity<TokenResponse> refreshToken(@RequestBody RefreshTokenRequest requestBody) {
+    public ResponseEntity<TokenResponse> refreshToken(@RequestBody RefreshTokenRequest requestBody) throws AuthenticationException {
         String refreshToken = requestBody.getRefreshToken();
         TokenResponse tokenResponse = loginService.refreshToken(refreshToken);
         return ResponseEntity.ok(tokenResponse);
