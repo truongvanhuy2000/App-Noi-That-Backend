@@ -8,7 +8,7 @@ import javax.naming.AuthenticationException;
 public interface LoginService {
     TokenResponse login(String username, String password) throws AuthenticationException;
 
-    TokenResponse refreshToken(String refreshToken);
+    TokenResponse refreshToken(String refreshToken) throws AuthenticationException;
 
-    TokenResponse parseDigitalSignature(String digitalSignature) throws JsonProcessingException;
+    TokenResponse parseDigitalSignature(String digitalSignature) throws JsonProcessingException, AuthenticationException;
 }

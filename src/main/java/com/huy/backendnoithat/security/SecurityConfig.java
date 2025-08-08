@@ -1,6 +1,7 @@
 package com.huy.backendnoithat.security;
 
 import com.huy.backendnoithat.dao.v0.Account.AccountDAO;
+import com.huy.backendnoithat.dao.v1.AccountEntityDAO;
 import com.huy.backendnoithat.entity.account.AccountEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Configuration
@@ -66,7 +68,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AccountDAO accountDAO, PasswordEncoder passwordEncoder) {
+    public AuthenticationManager authenticationManager(AccountEntityDAO accountDAO, PasswordEncoder passwordEncoder) {
         return new AuthenticationManager() {
             @Override
             public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -78,7 +80,12 @@ public class SecurityConfig {
                     log.error("authentication credential must be a instance of String");
                     return null;
                 }
-                AccountEntity account = accountDAO.findByUsername(username);
+                Optional<AccountEntity> accountEntityOptional = accountDAO.findByUsername(username);
+                if (accountEntityOptional.isEmpty()) {
+                    log.error("Account with username {} not found", username);
+                    throw new AuthenticationServiceException("Can't authenticate this account");
+                }
+                AccountEntity account = accountEntityOptional.get();
                 if (!isPasswordMatch(password, account.getPassword())) {
                     log.error("Password is not match");
                     throw new AuthenticationServiceException("Can't authenticate this account");

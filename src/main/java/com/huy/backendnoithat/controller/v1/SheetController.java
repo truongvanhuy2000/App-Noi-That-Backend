@@ -63,8 +63,11 @@ public class SheetController {
         @RequestBody SheetDataExportDTO sheetDataExportDTO
     ) {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
-        if (accountRestrictionService.isAccountReachFileUploadLimit(userID, FileType.NT_FILE)) {
-            throw new FileStorageException(FileStorageErrorCode.FILE_LIMIT_REACHED);
+        if (fileId == null) {
+            if (accountRestrictionService.isAccountReachFileUploadLimit(userID, FileType.NT_FILE)) {
+                log.error("User {} has reached file upload limit", userID);
+                throw new FileStorageException(FileStorageErrorCode.FILE_LIMIT_REACHED);
+            }
         }
         try {
             return sheetService.saveSheetFile(fileId, sheetDataExportDTO);
