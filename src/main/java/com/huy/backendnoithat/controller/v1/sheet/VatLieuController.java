@@ -1,5 +1,7 @@
 package com.huy.backendnoithat.controller.v1.sheet;
 
+import com.huy.backendnoithat.model.PaginationRequest;
+import com.huy.backendnoithat.model.PaginationResponse;
 import com.huy.backendnoithat.model.dto.BangNoiThat.VatLieu;
 import com.huy.backendnoithat.service.v1.sheet.DefaultVatLieuService;
 import com.huy.backendnoithat.utils.SecurityUtils;
@@ -55,6 +57,12 @@ public class VatLieuController {
     public List<VatLieu> searchByHangMuc(@PathVariable int id) {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
         return vatLieuService.searchByHangMuc(userID, id);
+    }
+
+    @GetMapping("/search/hang-muc/{id}")
+    public PaginationResponse<List<VatLieu>> searchByHangMucPagination(@PathVariable int id, @ModelAttribute PaginationRequest paginationRequest) {
+        int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
+        return vatLieuService.searchByHangMuc(userID, id, paginationRequest);
     }
 
     @GetMapping("/swap")
