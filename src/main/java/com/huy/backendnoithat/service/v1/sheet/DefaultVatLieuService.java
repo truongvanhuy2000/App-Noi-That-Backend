@@ -6,10 +6,15 @@ import com.huy.backendnoithat.entity.sheet.HangMucEntity;
 import com.huy.backendnoithat.entity.sheet.ThongSoEntity;
 import com.huy.backendnoithat.entity.sheet.VatLieuEntity;
 import com.huy.backendnoithat.mapper.VatLieuEntityDTOMapper;
+import com.huy.backendnoithat.model.PaginationRequest;
+import com.huy.backendnoithat.model.PaginationResponse;
 import com.huy.backendnoithat.model.dto.BangNoiThat.VatLieu;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -70,6 +75,15 @@ public class DefaultVatLieuService {
             .sorted(Comparator.comparingInt(VatLieuEntity::getOrderIndex))
             .map(vatLieuEntityDTOMapper::toDTO)
             .toList();
+    }
+
+    public PaginationResponse<List<VatLieu>> searchByHangMuc(int userID, int hangMucId, PaginationRequest paginationRequest) {
+        Page<VatLieuEntity> page = vatLieuDAO.searchByAccount_IdAndHangMucEntity_Id(userID, hangMucId, PageRequest.of(paginationRequest.getPage(), paginationRequest.getSize()));
+        return PaginationResponse.of(page.getTotalElements(),
+            page.getContent().stream()
+            .sorted(Comparator.comparingInt(VatLieuEntity::getOrderIndex))
+            .map(vatLieuEntityDTOMapper::toDTO)
+            .toList());
     }
 
     @Transactional

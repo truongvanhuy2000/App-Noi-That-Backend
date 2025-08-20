@@ -1,6 +1,8 @@
 package com.huy.backendnoithat.dao.v1.noithat;
 
 import com.huy.backendnoithat.entity.sheet.VatLieuEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +21,9 @@ public interface VatLieuEntityDAO extends JpaRepository<VatLieuEntity, Integer>,
 
     @EntityGraph(attributePaths = {"thongSoEntity"})
     Collection<VatLieuEntity> searchByAccount_IdAndHangMucEntity_Id(int accountId, int hangMucEntityId);
+
+    @EntityGraph(attributePaths = {"thongSoEntity"})
+    Page<VatLieuEntity> searchByAccount_IdAndHangMucEntity_Id(int accountId, int hangMucEntityId, Pageable pageable);
 
     @EntityGraph(attributePaths = {"hangMucEntity"})
     @Query("SELECT v FROM VatLieuEntity v WHERE v.account.id = :adminUserId")
