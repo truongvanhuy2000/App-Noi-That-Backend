@@ -107,6 +107,7 @@ public class FileStorageController {
         @PathVariable("file-id") int fileID,
         @PathVariable("file-type") FileType fileType
     ) {
+        // TODO: Check if file is inuse
         fileStorageService.deleteFile(fileID, fileType);
     }
 

@@ -25,3 +25,7 @@ cors:
 token:
   pre-signed-token:
     ttlDay: 30
+
+cache:
+  file-in-use:
+    ttlSec: 15
