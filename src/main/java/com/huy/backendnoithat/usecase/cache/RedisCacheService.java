@@ -30,4 +30,9 @@ public class RedisCacheService implements CacheService {
     public Object get(String key) {
         return redisTemplate.opsForValue().get(key);
     }
+
+    @Override
+    public void remove(String cacheKey) {
+        redisTemplate.delete(cacheKey);
+    }
 }

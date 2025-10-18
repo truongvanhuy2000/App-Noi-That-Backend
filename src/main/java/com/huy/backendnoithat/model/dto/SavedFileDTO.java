@@ -22,4 +22,5 @@ public class SavedFileDTO {
     private Date updatedDate;
     private InputStream inputStream;
     private FileType fileType;
+    private boolean inUse = false;
 }

@@ -27,10 +27,7 @@ import org.huytv.exception.ExportException;
 import org.huytv.fileExport.ExportFile;
 import org.huytv.fileExport.operation.ntfile.ExportNtFile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -43,7 +40,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -53,8 +49,11 @@ import java.util.concurrent.TimeUnit;
 public class SheetService {
     @Value("${token.pre-signed-token.ttlDay}")
     private int preSignedTokenTtlDay;
+    @Value("${cache.file-in-use.ttlSec}")
+    private int fileInUseTtlSec;
 
-    private static final String preSignedTokenCacheKeyFormat = "pst%s%s%s";
+    private static final String PRE_SIGNED_TOKEN_CACHE_KEY_FORMAT = "pst%s%s%s";
+    private static final String FILE_INUSE_CACHE_KEY_FORMAT = "fileInUseCache_%s";
 
     private final JwtTokenService jwtTokenService;
     private final FileStorageService fileStorageService;
@@ -80,7 +79,7 @@ public class SheetService {
         log.info("Generating pre-signed token for file ID: {}, user ID: {}", fileId, userID);
         String token = jwtTokenService.generateToken(claims, expirationDate);
         String id = NanoIdUtils.randomNanoId();
-        String cacheKey = Base64.encode(String.format(preSignedTokenCacheKeyFormat, fileId, userID, id)).toString();
+        String cacheKey = Base64.encode(String.format(PRE_SIGNED_TOKEN_CACHE_KEY_FORMAT, fileId, userID, id)).toString();
         cacheService.put(cacheKey, token, TimeUnit.DAYS.toSeconds(preSignedTokenTtlDay));
         return PreSignedToken.builder()
             .token(cacheKey)
@@ -220,7 +219,6 @@ public class SheetService {
         }
     }
 
-
     public PaginationResponse<List<SavedFileDTO>> searchSheetFiles(
         int userID, PaginationRequest paginationRequest, SheetSearchRequest sheetSearchRequest
     ) {
@@ -238,7 +236,10 @@ public class SheetService {
         );
         List<SavedFileDTO> savedFileDTOList = entities.stream()
             .map(savedFileEntityDTOMapper::toDTO)
-            .toList();
+            .peek(savedFileDTO -> {
+                String cacheKey = String.format(FILE_INUSE_CACHE_KEY_FORMAT, savedFileDTO.getId());
+                savedFileDTO.setInUse(cacheService.get(cacheKey) != null);
+            }).toList();
         return PaginationResponse.<List<SavedFileDTO>>builder()
             .total(entities.getTotalSize())
             .data(savedFileDTOList)
@@ -259,6 +260,23 @@ public class SheetService {
             .totalSheets((int) totalFiles)
             .limitSheets(account.getFileLimit())
             .build();
+    }
+
+    public void takeEditingSheet(String identification, int fileID) {
+        log.info("Taking editing sheet with file ID: {}, identification: {}", fileID, identification);
+        String cacheKey = String.format(FILE_INUSE_CACHE_KEY_FORMAT, fileID);
+        cacheService.put(cacheKey, "INUSED", TimeUnit.SECONDS.toSeconds(fileInUseTtlSec));
+    }
+
+    public void releaseEditingSheet(int fileID) {
+        log.info("Releasing editing sheet with file ID: {}", fileID);
+        String cacheKey = String.format(FILE_INUSE_CACHE_KEY_FORMAT, fileID);
+        cacheService.remove(cacheKey);
+    }
+
+    public boolean isSheetInUse(int fileId) {
+        String cacheKey = String.format(FILE_INUSE_CACHE_KEY_FORMAT, fileId);
+        return cacheService.get(cacheKey) != null;
     }
 
     public interface Constant {

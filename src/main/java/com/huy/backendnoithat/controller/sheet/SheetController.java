@@ -107,4 +107,20 @@ public class SheetController {
         int userID = SecurityUtils.getUserFromContext(SecurityContextHolder.getContext());
         return sheetService.getSheetStats(userID);
     }
+
+    @PostMapping(value = "/take-editing-sheet/{fileId}")
+    public void takeEditingSheet(@PathVariable("fileId") int fileId, @RequestParam("who") String who) {
+        sheetService.takeEditingSheet(who, fileId);
+    }
+
+    @PostMapping(value = "/release-editing-sheet/{fileId}")
+    public void releaseEditingSheet(@PathVariable("fileId") int fileId) {
+        sheetService.releaseEditingSheet(fileId);
+    }
+
+    @GetMapping(value = "/sheet-status/{fileId}")
+    public boolean isSheetInUse(@PathVariable("fileId") int fileId) {
+        return sheetService.isSheetInUse(fileId);
+    }
+
 }
