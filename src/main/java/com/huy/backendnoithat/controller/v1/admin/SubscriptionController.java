@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.controller.v1.admin;
 
 import com.huy.backendnoithat.model.dto.SubscriptionModelDTO;
-import com.huy.backendnoithat.service.SubscriptionService;
+import com.huy.backendnoithat.usecase.account.subcription.SubscriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -3,9 +3,9 @@ package com.huy.backendnoithat.controller.v1.publics;
 import com.huy.backendnoithat.exception.AuthorizationException;
 import com.huy.backendnoithat.model.dto.SavedFileDTO;
 import com.huy.backendnoithat.model.dto.SheetDataExportDTO;
-import com.huy.backendnoithat.service.ExporterService;
-import com.huy.backendnoithat.service.SheetService;
-import com.huy.backendnoithat.service.general.JwtTokenService;
+import com.huy.backendnoithat.usecase.sheet.export.ExporterService;
+import com.huy.backendnoithat.usecase.sheet.SheetService;
+import com.huy.backendnoithat.usecase.token.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import org.huytv.exception.ExportException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +39,10 @@ public class SheetPublicViewController {
     }
 
     @GetMapping("/view/company-logo/{token}")
-    public ResponseEntity<Resource> getPreSignedCompanyLogo(@PathVariable String token) {
-        if (!sheetService.validatePreSignedToken(token)) {
-            throw new AuthorizationException("Invalid or expired token");
-        }
-        Map<String, Object> claims = jwtTokenService.getClaimsFromToken(token);
+    public ResponseEntity<Resource> getPreSignedCompanyLogo(@PathVariable("token") String key) {
+        String preSignedToken = sheetService.validatePreSignedToken(key);
+
+        Map<String, Object> claims = jwtTokenService.getClaimsFromToken(preSignedToken);
         Long userId = (Long) claims.get(SheetService.Constant.USER_SHARE);
         byte[] logo = sheetService.getCompanyLogo(userId.intValue());
         if (logo == null || logo.length == 0) {
@@ -56,13 +55,12 @@ public class SheetPublicViewController {
 
     @PostMapping(value = "/export-content/{token}", produces = "application/octet-stream")
     public ResponseEntity<Resource> exportPreSignedSheetData(
-        @PathVariable String token,
+        @PathVariable("token") String key,
         @RequestBody SheetDataExportDTO sheetDataExportDTO
     ) throws IOException, ExportException {
-        if (!sheetService.validatePreSignedToken(token)) {
-            throw new AuthorizationException("Invalid or expired token");
-        }
-        Map<String, Object> claims = jwtTokenService.getClaimsFromToken(token);
+        String preSignedToken = sheetService.validatePreSignedToken(key);
+
+        Map<String, Object> claims = jwtTokenService.getClaimsFromToken(preSignedToken);
         Long userId = (Long) claims.get(SheetService.Constant.USER_SHARE);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentDisposition(ContentDisposition.builder("attachment").filename("exported_data.xlsx").build());

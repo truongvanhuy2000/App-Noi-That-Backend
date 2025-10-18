@@ -3,7 +3,7 @@ package com.huy.backendnoithat.controller.v0.account;
 import com.huy.backendnoithat.model.RefreshTokenRequest;
 import com.huy.backendnoithat.model.dto.LoginRequest;
 import com.huy.backendnoithat.model.dto.TokenResponse;
-import com.huy.backendnoithat.service.v0.account.LoginService;
+import com.huy.backendnoithat.usecase.v0.account.LoginService;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

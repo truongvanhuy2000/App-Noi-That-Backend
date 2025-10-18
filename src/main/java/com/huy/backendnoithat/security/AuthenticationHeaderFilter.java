@@ -2,8 +2,7 @@ package com.huy.backendnoithat.security;
 
 import com.huy.backendnoithat.exception.AccountExpiredException;
 import com.huy.backendnoithat.exception.AccountIsDisabledException;
-import com.huy.backendnoithat.model.enums.StorageType;
-import com.huy.backendnoithat.service.general.JwtTokenService;
+import com.huy.backendnoithat.usecase.token.JwtTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

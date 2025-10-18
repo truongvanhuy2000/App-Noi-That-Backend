@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.controller.v0.account;
 
 import com.huy.backendnoithat.model.dto.AccountManagement.Account;
-import com.huy.backendnoithat.service.v0.account.AccountService;
+import com.huy.backendnoithat.usecase.v0.account.AccountService;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
