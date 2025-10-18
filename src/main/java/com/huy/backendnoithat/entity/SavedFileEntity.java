@@ -1,6 +1,7 @@
 package com.huy.backendnoithat.entity;
 
 import com.huy.backendnoithat.entity.account.AccountEntity;
+import com.huy.backendnoithat.model.enums.FileStatus;
 import com.huy.backendnoithat.model.enums.FileType;
 import com.huy.backendnoithat.model.enums.StorageType;
 import com.huy.backendnoithat.model.enums.UploadStatus;
@@ -44,6 +45,9 @@ public class SavedFileEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "content_type")
     private FileType fileType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "file_status")
+    private FileStatus fileStatus;
 
     @CreationTimestamp
     @Column(name = "created_date")

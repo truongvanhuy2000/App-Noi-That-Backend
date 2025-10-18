@@ -1,7 +1,7 @@
 package com.huy.backendnoithat.controller.v0.thongTinNoiThat;
 
 import com.huy.backendnoithat.model.dto.BangNoiThat.HangMuc;
-import com.huy.backendnoithat.service.v0.thongTinNoiThat.HangMucService;
+import com.huy.backendnoithat.usecase.sheet.management.v0.HangMucService;
 import com.huy.backendnoithat.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.tags.Tag;
