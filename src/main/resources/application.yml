@@ -28,4 +28,4 @@ token:
 
 cache:
   file-in-use:
-    ttlSec: 15
+    ttlSec: 10
